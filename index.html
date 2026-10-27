@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hari Acharya</title>
+<meta name="description" content="Hari Acharya: computer science student at the University of Rochester building computer vision models and data pipelines.">
+<meta property="og:title" content="Hari Acharya">
+<meta property="og:description" content="Computer science student at the University of Rochester building computer vision models and data pipelines.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hpa-code.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b6b5a'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' text-anchor='middle' fill='%23fff'%3EHA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Schibsted+Grotesk:wght@500;700;800&display=swap">
+<style>
+/* Layout: a survey plate. Hero pairs the name with real NAIP imagery under detection boxes;
+below, a two-column sheet (mono index label left, content right) that stacks on phones. */
+:root {
+--paper: #f2f4f3;
+--sheet: #fbfcfb;
+--ink: #142019;
+--muted: #56645e;
+--rule: #d3dbd7;
+--accent: #0b6b5a;
+--accent-soft: #dcece7;
+--box: #c98a06;
+--box-ink: #1b1400;
+--code-bg: #e8edea;
+--f-display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+--f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+--f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+--s-1: 0.75rem; --s0: 0.9375rem; --s1: 1.125rem; --s2: 1.5rem; --s3: 2.125rem; --s4: clamp(2.6rem, 6vw, 4.6rem);
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--paper: #0d1412; --sheet: #121b18; --ink: #e3eae6; --muted: #93a39c; --rule: #25322d;
+--accent: #43c4a6; --accent-soft: #163029; --box: #f0b53a; --box-ink: #1b1400; --code-bg: #18231f;
+color-scheme: dark;
+}
+}
+:root[data-theme="dark"] {
+--paper: #0d1412; --sheet: #121b18; --ink: #e3eae6; --muted: #93a39c; --rule: #25322d;
+--accent: #43c4a6; --accent-soft: #163029; --box: #f0b53a; --box-ink: #1b1400; --code-bg: #18231f;
+color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+background: var(--paper); color: var(--ink);
+font-family: var(--f-body); font-size: 16px; line-height: 1.6;
+-webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.12; }
+p { margin: 0; }
+ul { margin: 0; padding-left: 1.1rem; }
+li + li { margin-top: 0.35rem; }
+.mono { font-family: var(--f-mono); }
+.label {
+font-family: var(--f-mono); font-size: var(--s-1); letter-spacing: 0.08em;
+text-transform: uppercase; color: var(--muted);
+}
+.wrap {
+max-width: 1140px; margin: 0 auto;
+padding-left: max(16px, env(safe-area-inset-left, 0px));
+padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+/* Top bar */
+.top { border-bottom: 1px solid var(--rule); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 0.9rem; flex-wrap: wrap; }
+.mark { font-family: var(--f-display); font-weight: 800; font-size: 1.05rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.top nav { display: flex; gap: 1.1rem; flex-wrap: wrap; }
+.top nav a { font-family: var(--f-mono); font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--accent); }
+/* Hero */
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: center; padding-block: clamp(2.5rem, 6vw, 4.5rem) 2.5rem; }
+.coords { font-family: var(--f-mono); font-size: 0.8rem; color: var(--muted); display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.coords span + span::before { content: "/"; margin-right: 0.6rem; color: var(--rule); }
+.hero h1 { font-size: var(--s4); font-weight: 800; letter-spacing: -0.035em; margin-top: 1.1rem; }
+.hero .role { font-family: var(--f-display); font-weight: 500; font-size: var(--s1); color: var(--accent); margin-top: 0.6rem; }
+.hero .lede { font-size: 1.12rem; max-width: 34rem; margin-top: 1.3rem; color: var(--ink); }
+.links { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.8rem; }
+.btn {
+display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.55rem 0.95rem;
+border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet);
+color: var(--ink); text-decoration: none; font-size: 0.9rem; font-weight: 500;
+font-family: var(--f-body); cursor: pointer;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--sheet); }
+.btn.primary:hover { color: var(--sheet); filter: brightness(1.08); }
+.btn svg { width: 16px; height: 16px; flex: none; }
+.plate { position: relative; width: 100%; max-width: 460px; justify-self: end; }
+.plate-img { position: relative; aspect-ratio: 1200 / 1243; max-width: 100%; overflow: hidden; }
+.plate-img img { width: 100%; height: 100%; display: block; }
+.det { position: absolute; border: 1.5px solid var(--box); border-radius: 1px; }
+.det b {
+position: absolute; left: -1.5px; bottom: 100%; white-space: nowrap;
+background: var(--box); color: var(--box-ink); font: 500 10px/1 var(--f-mono);
+padding: 3px 4px 2px; letter-spacing: 0.02em;
+}
+.scan {
+position: absolute; left: 0; right: 0; top: 0; height: 2px;
+background: linear-gradient(90deg, transparent, var(--box), transparent); opacity: 0.55;
+animation: scan 7s linear infinite;
+}
+@keyframes scan { from { top: 0%; } to { top: 100%; } }
+@media (prefers-reduced-motion: reduce) { .scan { display: none; } }
+.ticks { position: absolute; inset: 0; pointer-events: none; }
+.ticks i { position: absolute; width: 12px; height: 12px; border-color: var(--muted); border-style: solid; opacity: 0.6; }
+.ticks i:nth-child(1) { top: -6px; left: -6px; border-width: 1px 0 0 1px; }
+.ticks i:nth-child(2) { top: -6px; right: -6px; border-width: 1px 1px 0 0; }
+.ticks i:nth-child(3) { bottom: -6px; left: -6px; border-width: 0 0 1px 1px; }
+.ticks i:nth-child(4) { bottom: -6px; right: -6px; border-width: 0 1px 1px 0; }
+.plate figcaption { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin-top: 0.9rem; line-height: 1.5; }
+/* Figures strip */
+.figs { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--sheet); }
+.figs .wrap { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.fig { padding-block: 1.3rem; padding-right: 1rem; }
+.fig + .fig { border-left: 1px solid var(--rule); padding-left: 1.25rem; }
+.fig strong { display: block; font-family: var(--f-display); font-weight: 700; font-size: var(--s3); letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.fig span { font-size: 0.86rem; color: var(--muted); }
+/* Sheet sections */
+section.sheet { padding-block: clamp(3rem, 7vw, 5rem); }
+section.sheet + section.sheet { border-top: 1px solid var(--rule); }
+.sheet > .wrap { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 2rem; }
+.sheet-index { position: relative; }
+.sheet-index .label { position: sticky; top: 1.5rem; display: block; }
+.sheet-index .label em { display: block; font-style: normal; color: var(--accent); margin-bottom: 0.2rem; }
+.sheet h2 { font-size: var(--s3); font-weight: 800; letter-spacing: -0.025em; }
+.sheet-head p { color: var(--muted); margin-top: 0.6rem; max-width: 40rem; }
+/* Experience timeline */
+.jobs { margin-top: 2.2rem; display: grid; gap: 0; }
+.job { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 1.5rem; padding-block: 1.8rem; border-top: 1px solid var(--rule); }
+.job:first-child { border-top: 0; padding-top: 0; }
+.job time { font-family: var(--f-mono); font-size: 0.8rem; color: var(--muted); padding-top: 0.25rem; }
+.job h3 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.01em; }
+.job .org { color: var(--muted); margin-top: 0.15rem; font-size: 0.95rem; }
+.job ul { margin-top: 0.9rem; max-width: 46rem; }
+.job .more { display: inline-block; margin-top: 0.8rem; font-family: var(--f-mono); font-size: 0.82rem; }
+/* Small flow diagrams (HTML) */
+.flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin-top: 1.2rem; row-gap: 0.6rem; }
+.flow .node {
+border: 1px solid var(--rule); background: var(--sheet); border-radius: 6px; padding: 0.55rem 0.75rem;
+font-size: 0.86rem; line-height: 1.35; min-width: 0;
+}
+.flow .node small { display: block; font-family: var(--f-mono); font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem; }
+.flow .node.out { border-color: var(--accent); background: var(--accent-soft); }
+.flow .arrow { display: flex; align-items: center; padding: 0 0.4rem; color: var(--muted); font-family: var(--f-mono); }
+.flow .stack { display: grid; gap: 0.4rem; }
+.flow .pair { display: flex; align-items: stretch; }
+.fig-cap { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin-top: 0.7rem; }
+/* Projects */
+.project { margin-top: 2.6rem; padding-top: 2.6rem; border-top: 1px solid var(--rule); }
+.project:first-of-type { border-top: 0; padding-top: 0; }
+.project-head { display: flex; justify-content: space-between; gap: 1rem 2rem; flex-wrap: wrap; align-items: baseline; }
+.project h3 { font-size: clamp(1.5rem, 3vw, 1.95rem); font-weight: 800; letter-spacing: -0.02em; }
+.project .meta { font-family: var(--f-mono); font-size: 0.8rem; color: var(--muted); }
+.project .summary { font-size: 1.05rem; margin-top: 0.8rem; max-width: 44rem; }
+.project-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.9rem; font-family: var(--f-mono); font-size: 0.82rem; }
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: 8px; padding: clamp(1rem, 2.5vw, 1.6rem); margin-top: 1.6rem; min-width: 0; }
+.panel-title { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; align-items: baseline; margin-bottom: 1rem; }
+.panel-title h4 { margin: 0; font-family: var(--f-display); font-size: 1.05rem; font-weight: 700; }
+/* Research pipeline steps */
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; counter-reset: step; }
+.step { position: relative; padding: 0 1.1rem 0 0; min-width: 0; }
+.step + .step { padding-left: 1.1rem; border-left: 1px dashed var(--rule); }
+.step .n { font-family: var(--f-mono); font-size: 0.72rem; color: var(--accent); letter-spacing: 0.06em; }
+.step h5 { margin: 0.2rem 0 0.5rem; font-family: var(--f-display); font-size: 1.02rem; font-weight: 700; }
+.step ul { font-size: 0.86rem; color: var(--ink); padding-left: 1rem; }
+.step .big { font-family: var(--f-display); font-weight: 800; font-size: 1.6rem; letter-spacing: -0.02em; color: var(--accent); margin-top: 0.7rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.step .big small { display: block; font-family: var(--f-mono); font-size: 0.68rem; color: var(--muted); font-weight: 400; letter-spacing: 0.02em; margin-top: 0.3rem; }
+.two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.6rem; }
+.two > * { min-width: 0; }
+/* Resolution ladder */
+.ladder { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.5rem; align-items: end; }
+.rung { text-align: center; }
+.rung .px { margin: 0 auto; border: 1px solid var(--accent); background:
+repeating-linear-gradient(0deg, var(--accent-soft) 0 1px, transparent 1px var(--g)),
+repeating-linear-gradient(90deg, var(--accent-soft) 0 1px, transparent 1px var(--g)), var(--sheet);
+width: 100%; max-width: 72px; aspect-ratio: 1; }
+.rung .px { --g: 4px; }
+.rung:nth-child(2) .px { --g: 7px; }
+.rung:nth-child(3) .px { --g: 13px; }
+.rung:nth-child(4) .px { --g: 25px; }
+.rung span { display: block; font-family: var(--f-mono); font-size: 0.78rem; margin-top: 0.4rem; }
+pre {
+margin: 0; background: var(--code-bg); border-radius: 6px; padding: 0.9rem 1rem;
+overflow-x: auto; font: 0.78rem/1.6 var(--f-mono); color: var(--ink);
+}
+pre .c { color: var(--muted); }
+pre .k { color: var(--accent); }
+/* Diagrams (SVG) */
+.diagram-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.diagram-scroll svg { display: block; min-width: 760px; width: 100%; height: auto; }
+svg .bx { fill: var(--sheet); stroke: var(--rule); stroke-width: 1; }
+svg .bx-acc { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; }
+svg .bx-dash { fill: var(--paper); stroke: var(--muted); stroke-width: 1; stroke-dasharray: 4 3; }
+svg .zone { fill: none; stroke: var(--accent); stroke-width: 1; stroke-dasharray: 2 4; }
+svg .t { fill: var(--ink); font: 600 12.5px var(--f-body); }
+svg .s { fill: var(--muted); font: 400 10.5px var(--f-mono); }
+svg .z { fill: var(--accent); font: 500 10.5px var(--f-mono); letter-spacing: 0.08em; }
+svg .ln { stroke: var(--muted); stroke-width: 1.2; fill: none; }
+svg .ah { fill: var(--muted); }
+svg .grid { stroke: var(--rule); stroke-width: 1; }
+svg .bar { fill: var(--rule); }
+svg .bar-hi { fill: var(--accent); }
+svg .ci { stroke: var(--ink); stroke-width: 1.2; }
+svg .v { fill: var(--ink); font: 500 11.5px var(--f-mono); }
+svg .lbl { fill: var(--ink); font: 400 12px var(--f-body); }
+svg .tick { fill: var(--muted); font: 400 10.5px var(--f-mono); }
+table { border-collapse: collapse; width: 100%; font-size: 0.86rem; }
+th, td { text-align: left; padding: 0.45rem 0.6rem 0.45rem 0; border-bottom: 1px solid var(--rule); }
+th { font-family: var(--f-mono); font-weight: 400; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; font-family: var(--f-mono); }
+tr.hi td { font-weight: 600; color: var(--accent); }
+.table-scroll { overflow-x: auto; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem 1.4rem; margin-top: 1.4rem; }
+.facts div { border-top: 2px solid var(--ink); padding-top: 0.5rem; }
+.facts strong { display: block; font-family: var(--f-display); font-weight: 700; font-size: 1.35rem; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.facts span { font-size: 0.82rem; color: var(--muted); }
+.shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin-top: 1.6rem; }
+.shots figure { margin: 0; min-width: 0; }
+.shots img { width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 6px; display: block; background: #111; }
+.shots figcaption { font-family: var(--f-mono); font-size: 0.72rem; color: var(--muted); margin-top: 0.45rem; }
+.note { border-left: 2px solid var(--box); padding: 0.2rem 0 0.2rem 0.9rem; margin-top: 1.4rem; font-size: 0.92rem; color: var(--ink); max-width: 46rem; }
+.note b { font-weight: 600; }
+.pages { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.6rem 1.4rem; font-size: 0.86rem; }
+.pages div b { display: block; font-weight: 600; }
+.pages div span { color: var(--muted); }
+/* Skills */
+.skill-groups { display: grid; gap: 1.6rem; margin-top: 2rem; }
+.skill-group { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: 1.5rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.chip { font-family: var(--f-mono); font-size: 0.8rem; padding: 0.28rem 0.6rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--sheet); }
+/* Education */
+.edu { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 2rem; margin-top: 2rem; }
+.edu h3 { font-size: 1.3rem; font-weight: 700; }
+.edu dl { margin: 1rem 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.5rem 1.2rem; font-size: 0.92rem; }
+.edu dt { font-family: var(--f-mono); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; padding-top: 0.15rem; }
+.edu dd { margin: 0; }
+.honors { list-style: none; padding: 0; display: grid; gap: 0; }
+.honors li { margin: 0; padding: 0.55rem 0; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; gap: 1rem; }
+.honors li span { color: var(--muted); font-family: var(--f-mono); font-size: 0.75rem; }
+/* Contact */
+.contact h2 { font-size: clamp(2rem, 5vw, 3.2rem); }
+.email-row { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.4rem; }
+.email { font-family: var(--f-mono); font-size: clamp(1rem, 2.6vw, 1.3rem); user-select: all; word-break: break-all; }
+.copy-status { font-family: var(--f-mono); font-size: 0.78rem; color: var(--accent); min-height: 1em; }
+footer { border-top: 1px solid var(--rule); }
+footer .wrap { padding-block: 1.6rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; font-family: var(--f-mono); font-size: 0.75rem; color: var(--muted); }
+@media (max-width: 900px) {
+.hero .wrap { grid-template-columns: minmax(0, 1fr); }
+.plate { justify-self: start; max-width: 420px; }
+.sheet > .wrap { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+.sheet-index .label { position: static; }
+.steps { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.6rem; }
+.step:nth-child(3) { padding-left: 0; border-left: 0; }
+.two, .edu { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+.figs .wrap { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.fig:nth-child(3) { border-left: 0; padding-left: 0; }
+.fig:nth-child(n+3) { border-top: 1px solid var(--rule); }
+.job, .skill-group { grid-template-columns: minmax(0, 1fr); gap: 0.4rem; }
+.steps { grid-template-columns: minmax(0, 1fr); }
+.step + .step { padding-left: 0; border-left: 0; padding-top: 1.2rem; border-top: 1px dashed var(--rule); }
+.shots { grid-template-columns: minmax(0, 1fr); }
+.flow { flex-direction: column; }
+.flow .pair { flex-direction: column; }
+.flow .arrow { padding: 0.1rem 0 0.1rem 1rem; transform: rotate(90deg); width: max-content; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="wrap">
+<a class="mark" href="#top">Hari Acharya</a>
+<nav aria-label="Sections">
+<a href="#experience">Experience</a>
+<a href="#projects">Projects</a>
+<a href="#skills">Skills</a>
+<a href="#education">Education</a>
+<a href="#contact">Contact</a>
+</nav>
+</div>
+</header>
+<main id="top">
+<section class="hero">
+<div class="wrap">
+<div>
+<div class="coords"><span>43.1284° N, 77.6283° W</span><span>Rochester, NY</span></div>
+<h1>Hari Acharya</h1>
+<p class="role">Computer vision, machine learning and data engineering</p>
+<p class="lede">I'm a computer science student at the University of Rochester. I build data pipelines and vision models that turn large, messy collections of images and records into numbers people can act on: from millions of street-level and satellite images of U.S. campuses to every NYC 311 request since 2025.</p>
+<div class="links">
+<a class="btn primary" href="#projects">See the projects</a>
+<a class="btn" href="https://github.com/hpa-code" target="_blank" rel="noopener">
+<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+GitHub
+</a>
+<a class="btn" href="https://www.linkedin.com/in/hari-p-acharya" target="_blank" rel="noopener">
+<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 1.15C0 .52.53 0 1.18 0h13.64C15.47 0 16 .52 16 1.15v13.7c0 .63-.53 1.15-1.18 1.15H1.18C.53 16 0 15.48 0 14.85V1.15zm4.94 12.24V6.17H2.54v7.22h2.4zM3.74 5.18c.84 0 1.36-.55 1.36-1.25-.02-.71-.52-1.25-1.34-1.25-.82 0-1.36.54-1.36 1.25 0 .7.52 1.25 1.33 1.25h.01zm4.91 8.21V9.36c0-.22.02-.43.08-.59.17-.43.57-.88 1.23-.88.87 0 1.21.66 1.21 1.63v3.87h2.4V9.25c0-2.22-1.18-3.25-2.76-3.25-1.27 0-1.84.7-2.16 1.19v.03h-.02l.02-.03V6.17h-2.4c.03.68 0 7.22 0 7.22h2.4z"/></svg>
+LinkedIn
+</a>
+<a class="btn" href="mailto:hacharya@u.rochester.edu">Email</a>
+</div>
+</div>
+<figure class="plate" style="margin:0">
+<div class="plate-img">
+<img src="https://cdn.jsdelivr.net/gh/hpa-code/geoimagery@main/docs/images/example_naip_rochester.png" width="1200" height="1243" alt="Aerial NAIP imagery clipped to the University of Rochester campus boundaries, with yellow detection boxes drawn over the track, academic buildings, the medical center and a parking lot.">
+<div class="det" style="left:33%;top:26.5%;width:11%;height:6.5%"><b>track 0.94</b></div>
+<div class="det" style="left:22.5%;top:34%;width:16%;height:11.5%"><b>building 0.91</b></div>
+<div class="det" style="left:41%;top:54%;width:21.5%;height:9.5%"><b>building 0.89</b></div>
+<div class="det" style="left:22.5%;top:60%;width:11.5%;height:11.5%"><b>parking 0.92</b></div>
+<div class="det" style="left:18.5%;top:93.3%;width:9.5%;height:3.6%"><b>building 0.87</b></div>
+<div class="scan" aria-hidden="true"></div>
+</div>
+<div class="ticks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<figcaption>University of Rochester, NAIP Oct 2021, ~0.6 m/px, clipped with geoimagery. Boxes are an illustrative overlay, not model output. Imagery courtesy USDA FSA NAIP.</figcaption>
+</figure>
+</div>
+</section>
+<div class="figs">
+<div class="wrap">
+<div class="fig"><strong>2.6M+</strong><span>street-level images in the research pipeline</span></div>
+<div class="fig"><strong>6.9M</strong><span>NYC 311 requests ingested into Snowflake</span></div>
+<div class="fig"><strong>0.93</strong><span>mAP@0.50 from tuned YOLO detectors</span></div>
+<div class="fig"><strong>3×</strong><span>hackathon winner</span></div>
+</div>
+</div>
+<section class="sheet" id="experience">
+<div class="wrap">
+<div class="sheet-index"><span class="label"><em>01</em>Experience</span></div>
+<div>
+<div class="sheet-head">
+<h2>Where I've worked</h2>
+<p>Internships in clean energy sales operations and computer vision, plus ongoing research at Rochester's data science institute.</p>
+</div>
+<div class="jobs">
+<article class="job">
+<time>Jun – Aug 2026</time>
+<div>
+<h3>Data Science &amp; AI Intern</h3>
+<p class="org">Buffalo Solar · Depew, NY</p>
+<ul>
+<li>Built an AI-powered, score-based matching system that reconciles Excel and CRM records across 1,000+ deals using weighted match scores, recovering about 40% more matches without any shared IDs.</li>
+<li>Automated CRM workflows (syncing emails and channels, generating finance folders, calculating payment schedules), saving about 4 hours per rep per week and cutting contract prep time by about 85%.</li>
+<li>Built Tableau dashboards on sales trends, pipeline stages, lead conversion and deal values so stakeholders can monitor sales performance.</li>
+</ul>
+<div class="flow" role="img" aria-label="Record matching: an Excel deal and a CRM deal have their shared fields compared, each comparison is weighted into a score, and the best-scoring pair is matched.">
+<div class="stack">
+<div class="node">Excel deal<small>no shared ID</small></div>
+<div class="node">CRM deal<small>no shared ID</small></div>
+</div>
+<div class="pair"><div class="arrow">→</div><div class="node">Compare fields<small>per-field similarity</small></div></div>
+<div class="pair"><div class="arrow">→</div><div class="node">Weighted score<small>Σ wᵢ · simᵢ</small></div></div>
+<div class="pair"><div class="arrow">→</div><div class="node out">Best pair matched<small>~40% more matches</small></div></div>
+</div>
+<p class="fig-cap">Fig. 1 · How the matcher pairs records when the two systems share no key.</p>
+</div>
+</article>
+<article class="job">
+<time>Feb 2026 – now</time>
+<div>
+<h3>Research Assistant</h3>
+<p class="org">Goergen Institute for Data Science &amp; AI · Rochester, NY</p>
+<ul>
+<li>Architected a PyTorch and YOLO vision pipeline over 2.6M+ street-level and 24K+ satellite images across 5,900+ U.S. universities, with geospatial preprocessing, GPU training and batch inference.</li>
+<li>Trained and benchmarked YOLO v8, 11 and 26 on 85K+ labeled instances with transfer learning, mixed precision, augmentation, LR scheduling and hyperparameter tuning, reaching 0.93 mAP@0.50.</li>
+<li>Ran error and cross-validation analyses, then engineered 42+ learned and geospatial features for XGBoost, Random Forest and regression models that predict AASHE STARS ratings at R² = 0.76.</li>
+</ul>
+<a class="more" href="#campus">Pipeline diagram below ↓</a>
+</div>
+</article>
+<article class="job">
+<time>Jun – Aug 2025</time>
+<div>
+<h3>Software Engineering Intern</h3>
+<p class="org">InnoTech · Thimphu, Bhutan</p>
+<ul>
+<li>Reached 92% vehicle plate localization accuracy, supported by an ETL pipeline that extracts and validates metadata from 10,000+ JSON-annotated images.</li>
+<li>Cut end-to-end data preparation latency by 40% by optimizing OpenCV and Pillow pipelines for image cropping, validation and preprocessing.</li>
+<li>Raised edge-case object detection mAP@0.50 by 15% after exploratory data analysis found and resolved class imbalances in multi-source image data.</li>
+</ul>
+</div>
+</article>
+</div>
+</div>
+</div>
+</section>
+<section class="sheet" id="projects">
+<div class="wrap">
+<div class="sheet-index"><span class="label"><em>02</em>Projects</span></div>
+<div>
+<div class="sheet-head">
+<h2>Selected work</h2>
+<p>Three projects, each from raw input to something a person can use: a research pipeline, a production-style data platform, and a consumer app.</p>
+</div>
+<article class="project" id="campus">
+<div class="project-head">
+<h3>Campus sustainability from imagery</h3>
+<span class="meta">Research · Feb 2026 – now</span>
+</div>
+<p class="summary">Can you estimate how sustainable a university is from what it looks like? This pipeline detects physical features in street-level and satellite imagery of 5,900+ U.S. campuses, turns them into features, and predicts each school's AASHE STARS sustainability rating.</p>
+<div class="project-links">
+<a href="https://github.com/hpa-code/geoimagery" target="_blank" rel="noopener">github.com/hpa-code/geoimagery ↗</a>
+</div>
+<div class="panel">
+<div class="panel-title"><h4>Pipeline</h4><span class="label">Fig. 2</span></div>
+<div class="steps">
+<div class="step">
+<div class="n">STEP 1</div>
+<h5>Collect</h5>
+<ul>
+<li>2.6M+ street-level images</li>
+<li>24K+ satellite images, pulled with geoimagery</li>
+<li>Geospatial preprocessing per campus</li>
+</ul>
+<div class="big">5,900+<small>U.S. universities</small></div>
+</div>
+<div class="step">
+<div class="n">STEP 2</div>
+<h5>Detect</h5>
+<ul>
+<li>YOLO v8, 11 and 26 benchmarked</li>
+<li>85K+ labeled instances</li>
+<li>Transfer learning, mixed precision, augmentation, LR scheduling</li>
+</ul>
+<div class="big">0.93<small>mAP@0.50</small></div>
+</div>
+<div class="step">
+<div class="n">STEP 3</div>
+<h5>Engineer features</h5>
+<ul>
+<li>Batch GPU inference over every image</li>
+<li>Error and cross-validation analysis</li>
+<li>Learned and geospatial features</li>
+</ul>
+<div class="big">42+<small>features per campus</small></div>
+</div>
+<div class="step">
+<div class="n">STEP 4</div>
+<h5>Predict rating</h5>
+<ul>
+<li>XGBoost, Random Forest and regression models</li>
+<li>Target: AASHE STARS rating</li>
+</ul>
+<div class="big">R² 0.76<small>on STARS ratings</small></div>
+</div>
+</div>
+</div>
+<div class="two">
+<div class="panel">
+<div class="panel-title"><h4>geoimagery, the open-source piece</h4><span class="label">PyPI · MIT</span></div>
+<p style="font-size:0.92rem">A Python library I published that downloads NAIP aerial imagery for any polygon through Google Earth Engine. Give it a GeoJSON, Shapefile, GeoDataFrame or shapely geometry and it returns RGB GeoTIFFs clipped to each shape. It checks which months exist before downloading, runs inventory and downloads on a thread pool, skips files it already has, and ships type hints.</p>
+<p class="label" style="margin-top:1.2rem">Automatic resolution fallback</p>
+<div class="ladder" style="margin-top:0.6rem" role="img" aria-label="When an export exceeds Earth Engine's payload cap, geoimagery retries at 0.6, then 1, then 2, then 4 meters per pixel.">
+<div class="rung"><div class="px"></div><span>0.6 m</span></div>
+<div class="rung"><div class="px"></div><span>1 m</span></div>
+<div class="rung"><div class="px"></div><span>2 m</span></div>
+<div class="rung"><div class="px"></div><span>4 m</span></div>
+</div>
+<p class="fig-cap">Fig. 3 · Each export that exceeds Earth Engine's ~32 MB payload cap is retried one step coarser.</p>
+</div>
+<div class="panel">
+<div class="panel-title"><h4>Usage</h4><span class="label">Python</span></div>
+<pre><span class="k">import</span> geoimagery <span class="k">as</span> gi
+
+gi.initialize(project=<span class="k">"my-gcp-project"</span>)
+
+<span class="c"># Which NAIP months exist for each polygon?</span>
+inventory = gi.list_available_dates(
+    <span class="k">"campuses.geojson"</span>,
+    start_date=<span class="k">"2022-01-01"</span>,
+    end_date=<span class="k">"2024-12-31"</span>,
+)
+
+<span class="c"># One clipped GeoTIFF per (polygon, month)</span>
+gi.download(
+    <span class="k">"campuses.geojson"</span>,
+    dates=inventory,
+    output_dir=<span class="k">"./naip_output"</span>,
+    max_workers=5,
+)</pre>
+<p class="fig-cap" style="margin-top:0.8rem">pip install "geoimagery[all]"</p>
+</div>
+</div>
+</article>
+<article class="project" id="nyc311">
+<div class="project-head">
+<h3>NYC 311 Signal</h3>
+<span class="meta">Data platform + ML · Oct 2026</span>
+</div>
+<p class="summary">An automated daily pipeline and dashboard over every NYC 311 service request since January 2025. It captures each new and changed request, keeps an exact history of how each one changed, publishes validated analytics daily, and scores each new request's chance of not being closed within seven days.</p>
+<div class="project-links">
+<a href="https://github.com/hpa-code/nyc-311-signal" target="_blank" rel="noopener">github.com/hpa-code/nyc-311-signal ↗</a>
+<a href="https://public.tableau.com/app/profile/hari.acharya3471/viz/NYC311Signal/NYC311SignalRequestsandClosure" target="_blank" rel="noopener">Tableau Public view ↗</a>
+</div>
+<div class="facts">
+<div><strong>6,901,995</strong><span>requests, Jan 2025 – Oct 2026</span></div>
+<div><strong>8.08M</strong><span>change records, 0 quarantined</span></div>
+<div><strong>3.68M</strong><span>labeled requests for modeling</span></div>
+<div><strong>22</strong><span>checks gate every publication</span></div>
+<div><strong>~2 min</strong><span>per daily publication</span></div>
+</div>
+<div class="panel">
+<div class="panel-title"><h4>Architecture</h4><span class="label">Fig. 4</span></div>
+<div class="diagram-scroll">
+<svg viewBox="0 0 960 440" role="img" aria-label="NYC Open Data feeds a collector on AWS Lambda or Fargate, which writes immutable files to S3. Snowpipe loads them into Snowflake, where raw observations pass a readiness gate (failures go to quarantine), become request versions and current requests, then a publish step builds analytics and scores, runs 22 checks, and moves the publication pointer. A Streamlit dashboard reads the current publication. A monitor Lambda sends metrics to CloudWatch, which alerts by SNS email.">
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ah"/></marker>
+</defs>
+<rect class="bx" x="20" y="30" width="220" height="44" rx="5"/>
+<text class="t" x="34" y="49">NYC Open Data</text><text class="s" x="34" y="65">Socrata API · 311 requests</text>
+<rect class="bx" x="300" y="30" width="260" height="44" rx="5"/>
+<text class="t" x="314" y="49">Collector</text><text class="s" x="314" y="65">AWS Lambda · ECS Fargate</text>
+<rect class="bx" x="620" y="30" width="320" height="44" rx="5"/>
+<text class="t" x="634" y="49">Amazon S3</text><text class="s" x="634" y="65">immutable gzip NDJSON + run manifests</text>
+<path class="ln" d="M240 52 H296" marker-end="url(#ah)"/>
+<path class="ln" d="M560 52 H616" marker-end="url(#ah)"/>
+<text class="s" x="20" y="96">daily change cursor (updated_at − 6 h) · weekly reconciliation pass · backfill</text>
+<path class="ln" d="M780 74 V112 H100 V176" marker-end="url(#ah)"/>
+<text class="s" x="790" y="100">Snowpipe · bulk COPY</text>
+<rect class="zone" x="20" y="150" width="930" height="200" rx="8"/>
+<text class="z" x="934" y="170" text-anchor="end">SNOWFLAKE</text>
+<rect class="bx" x="40" y="180" width="120" height="44" rx="5"/>
+<text class="t" x="54" y="199">RAW</text><text class="s" x="54" y="215">observations</text>
+<rect class="bx" x="190" y="180" width="170" height="44" rx="5"/>
+<text class="t" x="204" y="199">Readiness gate</text><text class="s" x="204" y="215">manifest reconciles?</text>
+<rect class="bx" x="390" y="180" width="180" height="44" rx="5"/>
+<text class="t" x="404" y="199">Request Versions</text><text class="s" x="404" y="215">exact change history</text>
+<rect class="bx" x="600" y="180" width="190" height="44" rx="5"/>
+<text class="t" x="614" y="199">Current Requests</text><text class="s" x="614" y="215">latest state per request</text>
+<path class="ln" d="M160 202 H186" marker-end="url(#ah)"/>
+<path class="ln" d="M360 202 H386" marker-end="url(#ah)"/>
+<path class="ln" d="M570 202 H596" marker-end="url(#ah)"/>
+<rect class="bx-dash" x="190" y="244" width="170" height="30" rx="5"/>
+<text class="s" x="204" y="263">quarantine · reason kept</text>
+<path class="ln" d="M275 224 V240" marker-end="url(#ah)"/>
+<rect class="bx" x="360" y="290" width="320" height="44" rx="5"/>
+<text class="t" x="374" y="309">OPS.PUBLISH()</text><text class="s" x="374" y="325">analytics · labels · features · scores</text>
+<rect class="bx" x="710" y="290" width="100" height="44" rx="5"/>
+<text class="t" x="724" y="309">22 checks</text><text class="s" x="724" y="325">all must pass</text>
+<rect class="bx-acc" x="840" y="290" width="100" height="44" rx="5"/>
+<text class="t" x="852" y="309">Publish</text><text class="s" x="852" y="325">or hold last</text>
+<path class="ln" d="M650 224 V286" marker-end="url(#ah)"/>
+<path class="ln" d="M680 312 H706" marker-end="url(#ah)"/>
+<path class="ln" d="M810 312 H836" marker-end="url(#ah)"/>
+<rect class="bx" x="20" y="380" width="200" height="44" rx="5"/>
+<text class="t" x="34" y="399">Monitor Lambda</text><text class="s" x="34" y="415">pipeline run metrics</text>
+<rect class="bx" x="250" y="380" width="200" height="44" rx="5"/>
+<text class="t" x="264" y="399">CloudWatch</text><text class="s" x="264" y="415">metrics + alarms</text>
+<rect class="bx" x="480" y="380" width="150" height="44" rx="5"/>
+<text class="t" x="494" y="399">SNS</text><text class="s" x="494" y="415">email alerts</text>
+<rect class="bx-acc" x="700" y="380" width="240" height="44" rx="5"/>
+<text class="t" x="714" y="399">Streamlit dashboard</text><text class="s" x="714" y="415">7 pages · read-only role</text>
+<path class="ln" d="M120 350 V376" marker-end="url(#ah)"/>
+<path class="ln" d="M220 402 H246" marker-end="url(#ah)"/>
+<path class="ln" d="M450 402 H476" marker-end="url(#ah)"/>
+<path class="ln" d="M890 334 V376" marker-end="url(#ah)"/>
+</svg>
+</div>
+<p class="fig-cap">Infrastructure as code with Terraform (AWS us-east-2) · versioned Snowflake migrations · GitHub Actions CI with Docker, pytest and typechecks.</p>
+</div>
+<div>
+<div class="panel">
+<div class="panel-title"><h4>Delay model vs. baselines</h4><span class="label">Fig. 5</span></div>
+<svg viewBox="0 0 640 200" width="100%" style="max-width:720px;display:block" role="img" aria-label="PR-AUC on the test period: constant prevalence 0.423, agency-only rate 0.616, historical problem rate 0.696, logistic regression 0.710.">
+<line class="grid" x1="170" y1="10" x2="170" y2="168"/>
+<line class="grid" x1="282.5" y1="10" x2="282.5" y2="168"/>
+<line class="grid" x1="395" y1="10" x2="395" y2="168"/>
+<line class="grid" x1="507.5" y1="10" x2="507.5" y2="168"/>
+<line class="grid" x1="620" y1="10" x2="620" y2="168"/>
+<text class="tick" x="170" y="186" text-anchor="middle">0</text>
+<text class="tick" x="282.5" y="186" text-anchor="middle">0.2</text>
+<text class="tick" x="395" y="186" text-anchor="middle">0.4</text>
+<text class="tick" x="507.5" y="186" text-anchor="middle">0.6</text>
+<text class="tick" x="620" y="186" text-anchor="middle">0.8</text>
+<text class="lbl" x="160" y="35" text-anchor="end">Constant prevalence</text>
+<rect class="bar" x="170" y="20" width="237.9" height="22"/>
+<text class="v" x="415" y="35">0.423</text>
+<text class="lbl" x="160" y="73" text-anchor="end">Agency-only rate</text>
+<rect class="bar" x="170" y="58" width="346.5" height="22"/>
+<text class="v" x="524" y="73">0.616</text>
+<text class="lbl" x="160" y="111" text-anchor="end">Historical Problem rate</text>
+<rect class="bar" x="170" y="96" width="391.5" height="22"/>
+<text class="v" x="569" y="111">0.696</text>
+<text class="lbl" x="160" y="149" text-anchor="end" style="font-weight:600">Logistic regression</text>
+<rect class="bar-hi" x="170" y="134" width="399.4" height="22"/>
+<text class="v" x="577" y="149" style="font-weight:600">0.710</text>
+</svg>
+<p class="fig-cap">PR-AUC on a later test period the model never saw (n = 313,607 requests, 42.3% delayed). 95% bootstrap intervals are within ±0.003.</p>
+</div>
+<div class="panel">
+<div class="panel-title"><h4>Test-period scorecard</h4><span class="label">Aug 19 – Oct 14, 2026</span></div>
+<div class="table-scroll">
+<table>
+<thead><tr><th>Scorer</th><th class="num">PR-AUC</th><th class="num">Lift top 10%</th><th class="num">Brier</th></tr></thead>
+<tbody>
+<tr><td>Constant prevalence</td><td class="num">0.423</td><td class="num">1.00</td><td class="num">0.253</td></tr>
+<tr><td>Agency-only rate</td><td class="num">0.616</td><td class="num">1.72</td><td class="num">0.215</td></tr>
+<tr><td>Historical Problem rate</td><td class="num">0.696</td><td class="num">1.64</td><td class="num">0.180</td></tr>
+<tr class="hi"><td>Logistic regression</td><td class="num">0.710</td><td class="num">1.75</td><td class="num">0.178</td></tr>
+</tbody>
+</table>
+</div>
+<p class="note" style="margin-top:1rem"><b>What the numbers say.</b> The model clearly beats the agency-only baseline but adds only a little over the historical rate for each complaint type, so most of the signal is the complaint type itself. The README says this plainly, alongside other limits such as NYPD being excluded from the model.</p>
+</div>
+</div>
+<div class="panel">
+<div class="panel-title"><h4>Engineering choices</h4></div>
+<div class="pages">
+<div><b>Idempotent collection</b><span>Immutable files with deterministic names, so a retry never duplicates or overwrites data.</span></div>
+<div><b>History, not snapshots</b><span>A late, older record never overwrites a newer state. Malformed rows are quarantined with a reason, never dropped.</span></div>
+<div><b>All-or-nothing publishing</b><span>Every chart, queue and score shares one publication ID and goes live only if all 22 checks pass.</span></div>
+<div><b>Scored once, in SQL</b><span>The model runs in Snowflake from registered weights, on features frozen when a request first becomes eligible.</span></div>
+</div>
+</div>
+<div class="shots">
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/hpa-code/nyc-311-signal@main/docs/screenshots/overview.jpg" width="1460" height="812" alt="Streamlit Overview page showing 6,901,995 requests, 248,752 open, and weekly submissions and closures from 2025 to 2026.">
+<figcaption>Overview: weekly submissions vs. closures and the open backlog</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/hpa-code/nyc-311-signal@main/docs/screenshots/model-performance.jpg" width="1460" height="812" alt="Streamlit Model Performance page with the test-period table and a bar chart of top-10% lift for each scorer.">
+<figcaption>Model Performance: test period against three baselines</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/hpa-code/nyc-311-signal@main/docs/screenshots/risk-queue.jpg" width="1460" height="812" alt="Streamlit Risk Queue page listing open requests ordered by predicted delay probability.">
+<figcaption>Risk Queue: open requests ranked by predicted delay</figcaption>
+</figure>
+<figure>
+<img src="https://cdn.jsdelivr.net/gh/hpa-code/nyc-311-signal@main/docs/screenshots/pipeline-health.jpg" width="1460" height="812" alt="Streamlit Pipeline Health page with run metrics, publication attempts and source freshness.">
+<figcaption>Pipeline Health: runs, publications, freshness and quarantine</figcaption>
+</figure>
+</div>
+</article>
+<article class="project" id="eventuality">
+<div class="project-head">
+<h3>Eventuality</h3>
+<span class="meta">Mobile app · Nov 2025</span>
+</div>
+<p class="summary">Snap a photo of an event flyer and get a calendar-ready event. An AI pipeline reads unstructured flyers and fills in the event details, so people stop retyping them by hand.</p>
+<div class="facts">
+<div><strong>80%</strong><span>less time to complete the event form</span></div>
+<div><strong>95%</strong><span>valid JSON from flyer parsing</span></div>
+<div><strong>+40%</strong><span>view-to-calendar conversion with swipe-to-save</span></div>
+</div>
+<div class="panel">
+<div class="panel-title"><h4>From flyer to calendar</h4><span class="label">Fig. 6</span></div>
+<div class="flow" style="margin-top:0" role="img" aria-label="A flyer photo is parsed by an AI pipeline into structured event JSON, stored in Supabase Postgres with email auth, shown in a swipe-to-save feed, and added to the calendar.">
+<div class="node">Flyer photo<small>unstructured</small></div>
+<div class="pair"><div class="arrow">→</div><div class="node">AI parsing<small>extract event fields</small></div></div>
+<div class="pair"><div class="arrow">→</div><div class="node">Structured JSON<small>95% valid</small></div></div>
+<div class="pair"><div class="arrow">→</div><div class="node">Supabase<small>Postgres + email auth</small></div></div>
+<div class="pair"><div class="arrow">→</div><div class="node">Swipe to save<small>feed</small></div></div>
+<div class="pair"><div class="arrow">→</div><div class="node out">Calendar<small>+40% conversion</small></div></div>
+</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+<section class="sheet" id="skills">
+<div class="wrap">
+<div class="sheet-index"><span class="label"><em>03</em>Skills</span></div>
+<div>
+<div class="sheet-head"><h2>Tools I use</h2></div>
+<div class="skill-groups">
+<div class="skill-group">
+<span class="label">Languages</span>
+<div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Java</span><span class="chip">C</span><span class="chip">Swift</span><span class="chip">R</span><span class="chip">JavaScript</span><span class="chip">TypeScript</span><span class="chip">HTML/CSS</span><span class="chip">Node.js</span><span class="chip">Flask</span><span class="chip">React Native</span></div>
+</div>
+<div class="skill-group">
+<span class="label">ML &amp; data</span>
+<div class="chips"><span class="chip">PyTorch</span><span class="chip">scikit-learn</span><span class="chip">XGBoost</span><span class="chip">YOLO</span><span class="chip">OpenCV</span><span class="chip">Pandas</span><span class="chip">NumPy</span><span class="chip">NLTK</span><span class="chip">Tableau</span><span class="chip">Excel</span><span class="chip">EDA</span><span class="chip">ETL</span></div>
+</div>
+<div class="skill-group">
+<span class="label">Cloud &amp; tools</span>
+<div class="chips"><span class="chip">AWS Lambda</span><span class="chip">AWS Fargate</span><span class="chip">AWS S3</span><span class="chip">Snowflake</span><span class="chip">PostgreSQL</span><span class="chip">Terraform</span><span class="chip">Docker</span><span class="chip">Streamlit</span><span class="chip">GitHub Actions</span><span class="chip">Google Earth Engine</span><span class="chip">Supabase</span></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="sheet" id="education">
+<div class="wrap">
+<div class="sheet-index"><span class="label"><em>04</em>Education</span></div>
+<div>
+<div class="sheet-head"><h2>Education &amp; honors</h2></div>
+<div class="edu">
+<div>
+<h3>University of Rochester</h3>
+<p style="color:var(--muted)">Bachelor of Science in Computer Science</p>
+<dl>
+<dt>Expected</dt><dd>May 2027</dd>
+<dt>GPA</dt><dd>3.58 / 4.0</dd>
+<dt>Coursework</dt><dd>Machine Learning, Deep Learning, Artificial Intelligence, Data Mining</dd>
+</dl>
+</div>
+<ul class="honors">
+<li>Hackathon Winner <span>3×</span></li>
+<li>Dean's List <span>UR</span></li>
+<li>UWC-Davis Scholar <span>scholarship</span></li>
+<li>EDGE Scholar <span>scholarship</span></li>
+<li>FIRST Robotics Scholar <span>scholarship</span></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section class="sheet contact" id="contact">
+<div class="wrap">
+<div class="sheet-index"><span class="label"><em>05</em>Contact</span></div>
+<div>
+<h2>Let's talk.</h2>
+<p style="color:var(--muted);margin-top:0.6rem;max-width:36rem">I'm interested in machine learning, computer vision and data engineering work. Email is the best way to reach me.</p>
+<div class="email-row">
+<a class="email" id="email" href="mailto:hacharya@u.rochester.edu">hacharya@u.rochester.edu</a>
+<button class="btn" type="button" id="copy-email">Copy email</button>
+<span class="copy-status" id="copy-status" aria-live="polite"></span>
+</div>
+<div class="links">
+<a class="btn" href="https://github.com/hpa-code" target="_blank" rel="noopener">github.com/hpa-code</a>
+<a class="btn" href="https://www.linkedin.com/in/hari-p-acharya" target="_blank" rel="noopener">linkedin.com/in/hari-p-acharya</a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap">
+<span>© 2026 Hari Acharya</span>
+<span>Aerial imagery courtesy USDA FSA NAIP</span>
+</div>
+</footer>
+<script>
+(function () {
+var btn = document.getElementById('copy-email');
+var status = document.getElementById('copy-status');
+var email = document.getElementById('email');
+function selectEmail() {
+var r = document.createRange(); r.selectNodeContents(email);
+var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+}
+btn.addEventListener('click', function () {
+var text = email.textContent.trim();
+try {
+navigator.clipboard.writeText(text).then(function () {
+status.textContent = 'Copied';
+}, function () { selectEmail(); status.textContent = 'Selected. Press Ctrl+C or ⌘C to copy'; });
+} catch (e) { selectEmail(); status.textContent = 'Selected. Press Ctrl+C or ⌘C to copy'; }
+});
+})();
+</script>
+</body>
+</html>
