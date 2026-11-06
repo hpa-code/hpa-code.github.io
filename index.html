@@ -4,403 +4,714 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta property="og:title" content="Hari Acharya">
-<meta property="og:description" content="Computer science senior at the University of Rochester working on computer vision research, data systems and teaching.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314161b'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='700' font-size='15' text-anchor='middle' fill='%23fff'%3EHA%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hpa-code.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232b0d13'/%3E%3Cpath d='M3 27 L16 6 L29 27Z' fill='%23ffc629'/%3E%3Cpath d='M11.5 13.5 L16 6 L20.5 13.5 L16 12Z' fill='white'/%3E%3C/svg%3E">
 <title>Hari Acharya</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Hari Acharya: computer science senior at the University of Rochester working on computer vision research, data systems and teaching.">
+<meta name="description" content="Hari Acharya: computer science senior at the University of Rochester. Climb a Himalayan mountain past camps for his teaching, experience, projects and research.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&display=swap">
 <style>
-/* Layout: the page is a transit map. Each section is a coloured line, each entry a station, each project a route. */
+/* Layout: a full-screen Himalayan climb. Scroll moves the climber up the trail; each camp opens a plain, readable panel. */
 :root {
-  --bg: #ffffff; --fg: #14161b; --muted: #555a66; --rule: #d9dbe1; --on: #ffffff;
-  --r: #0a7d55; --t: #c2410c; --w: #1d4ed8; --p: #7c3aed;
-  --font: Archivo, "Helvetica Neue", Arial, sans-serif;
-}
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
-  --bg: #101216; --fg: #f2f3f5; --muted: #a6abb7; --rule: #2f333b; --on: #101216;
-  --r: #3ecf9b; --t: #fb8a4c; --w: #7da2ff; --p: #b79bff; color-scheme: dark;
-} }
-:root[data-theme="dark"] {
-  --bg: #101216; --fg: #f2f3f5; --muted: #a6abb7; --rule: #2f333b; --on: #101216;
-  --r: #3ecf9b; --t: #fb8a4c; --w: #7da2ff; --p: #b79bff; color-scheme: dark;
+  --maroon: #6e1f24; --ink: #1c1e24; --soft: #565a63; --line: #e2e2e0; --gold: #ffc629; --link: #a32d08; --tint: #fff5d6;
+  --sans: Archivo, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body { margin: 0; background: var(--bg); color: var(--fg); font: 400 17px/1.55 var(--font); }
-img { max-width: 100%; }
-body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
-a { color: inherit; text-underline-offset: 3px; }
-a:hover { color: var(--w); }
-:focus-visible { outline: 3px solid var(--w); outline-offset: 2px; }
-h1, h2, h3, p, ol, ul, figure { margin: 0; padding: 0; }
-ol, ul { list-style: none; }
-h1, h2, h3 { text-wrap: balance; }
-p { text-wrap: pretty; }
-.wrap { max-width: 1120px; margin-inline: auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+html, body { height: 100%; }
+body { margin: 0; background: #e9d9b8; color: var(--ink); font: 400 17px/1.55 var(--sans); overflow: hidden; }
+body.plain { overflow: auto; background: #fff; }
+a { color: var(--link); text-underline-offset: 3px; }
+a:hover { color: var(--ink); }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+h1, h2, h3, p, ul, ol, figure { margin: 0; padding: 0; }
+ul, ol { list-style: none; }
+img { display: block; max-width: 100%; height: auto; }
 
-/* Top bar */
-.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 2px solid var(--fg); }
-.bar .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 24px; padding-block: 6px; }
-.brand { font-weight: 800; font-size: 19px; text-decoration: none; min-height: 44px; display: flex; align-items: center; }
-.bar nav { display: flex; flex-wrap: wrap; gap: 0 20px; }
-.bar nav a { display: flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; font-size: 15px; text-decoration: none; border-bottom: 3px solid transparent; }
-.bar nav a[aria-current="true"] { border-bottom-color: var(--c); }
-.bullet { flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--c); color: var(--on); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; }
+#world { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; outline: none; }
+body.plain #world, body.plain .pads, body.plain .hint, body.plain .route { display: none; }
 
-/* Hero */
-.hero { padding-block: clamp(48px, 8vw, 88px) 56px; display: grid; gap: 24px; }
-h1 { font-size: clamp(52px, 11vw, 124px); line-height: .95; font-weight: 800; letter-spacing: -.025em; font-stretch: 112%; }
-.lede { max-width: 34em; font-size: clamp(20px, 2.4vw, 25px); line-height: 1.4; }
-.links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 22px; font-weight: 600; }
-.links a, .links button { min-height: 44px; display: inline-flex; align-items: center; }
-.copy { font: inherit; font-size: 14px; color: var(--muted); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-.hero .line { margin-top: 24px; }
+/* Intro at base camp */
+.hero { position: fixed; z-index: 2; left: max(24px, env(safe-area-inset-left, 0px)); top: max(24px, env(safe-area-inset-top, 0px)); max-width: 460px; pointer-events: none; transition: opacity .4s, visibility .4s; }
+.hero.gone { opacity: 0; visibility: hidden; }
+.hero .card { background: #fff; border: 2px solid var(--ink); border-radius: 8px; padding: 20px 22px; pointer-events: auto; display: grid; gap: 10px; }
+h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(34px, 5vw, 50px); line-height: 1; letter-spacing: -.02em; }
+.links { display: flex; flex-wrap: wrap; gap: 0 16px; font-weight: 600; }
+.links a { min-height: 40px; display: inline-flex; align-items: center; }
+.small { font-size: 15px; color: var(--soft); }
+.me { position: fixed; z-index: 2; left: max(24px, env(safe-area-inset-left, 0px)); top: max(16px, env(safe-area-inset-top, 0px)); background: #fff; border: 2px solid var(--ink); border-radius: 6px; padding: 5px 12px; font-weight: 800; font-size: 17px; opacity: 0; transition: opacity .4s; pointer-events: none; }
+.me.on { opacity: 1; }
+body.plain .hero { position: static; margin: 32px auto 0; max-width: 760px; padding-inline: 20px; }
+body.plain .hero .card { border: 0; padding: 0; }
+body.plain .me { display: none; }
 
-/* A route: stations on a track. Horizontal on wide screens, vertical on phones. */
-.line { position: relative; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
-.line::before { content: ""; position: absolute; left: 0; right: calc(100% / var(--n) - 11px); top: 7px; height: 8px; background: var(--c); }
-.line.through::before { right: 0; }
-.stop { position: relative; padding-right: 14px; min-width: 0; font-size: 15px; line-height: 1.35; }
-.stop::before { content: ""; display: block; position: relative; width: 22px; height: 22px; margin-bottom: 10px; border-radius: 50%; background: var(--bg); border: 5px solid var(--fg); }
-.stop.x::before { background: var(--fg); }
-.stop b { display: block; font-weight: 700; }
-.stop span { color: var(--muted); display: block; }
-.linelabel { font-size: 14px; font-weight: 700; color: var(--c); margin-bottom: 12px; font-stretch: 90%; }
-.merge { display: grid; grid-template-columns: minmax(0, 1fr) 190px; }
-.merge-lines { display: grid; gap: 32px; min-width: 0; }
-.capsule { border: 6px solid var(--fg); border-radius: 32px; padding: 16px; display: flex; flex-direction: column; justify-content: center; font-size: 15px; line-height: 1.35; background: var(--bg); position: relative; }
-.capsule b { font-size: 22px; font-weight: 800; }
-.capsule span { color: var(--muted); }
-.xfer { width: 190px; margin: 0 0 16px auto; text-align: center; font-size: 14px; font-weight: 600; }
-.xfer::before { content: ""; display: block; width: 8px; height: 28px; background: var(--fg); margin: 0 auto 6px; }
-.route { display: grid; gap: 28px; }
-.route > div { min-width: 0; }
+/* The route up: the main menu */
+.route { position: fixed; z-index: 4; left: max(24px, env(safe-area-inset-left, 0px)); bottom: max(24px, env(safe-area-inset-bottom, 0px)); display: grid; gap: 0; }
+.route ol { position: relative; display: grid; gap: 0; background: #fff; border: 2px solid var(--ink); border-radius: 8px; padding: 6px; }
+.route button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 12px 0 8px; border: 0; background: none; color: var(--ink); font-size: 15px; font-weight: 600; border-radius: 4px; text-align: left; }
+.route button:hover { background: var(--tint); }
+.route button i { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--ink); background: #fff; }
+.route button.past i { background: var(--ink); }
+.route button.at { background: var(--ink); color: #fff; }
+.route button.at i { background: var(--gold); border-color: var(--gold); }
+.plainbtn { position: fixed; z-index: 6; right: max(16px, env(safe-area-inset-right, 0px)); top: max(16px, env(safe-area-inset-top, 0px)); min-height: 44px; padding: 0 14px; border: 2px solid var(--ink); background: var(--gold); color: var(--ink); font-weight: 700; font-size: 15px; border-radius: 6px; }
 
-/* Sections */
-section { padding-block: 56px 8px; scroll-margin-top: 64px; }
-#research { border-top: 2px solid var(--fg); }
-.sechead { display: flex; align-items: center; gap: 14px; margin-bottom: 32px; }
-.sechead .bullet { width: 44px; height: 44px; font-size: 22px; }
-h2 { font-size: clamp(34px, 5vw, 48px); line-height: 1.05; font-weight: 800; letter-spacing: -.01em; color: var(--c); }
-.intro { max-width: 40em; margin: -16px 0 36px; }
+.hint { position: fixed; z-index: 3; left: 50%; bottom: max(24px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: #fff; padding: 9px 16px; border-radius: 6px; font-size: 16px; font-weight: 600; white-space: nowrap; transition: opacity .4s; pointer-events: none; }
+.hint.gone { opacity: 0; }
 
-/* Stations down a section's line */
-.rail { position: relative; display: grid; gap: 30px; padding-left: 44px; }
-.rail::before { content: ""; position: absolute; left: 7px; top: 6px; bottom: 6px; width: 8px; background: var(--c); }
-.entry { position: relative; }
-.entry::before { content: ""; position: absolute; left: -44px; top: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); border: 5px solid var(--c); }
-.entry:last-child::after { content: ""; position: absolute; left: -44px; top: 25px; bottom: -6px; width: 22px; background: var(--bg); }
-.when { font-size: 14px; font-weight: 600; color: var(--muted); font-stretch: 90%; }
-.entry h3 { font-size: 21px; line-height: 1.25; font-weight: 700; }
-.entry p { max-width: 42em; margin-top: 6px; }
+.pads { display: none; position: fixed; z-index: 3; right: 16px; bottom: max(16px, env(safe-area-inset-bottom, 0px)); gap: 10px; }
+.pads button { width: 66px; height: 66px; border-radius: 50%; border: 2px solid var(--ink); background: #fff; color: var(--ink); font-size: 24px; font-weight: 800; touch-action: none; user-select: none; -webkit-user-select: none; }
 
-/* Projects */
-.project { padding-block: 40px; display: grid; gap: 22px; border-top: 1px solid var(--rule); }
-.project:first-of-type { border-top: 0; padding-top: 0; }
-.project h3 { font-size: clamp(26px, 3.4vw, 34px); line-height: 1.1; font-weight: 800; }
-.project > p { max-width: 42em; }
-.proj-links { display: flex; flex-wrap: wrap; gap: 0 18px; font-weight: 600; }
-.proj-links a { min-height: 44px; display: inline-flex; align-items: center; }
-figure img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); }
-figcaption { margin-top: 8px; font-size: 14px; color: var(--muted); }
-.result { max-width: 42em; }
-
-/* End of the line */
-.lower { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 32px 56px; padding-block: 40px; border-top: 2px solid var(--fg); }
-.lower h2 { font-size: 24px; color: var(--fg); margin-bottom: 10px; }
-.lower li { padding-block: 3px; }
-.contact { padding-block: 40px 64px; border-top: 2px solid var(--fg); display: grid; gap: 8px; }
-.contact .big { font-size: clamp(22px, 4.4vw, 44px); font-weight: 800; overflow-wrap: anywhere; line-height: 1.1; }
-
-@media (max-width: 860px) {
-  .bar { position: static; }
-  section { scroll-margin-top: 0; }
-  .line { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .line::before, .line.through::before { left: 7px; right: auto; top: 6px; bottom: 6px; width: 8px; height: auto; }
-  .stop { padding: 0 0 0 36px; }
-  .stop::before { position: absolute; left: 0; top: 0; margin: 0; }
-  .stop:last-child::after { content: ""; position: absolute; left: 0; top: 22px; bottom: -6px; width: 22px; background: var(--bg); }
-  .line.through .stop:last-child::after { content: none; }
-  .line.through::before { bottom: -32px; }
-  .merge { grid-template-columns: minmax(0, 1fr); gap: 32px; }
-  .merge-lines .route-b .linelabel { padding-left: 36px; }
-  .merge-lines .route-a .linelabel { padding-left: 36px; }
-  .capsule { border-radius: 24px; }
-  .xfer { width: auto; margin: 0 0 8px 15px; text-align: left; }
-  .xfer::before { margin: 0 0 6px; }
-  .linelabel { padding-left: 36px; }
+@media (hover: none), (max-width: 760px) {
+  .pads { display: flex; } .hint { display: none; }
+  .hero { left: 16px; right: 16px; top: 66px; max-width: none; }
+  .hero .card { padding: 14px 16px; gap: 6px; }
+  .hero p { font-size: 15px; line-height: 1.4; }
+  .me { display: none; }
+  .route { left: 0; right: 0; top: 0; bottom: auto; padding: 8px 8px 0; }
+  .route ol { display: flex; flex-direction: row-reverse; justify-content: flex-end; overflow-x: auto; padding: 3px; margin-right: 0; }
+  .route button { width: auto; white-space: nowrap; min-height: 40px; padding: 0 8px; font-size: 14px; }
+  .route button i { display: none; }
+  .plainbtn { top: auto; right: auto; left: 16px; bottom: max(16px, env(safe-area-inset-bottom, 0px)); }
+  body.plain .plainbtn { position: fixed; }
 }
+
+/* Camp panels: colour follows the climb, from forest to rock to ice to a golden summit */
+.sheet { --hue: #7a1f26; --deep: #7a1f26; --pale: #f9ecea; --on: #fff; position: fixed; z-index: 5; top: 0; right: 0; bottom: 0; width: min(560px, 100%); display: flex; flex-direction: column; background: #fdfbf6; box-shadow: -18px 0 50px rgba(30, 20, 15, .28); transform: translateX(104%); visibility: hidden; transition: transform .55s cubic-bezier(.22, .9, .25, 1), visibility 0s linear .55s; }
+.sheet.open { transform: none; visibility: visible; transition: transform .55s cubic-bezier(.22, .9, .25, 1), visibility 0s; }
+.c-teaching { --hue: #2f6048; --deep: #2f6048; --pale: #e8f2ea; }
+.c-experience { --hue: #63503f; --deep: #63503f; --pale: #f3ece4; }
+.c-projects { --hue: #7a1f26; --deep: #7a1f26; --pale: #f9ecea; }
+.c-research { --hue: #285a80; --deep: #285a80; --pale: #e6f0f7; }
+.c-contact { --hue: #f5b81a; --deep: #805300; --pale: #fff5d6; --on: #1c1e24; }
+
+.head { position: relative; flex: none; background: var(--hue); color: var(--on); padding: 34px 24px 20px; overflow: hidden; }
+.flags { position: absolute; top: 0; left: -6px; right: -6px; display: flex; justify-content: space-between; border-top: 2px solid rgba(255, 255, 255, .55); padding-inline: 4px; }
+.c-contact .flags { border-top-color: rgba(28, 30, 36, .55); }
+.flags span { flex: none; width: 13px; height: 17px; transform-origin: top center; clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%); animation: sway 2.8s ease-in-out infinite alternate; }
+@keyframes sway { from { transform: rotate(-7deg) skewX(4deg); } to { transform: rotate(8deg) skewX(-5deg); } }
+.headin { display: grid; grid-template-columns: minmax(0, 1fr) 118px; gap: 16px; align-items: end; }
+.headtext { display: grid; gap: 4px; min-width: 0; }
+.kicker { font-size: 13px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; opacity: .92; }
+.sheet h2 { font-weight: 800; font-stretch: 116%; font-size: clamp(32px, 5vw, 42px); line-height: 1; letter-spacing: -.02em; }
+.blurb { font-size: 15.5px; line-height: 1.4; margin-top: 6px; }
+.mini { width: 118px; height: auto; display: block; }
+.mini .m1 { fill: rgba(255, 255, 255, .22); }
+.mini .m2 { fill: rgba(255, 255, 255, .85); }
+.c-contact .mini .m1 { fill: rgba(28, 30, 36, .22); }
+.c-contact .mini .m2 { fill: #fff; }
+.mini .tr { fill: none; stroke: currentColor; stroke-width: 1; stroke-dasharray: 2 2; opacity: .75; }
+.mini .trd { fill: none; stroke: currentColor; stroke-width: 2; }
+.mini .stop { fill: currentColor; }
+.mini .here { fill: #ffc629; stroke: #1c1e24; stroke-width: 1; }
+.c-contact .mini .here { fill: #fff; }
+.x { position: absolute; top: 24px; right: 14px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(0, 0, 0, .28); color: #fff; font-size: 22px; line-height: 1; font-weight: 600; }
+.x:hover { background: rgba(0, 0, 0, .5); }
+
+.body { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 8px 24px 28px; background-color: #fdfbf6; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' fill='none' stroke='%238a7a60' stroke-opacity='.13'%3E%3Cpath d='M-20 90C70 30 170 60 230 120s170 60 310-10'/%3E%3Cpath d='M-20 130C70 70 160 100 220 160s180 70 320-10'/%3E%3Cpath d='M-20 175c90-50 170-25 230 35s190 80 330-10'/%3E%3Cpath d='M-20 225c90-40 165-20 225 40s200 90 335-10'/%3E%3Cpath d='M-20 280c95-30 160-15 220 45s205 95 340-15'/%3E%3Cpath d='M-20 340c95-25 155-10 215 50s215 95 345-20'/%3E%3Cpath d='M-20 405c100-20 150-5 210 50s220 90 350-30'/%3E%3Cpath d='M300 40c60-30 130-20 150 20s-30 80-90 70-110-60-60-90z'/%3E%3Cpath d='M325 55c40-20 90-15 105 12s-22 52-62 46-75-38-43-58z'/%3E%3C/svg%3E"); }
+.sheet.open .body > * { animation: rise .55s cubic-bezier(.22, .9, .25, 1) both; }
+.sheet.open .body > *:nth-child(2) { animation-delay: .07s; } .sheet.open .body > *:nth-child(3) { animation-delay: .14s; } .sheet.open .body > *:nth-child(4) { animation-delay: .21s; } .sheet.open .body > *:nth-child(n+5) { animation-delay: .28s; }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+
+/* Entries are stops on a trail */
+.way { position: relative; display: grid; gap: 4px; padding: 16px 0 16px 34px; }
+.way::before { content: ""; position: absolute; left: 8px; top: 0; bottom: 0; border-left: 2px dashed var(--hue); opacity: .55; }
+.way::after { content: ""; position: absolute; left: 0; top: 18px; width: 18px; height: 16px; background: var(--hue); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.way:first-child::before { top: 18px; }
+.way:last-of-type::before { bottom: auto; height: 20px; }
+.when { justify-self: start; width: fit-content; font-size: 13px; font-weight: 700; color: var(--deep); background: var(--pale); padding: 1px 8px; border-radius: 3px; }
+.way h3 { font-size: 19px; line-height: 1.25; font-weight: 700; text-wrap: pretty; }
+.who { font-size: 14px; font-weight: 500; color: var(--soft); }
+.go { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.go a { display: inline-flex; align-items: center; gap: 5px; min-height: 40px; padding: 0 12px; border: 2px solid var(--hue); border-radius: 4px; background: #fff; color: var(--deep); font-size: 15px; font-weight: 700; text-decoration: none; transition: background-color .2s, color .2s; }
+.go a:hover { background: var(--hue); color: var(--on); }
+.packs { display: grid; gap: 14px; margin-top: 12px; padding: 16px; background: var(--pale); border-radius: 4px; }
+.packs h3 { font-size: 17px; font-weight: 800; color: var(--deep); margin-bottom: 2px; }
+
+.proj { display: grid; gap: 10px; padding-block: 20px; border-bottom: 2px dashed rgba(99, 80, 63, .25); }
+.proj:last-child { border-bottom: 0; }
+.proj h3 { font-size: 24px; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chips span { font-size: 13px; font-weight: 600; padding: 1px 8px; border-radius: 3px; background: #fff; border: 1px solid var(--line); color: var(--soft); }
+.map { background: #fff; border: 1px solid var(--line); padding: 8px; box-shadow: 0 3px 12px rgba(40, 30, 20, .1); transition: transform .35s; }
+.map:hover { transform: scale(1.015); }
+.map img { width: 100%; }
+.map figcaption { font-size: 13px; color: var(--soft); padding-top: 6px; }
+.top { background: var(--pale); padding: 10px 12px; font-size: 16px; line-height: 1.45; }
+.top b { display: block; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--deep); }
+.steps { display: grid; counter-reset: st; }
+.steps li { position: relative; counter-increment: st; display: grid; padding: 0 0 12px 34px; font-size: 15.5px; line-height: 1.35; }
+.steps li::before { content: counter(st); position: absolute; z-index: 1; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--hue); color: var(--on); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
+.steps li::after { content: ""; position: absolute; left: 10px; top: 20px; bottom: 0; border-left: 2px dashed var(--hue); opacity: .55; }
+.steps li:last-child { padding-bottom: 2px; }
+.steps li:last-child::after { display: none; }
+.steps b { font-weight: 700; }
+.steps span { color: var(--soft); }
+.summit { display: grid; gap: 10px; padding-block: 22px; }
+.mail { font-size: clamp(21px, 5vw, 28px); font-weight: 800; color: var(--ink); overflow-wrap: anywhere; text-decoration-color: var(--hue); text-decoration-thickness: 3px; }
+.copy { min-height: 40px; padding: 0 12px; border: 2px solid var(--hue); background: #fff; border-radius: 4px; font-weight: 700; color: var(--deep); }
+.note { font-size: 14px; color: var(--soft); margin-top: 14px; }
+
+.foot { flex: none; display: flex; gap: 8px; padding: 10px 24px max(12px, env(safe-area-inset-bottom, 0px)); background: #fff; border-top: 1px solid var(--line); }
+.trek { min-height: 44px; padding: 0 12px; border-radius: 4px; font-size: 14.5px; font-weight: 700; line-height: 1.15; transition: filter .2s; }
+.trek:hover { filter: brightness(1.12); }
+.next { flex: 1; border: 0; background: var(--hue); color: var(--on); }
+.back { border: 2px solid var(--line); background: #fff; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .flags span, .sheet.open .body > * { animation: none; } .sheet { transition: visibility 0s; } }
+
+body.plain main { max-width: 760px; margin-inline: auto; padding: 24px 20px 48px; display: grid; gap: 32px; }
+body.plain .sheet { position: static; transform: none; visibility: visible; width: auto; box-shadow: none; display: block; transition: none; border: 1px solid var(--line); }
+body.plain .body { overflow: visible; }
+body.plain .x, body.plain .foot { display: none; }
+body.plain .sheet .body > * { animation: none; }
+
+@media (hover: none), (max-width: 760px) {
+  .sheet { top: auto; left: 0; bottom: 0; height: 68%; width: 100%; box-shadow: 0 -14px 40px rgba(30, 20, 15, .3); transform: translateY(104%); border-radius: 12px 12px 0 0; overflow: hidden; }
+  .head { padding: 28px 16px 12px; }
+  .headin { grid-template-columns: minmax(0, 1fr) 72px; gap: 10px; }
+  .mini { width: 72px; }
+  .sheet h2 { font-size: 28px; }
+  .blurb { font-size: 14px; }
+  .x { top: 22px; right: 8px; width: 36px; height: 36px; }
+  .headin { padding-right: 34px; }
+  .body { padding-inline: 16px; }
+  .foot { padding-inline: 16px; }
+  body.plain .sheet { height: auto; border-radius: 0; }
+}
+
+.route button { transition: background-color .25s, color .25s; }
+.route button i { transition: background-color .25s, border-color .25s; }
+.hero, .me, .route, .plainbtn { transition: opacity .4s, visibility .4s; }
+.plainbtn { position: static; width: 100%; margin-top: 8px; min-height: 40px; }
+.route .plainbtn { display: block; text-align: center; background: var(--gold); border: 2px solid var(--ink); border-radius: 8px; font-size: 15px; font-weight: 700; padding: 0 12px; color: var(--ink); }
+body.plain .route { display: block; position: fixed; left: auto; top: auto; right: 16px; bottom: 16px; z-index: 6; padding: 0; }
+body.plain .route ol { display: none; }
+@media (hover: none), (max-width: 760px) {
+  .route .plainbtn { position: fixed; width: auto; left: 16px; bottom: max(16px, env(safe-area-inset-bottom, 0px)); margin: 0; min-height: 44px; }
+  body.has-panel .route .plainbtn { opacity: 0; visibility: hidden; }
+}
+.veil { position: fixed; inset: 0; z-index: 9; background: #2b0d13; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-stretch: 112%; font-size: clamp(30px, 6vw, 60px); letter-spacing: -.02em; transition: opacity .9s ease .1s; }
+.veil.done { opacity: 0; pointer-events: none; }
+body.plain .veil { display: none; }
 </style>
 </head>
 <body>
 
 
-<header class="bar">
-  <div class="wrap">
-    <a class="brand" href="#top">Hari Acharya</a>
-    <nav aria-label="Sections">
-      <a href="#research" style="--c: var(--r)"><span class="bullet" aria-hidden="true">R</span>Research</a>
-      <a href="#teaching" style="--c: var(--t)"><span class="bullet" aria-hidden="true">T</span>Teaching</a>
-      <a href="#experience" style="--c: var(--w)"><span class="bullet" aria-hidden="true">E</span>Experience</a>
-      <a href="#projects" style="--c: var(--p)"><span class="bullet" aria-hidden="true">P</span>Projects</a>
-    </nav>
-  </div>
-</header>
+<div class="veil" id="veil">Hari Acharya</div>
+<canvas id="world" tabindex="0" aria-label="A 3D mountain with a trail, camps and a climber. Scroll to climb, or use the route menu." role="img"></canvas>
 
-<main class="wrap" id="top">
-  <div class="hero">
+<div class="hero" id="hero">
+  <div class="card">
     <h1>Hari Acharya</h1>
-    <p class="lede">I'm a computer science senior at the University of Rochester, originally from Bhutan. I do computer vision research, build data systems end to end, and teach CS as a TA.</p>
-    <div class="links">
-      <a href="mailto:hacharya@u.rochester.edu">hacharya@u.rochester.edu</a>
-      <a href="https://github.com/hpa-code">GitHub</a>
-      <a href="https://www.linkedin.com/in/hari-p-acharya">LinkedIn</a>
-    </div>
-    <ol class="line" style="--n: 5; --c: var(--fg)" aria-label="How I got here">
-      <li class="stop"><b>Bhutan</b><span>Home. King's Certificate for Academic Excellence, 2020</span></li>
-      <li class="stop"><b>Wales, 2021</b><span>UWC Atlantic, IB Diploma on a Pestalozzi scholarship</span></li>
-      <li class="stop"><b>Rochester, 2023</b><span>B.S. Computer Science, Davis Scholar</span></li>
-      <li class="stop"><b>2026</b><span>Two research papers, Buffalo Solar internship, TA for CSC 280</span></li>
-      <li class="stop x"><b>May 2027</b><span>Graduating. Exploring software, data and AI/ML roles</span></li>
-    </ol>
+    <p>I'm a computer science senior at the University of Rochester, originally from Bhutan. I work on computer vision research, build data systems end to end, and teach CS as a TA.</p>
+    <p class="small">Graduating May 2027. Exploring software, data and AI/ML roles.</p>
+    <div class="links"><a href="mailto:hacharya@u.rochester.edu">Email</a><a href="https://github.com/hpa-code">GitHub</a><a href="https://www.linkedin.com/in/hari-p-acharya">LinkedIn</a></div>
   </div>
+</div>
+<div class="me" id="me">Hari Acharya</div>
 
-  <section id="research" style="--c: var(--r)">
-    <div class="sechead"><span class="bullet" aria-hidden="true">R</span><h2>Research</h2></div>
-    <ol class="rail">
-      <li class="entry">
-        <p class="when">2026 · with Cantay Caliskan, Nyaradzo Mararanje, Albert Mejooli, Zhihan Zhang</p>
-        <h3>What Street-Level Imagery Can and Cannot Tell Us about Campus Sustainability</h3>
-        <p>Can you see a university's sustainability in pictures of its campus? Across 1.84M images of 252 U.S. campuses, dozens of models could not reproduce the AASHE STARS and QS ratings. We built the Visible Campus Environment Index instead, which measures only what a camera can credibly see. <a href="https://drive.google.com/file/d/1ZmP2ePUAxVey9rCG146B2soVjZzy3_Ha/view?usp=sharing">Read the paper</a> · <a href="#campus">See the route</a></p>
-      </li>
-      <li class="entry">
-        <p class="when">2026 · working paper with Cantay Caliskan</p>
-        <h3>Legopolitics: Toying with the Enemy</h3>
-        <p>A scene-level study of LEGO-style propaganda from the 2026 Iran–U.S.–Israel war: 363 videos, 7,288 coded scenes and 96,530 frames, compared with Iranian English-language state media. <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7667619">Read the paper</a> · <a href="#legopolitics">See the route</a></p>
-      </li>
-      <li class="entry">
-        <p class="when">Summer 2026 · SICSS, with Peng-Ting Kuo and Gaeun Jung</p>
-        <h3>You In or Out? Character Rhetoric and Audience Response in Attack on Titan</h3>
-        <p>We paired dialogue from all four seasons with 170,000+ Reddit comments and used LLMs to score rhetoric. Identity-based rhetoric drove polarization, and solidarity appeals landed well only from protagonists.</p>
-      </li>
-      <li class="entry">
-        <p class="when">2024 to 2026 · Rochester Human-Computer Interaction Lab</p>
-        <h3>SOPHIE: a standardized online patient</h3>
-        <p>An LLM-based patient that helps healthcare professionals practice end-of-life conversations. I recruited 50+ study participants and analyzed the implementation.</p>
-      </li>
-    </ol>
-  </section>
+<nav class="route" aria-label="The route up">
+  <ol>
+    <li><button data-go="contact" type="button"><i></i>Summit: Contact</button></li>
+    <li><button data-go="research" type="button"><i></i>Camp 4: Research</button></li>
+    <li><button data-go="projects" type="button"><i></i>Camp 3: Projects</button></li>
+    <li><button data-go="experience" type="button"><i></i>Camp 2: Experience</button></li>
+    <li><button data-go="teaching" type="button"><i></i>Camp 1: Teaching</button></li>
+    <li><button data-go="base" type="button"><i></i>Base camp</button></li>
+  </ol>
+  <button class="plainbtn" id="plainbtn" type="button">Plain version</button>
+</nav>
 
-  <section id="teaching" style="--c: var(--t)">
-    <div class="sechead"><span class="bullet" aria-hidden="true">T</span><h2>Teaching</h2></div>
-    <ol class="rail">
-      <li class="entry">
-        <p class="when">Fall 2026</p>
-        <h3>Teaching Assistant, CSC 280: Computer Models and Limitations</h3>
-        <p>I lead weekly recitations, hold office hours, and grade homework with feedback on proofs and problem-solving.</p>
-      </li>
-      <li class="entry">
-        <p class="when">Fall 2025</p>
-        <h3>Teaching Assistant, CSC 172: Data Structures and Algorithms</h3>
-        <p>Led weekly workshops, and helped students debug code and work through problem sets.</p>
-      </li>
-      <li class="entry">
-        <p class="when">2024 to 2025</p>
-        <h3>Computer Science Tutor, CS Undergraduate Council</h3>
-        <p>Tutored 50+ students in data structures and algorithms.</p>
-      </li>
-    </ol>
-  </section>
+<p class="hint" id="hint">Scroll or press ↑ to climb</p>
+<div class="pads" aria-label="Climbing controls">
+  <button data-k="down" type="button" aria-label="Climb down">↓</button>
+  <button data-k="up" type="button" aria-label="Climb up">↑</button>
+</div>
 
-  <section id="experience" style="--c: var(--w)">
-    <div class="sechead"><span class="bullet" aria-hidden="true">E</span><h2>Experience</h2></div>
-    <ol class="rail">
-      <li class="entry">
-        <p class="when">Feb 2026 to now</p>
-        <h3>Research Assistant, Goergen Institute for Data Science &amp; AI</h3>
-        <p>Audited 2.49M panorama files and linked 1.84M of them to 252 campuses. Built vision workflows with Mask2Former, DeepLabV3+ and YOLO, engineered 41 geospatial features, and evaluated 27 ML models.</p>
-      </li>
-      <li class="entry">
-        <p class="when">Summer 2026</p>
-        <h3>Data Science &amp; AI Intern, Buffalo Solar</h3>
-        <p>Built an entity resolution pipeline that recovered about 40% more matches across 1,000+ CRM deals. Automated CRM workflows, saving each rep about 4 hours a week and cutting contract prep time by about 85%.</p>
-      </li>
-      <li class="entry">
-        <p class="when">2025 to 2026</p>
-        <h3>Data Analyst, Event and Classroom Management, University of Rochester</h3>
-        <p>Forecast battery depletion to reduce classroom hardware disruptions by 35%, and analyzed 5,000+ usage records to raise workstation uptime by 25%.</p>
-      </li>
-      <li class="entry">
-        <p class="when">Summer 2025</p>
-        <h3>Software Engineering Intern, InnoTech, Thimphu</h3>
-        <p>Reached 92% vehicle plate localization accuracy, supported by an ETL pipeline over 10,000+ annotated images, and cut data preparation latency by 40%.</p>
-      </li>
-      <li class="entry">
-        <p class="when">2023</p>
-        <h3>Project Manager, school build in Bhutan</h3>
-        <p>Raised $12,000 through a project proposal and led a team building a kitchen and dining space for a remote school of 500+ students.</p>
-      </li>
-      <li class="entry">
-        <p class="when">2021 to 2023</p>
-        <h3>Co-Founder and Team Lead, FIRST Tech Challenge team, UWC Atlantic</h3>
-        <p>Led a team of 40 students and engineered a remote-controlled robot in Java.</p>
-      </li>
-    </ol>
-  </section>
-
-  <section id="projects" style="--c: var(--p)">
-    <div class="sechead"><span class="bullet" aria-hidden="true">P</span><h2>Projects</h2></div>
-    <p class="intro">Each project reads like a transit map. Follow the line from where the data starts to where a person sees it. Solid stations are where a route starts a transfer or ends.</p>
-
-    <article class="project" id="nyc311">
-      <h3>NYC 311 Signal</h3>
-      <p>An automated daily pipeline and dashboard over every NYC 311 request since January 2025: 6.9M requests and 8M+ change records. It keeps an exact history of each request and scores the chance a new one stays open past seven days.</p>
-      <div class="proj-links">
-        <a href="https://github.com/hpa-code/nyc-311-signal">GitHub</a>
-        <a href="https://public.tableau.com/app/profile/hari.acharya3471/viz/NYC311Signal/NYC311SignalRequestsandClosure">Tableau Public view</a>
+<main>
+<section class="sheet c-teaching" id="teaching" aria-labelledby="t-teaching">
+  <header class="head">
+    <div class="flags" aria-hidden="true"><span style="background:#2d6fc4;animation-delay:0.00s"></span><span style="background:#fbf6ea;animation-delay:-0.23s"></span><span style="background:#c9302c;animation-delay:-0.46s"></span><span style="background:#2f8a57;animation-delay:-0.69s"></span><span style="background:#f5c518;animation-delay:-0.92s"></span><span style="background:#2d6fc4;animation-delay:-1.15s"></span><span style="background:#fbf6ea;animation-delay:-1.38s"></span><span style="background:#c9302c;animation-delay:-1.61s"></span><span style="background:#2f8a57;animation-delay:-1.84s"></span><span style="background:#f5c518;animation-delay:-2.07s"></span><span style="background:#2d6fc4;animation-delay:-2.30s"></span><span style="background:#fbf6ea;animation-delay:-2.53s"></span><span style="background:#c9302c;animation-delay:-2.76s"></span><span style="background:#2f8a57;animation-delay:-2.99s"></span><span style="background:#f5c518;animation-delay:-3.22s"></span><span style="background:#2d6fc4;animation-delay:-3.45s"></span><span style="background:#fbf6ea;animation-delay:-3.68s"></span><span style="background:#c9302c;animation-delay:-3.91s"></span><span style="background:#2f8a57;animation-delay:-4.14s"></span><span style="background:#f5c518;animation-delay:-4.37s"></span><span style="background:#2d6fc4;animation-delay:-4.60s"></span><span style="background:#fbf6ea;animation-delay:-4.83s"></span><span style="background:#c9302c;animation-delay:-5.06s"></span><span style="background:#2f8a57;animation-delay:-5.29s"></span><span style="background:#f5c518;animation-delay:-5.52s"></span><span style="background:#2d6fc4;animation-delay:-5.75s"></span><span style="background:#fbf6ea;animation-delay:-5.98s"></span><span style="background:#c9302c;animation-delay:-6.21s"></span><span style="background:#2f8a57;animation-delay:-6.44s"></span><span style="background:#f5c518;animation-delay:-6.67s"></span></div>
+    <div class="headin">
+      <div class="headtext">
+        <p class="kicker">Camp 1</p>
+        <h2 id="t-teaching">Teaching</h2>
+        <p class="blurb">Where I learned to explain things. I started as a tutor and now TA theory of computation.</p>
       </div>
-      <div class="route">
-        <div class="merge">
-          <div class="merge-lines">
-            <div class="route-a" style="--c: var(--t)">
-              <p class="linelabel">Daily line, on AWS</p>
-              <ol class="line through" style="--n: 3">
-                <li class="stop"><b>NYC Open Data API</b><span>Source of 311 requests</span></li>
-                <li class="stop"><b>EventBridge Scheduler</b><span>Starts daily collection</span></li>
-                <li class="stop"><b>Lambda</b><span>Runs the Python collector</span></li>
-              </ol>
-            </div>
-            <div class="route-b" style="--c: var(--w)">
-              <p class="linelabel">Historical line, on AWS</p>
-              <ol class="line through" style="--n: 3">
-                <li class="stop"><b>NYC Open Data API</b><span>Backfill from January 2025</span></li>
-                <li class="stop" style="grid-column: span 2"><b>ECS Fargate</b><span>Runs the historical collector in a container</span></li>
-              </ol>
-            </div>
-          </div>
-          <div class="capsule"><b>S3</b><span>Both lines meet here. Original downloads, progress and manifests.</span></div>
-        </div>
-        <div>
-          <p class="xfer">Transfer to Snowflake</p>
-          <div style="--c: var(--r)">
-            <p class="linelabel">Processing line, on Snowflake</p>
-            <ol class="line" style="--n: 6">
-              <li class="stop x"><b>Snowpipe, bulk COPY</b><span>Daily and historical files</span></li>
-              <li class="stop"><b>RAW</b><span>Original observations</span></li>
-              <li class="stop"><b>Readiness check</b><span>Did every expected file arrive?</span></li>
-              <li class="stop"><b>CLEAN</b><span>Current requests and change history</span></li>
-              <li class="stop"><b>Summaries</b><span>22 checks, then publish one complete release</span></li>
-              <li class="stop x"><b>APP views</b><span>Approved data for the dashboard</span></li>
-            </ol>
-          </div>
-        </div>
-        <div style="--c: var(--p)">
-          <p class="linelabel">Last stop, what you see</p>
-          <ol class="line" style="--n: 3">
-            <li class="stop x"><b>APP views</b><span>Transfer from Snowflake</span></li>
-            <li class="stop"><b>Streamlit app</b><span>Queries data and builds the interface</span></li>
-            <li class="stop x"><b>Your browser</b><span>Charts, filters, map and tables</span></li>
-          </ol>
-        </div>
+      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="3.4" class="here"></circle><circle cx="88" cy="44" r="2" class="stop"></circle><circle cx="54" cy="32" r="2" class="stop"></circle><circle cx="84" cy="18" r="2" class="stop"></circle><circle cx="70" cy="7" r="2" class="stop"></circle></svg>
+    </div>
+    <button class="x" type="button" aria-label="Close Teaching">×</button>
+  </header>
+  <div class="body">
+<article class="way"><p class="when">Fall 2026</p><h3>CSC 280: Computer Models and Limitations</h3><p class="who">Teaching Assistant, University of Rochester</p><p>I lead weekly recitations, hold office hours, and grade homework with feedback on proofs and problem-solving.</p></article>
+<article class="way"><p class="when">Fall 2025</p><h3>CSC 172: Data Structures and Algorithms</h3><p class="who">Teaching Assistant, University of Rochester</p><p>Led weekly workshops and helped students debug code and work through problem sets.</p></article>
+<article class="way"><p class="when">2024 to 2025</p><h3>Computer Science Tutor</h3><p class="who">CS Undergraduate Council</p><p>Tutored 50+ students in data structures and algorithms.</p></article>
+  </div>
+  <footer class="foot"><button class="trek back" data-go="base" type="button">↓ Base camp</button><button class="trek next" data-go="experience" type="button">Continue to Camp 2: Experience ↑</button></footer>
+</section>
+<section class="sheet c-experience" id="experience" aria-labelledby="t-experience">
+  <header class="head">
+    <div class="flags" aria-hidden="true"><span style="background:#2d6fc4;animation-delay:0.00s"></span><span style="background:#fbf6ea;animation-delay:-0.23s"></span><span style="background:#c9302c;animation-delay:-0.46s"></span><span style="background:#2f8a57;animation-delay:-0.69s"></span><span style="background:#f5c518;animation-delay:-0.92s"></span><span style="background:#2d6fc4;animation-delay:-1.15s"></span><span style="background:#fbf6ea;animation-delay:-1.38s"></span><span style="background:#c9302c;animation-delay:-1.61s"></span><span style="background:#2f8a57;animation-delay:-1.84s"></span><span style="background:#f5c518;animation-delay:-2.07s"></span><span style="background:#2d6fc4;animation-delay:-2.30s"></span><span style="background:#fbf6ea;animation-delay:-2.53s"></span><span style="background:#c9302c;animation-delay:-2.76s"></span><span style="background:#2f8a57;animation-delay:-2.99s"></span><span style="background:#f5c518;animation-delay:-3.22s"></span><span style="background:#2d6fc4;animation-delay:-3.45s"></span><span style="background:#fbf6ea;animation-delay:-3.68s"></span><span style="background:#c9302c;animation-delay:-3.91s"></span><span style="background:#2f8a57;animation-delay:-4.14s"></span><span style="background:#f5c518;animation-delay:-4.37s"></span><span style="background:#2d6fc4;animation-delay:-4.60s"></span><span style="background:#fbf6ea;animation-delay:-4.83s"></span><span style="background:#c9302c;animation-delay:-5.06s"></span><span style="background:#2f8a57;animation-delay:-5.29s"></span><span style="background:#f5c518;animation-delay:-5.52s"></span><span style="background:#2d6fc4;animation-delay:-5.75s"></span><span style="background:#fbf6ea;animation-delay:-5.98s"></span><span style="background:#c9302c;animation-delay:-6.21s"></span><span style="background:#2f8a57;animation-delay:-6.44s"></span><span style="background:#f5c518;animation-delay:-6.67s"></span></div>
+    <div class="headin">
+      <div class="headtext">
+        <p class="kicker">Camp 2</p>
+        <h2 id="t-experience">Experience</h2>
+        <p class="blurb">Solar sales data, classroom batteries, license plates and one school kitchen.</p>
       </div>
-      <p class="result"><b>Result:</b> the delay model reaches 0.71 PR-AUC on 313K later requests it never saw, ahead of three baselines. It adds only a little over each complaint type's historical rate, so most of the signal is the complaint type itself.</p>
-      <figure>
-        <img src="https://cdn.jsdelivr.net/gh/hpa-code/nyc-311-signal@main/docs/screenshots/overview.jpg" alt="Streamlit overview page showing 6,901,995 requests, 248,752 open, and weekly submissions and closures from 2025 to 2026." width="1200" height="667" loading="lazy">
-        <figcaption>The dashboard's overview page, run locally. The Streamlit app isn't publicly hosted yet.</figcaption>
-      </figure>
-    </article>
-
-    <article class="project" id="campus">
-      <h3>Campus imagery pipeline and geoimagery</h3>
-      <p>The system behind the campus sustainability paper. I also published <a href="https://github.com/hpa-code/geoimagery">geoimagery</a>, an MIT-licensed Python library that downloads NAIP aerial imagery for any polygon through Google Earth Engine.</p>
-      <ol class="line" style="--n: 5; --c: var(--r)">
-        <li class="stop x"><b>Collect imagery</b><span>Street-level panoramas and NAIP aerial images</span></li>
-        <li class="stop"><b>Audit</b><span>2.49M files checked, 1.84M linked to 252 campuses</span></li>
-        <li class="stop"><b>Vision models</b><span>Mask2Former, DeepLabV3+, YOLO</span></li>
-        <li class="stop"><b>Compare with ratings</b><span>41 features, 27 ML models, state-grouped validation</span></li>
-        <li class="stop x"><b>Campus index</b><span>The Visible Campus Environment Index</span></li>
-      </ol>
-    </article>
-
-    <article class="project" id="legopolitics">
-      <h3>legopolitics</h3>
-      <p>An open-source research package, co-authored with Prof. Caliskan, for analyzing political narratives in brick-built videos. <a href="https://github.com/cantayus/legopolitics">GitHub</a> · <a href="https://pypi.org/project/legopolitics/">PyPI</a></p>
-      <ol class="line" style="--n: 5; --c: var(--p)">
-        <li class="stop x"><b>Video</b><span>Sample frames by rate or scene change</span></li>
-        <li class="stop"><b>Find figures</b><span>Detect, segment and track them</span></li>
-        <li class="stop"><b>Read and listen</b><span>Vision-language models, OCR, speech</span></li>
-        <li class="stop"><b>Code the narrative</b><span>Roles, themes, actors, with human validation</span></li>
-        <li class="stop x"><b>Structured results</b><span>Excel, JSONL, Parquet, SQLite, HTML</span></li>
-      </ol>
-    </article>
-
-    <article class="project" id="eventuality">
-      <h3>Eventuality</h3>
-      <p>Snap a photo of an event flyer and get a calendar-ready event. Manual entry dropped by about 80%. <a href="https://github.com/Eventuallity/eventuality-app">GitHub</a></p>
-      <ol class="line" style="--n: 5; --c: var(--t)">
-        <li class="stop x"><b>Flyer</b><span>A photo or PDF</span></li>
-        <li class="stop"><b>Gemini 2.5 Flash</b><span>Reads the event details</span></li>
-        <li class="stop"><b>Supabase</b><span>Validates JSON and stores it</span></li>
-        <li class="stop"><b>Swipe feed</b><span>React Native app</span></li>
-        <li class="stop x"><b>Your calendar</b><span>About 40% more views become saves</span></li>
-      </ol>
-    </article>
-  </section>
-
-  <div class="lower">
-    <div>
-      <h2>Education</h2>
-      <ul>
-        <li><b>University of Rochester</b>, B.S. Computer Science, expected May 2027. GPA 3.58.</li>
-        <li><b>UWC Atlantic</b>, Wales, IB Diploma, 2023.</li>
-      </ul>
+      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58 L88 44"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="2" class="stop"></circle><circle cx="88" cy="44" r="3.4" class="here"></circle><circle cx="54" cy="32" r="2" class="stop"></circle><circle cx="84" cy="18" r="2" class="stop"></circle><circle cx="70" cy="7" r="2" class="stop"></circle></svg>
     </div>
-    <div>
-      <h2>Honors</h2>
-      <ul>
-        <li>His Majesty The King's Certificate for Academic Excellence</li>
-        <li>UWC-Pestalozzi, Davis, FIRST Robotics and EDGE scholarships</li>
-        <li>Dean's List. Hackathon winner, three times.</li>
-      </ul>
+    <button class="x" type="button" aria-label="Close Experience">×</button>
+  </header>
+  <div class="body">
+<article class="way"><p class="when">Feb 2026 to now</p><h3>Research Assistant</h3><p class="who">Goergen Institute for Data Science &amp; AI</p><p>Audited 2.49M panorama files and built vision workflows with Mask2Former, DeepLabV3+ and YOLO. Engineered 41 geospatial features and evaluated 27 ML models.</p></article>
+<article class="way"><p class="when">Summer 2026</p><h3>Data Science &amp; AI Intern</h3><p class="who">Buffalo Solar</p><p>Recovered about 40% more matches across 1,000+ CRM deals, saved each rep about 4 hours a week, and cut contract prep time by about 85%.</p></article>
+<article class="way"><p class="when">2025 to 2026</p><h3>Data Analyst</h3><p class="who">Event and Classroom Management, University of Rochester</p><p>Forecast battery depletion to reduce classroom hardware disruptions by 35%, and raised workstation uptime by 25%.</p></article>
+<article class="way"><p class="when">Summer 2025</p><h3>Software Engineering Intern</h3><p class="who">InnoTech, Thimphu, Bhutan</p><p>Reached 92% vehicle plate localization accuracy, with an ETL pipeline over 10,000+ images and 40% lower data preparation latency.</p></article>
+<article class="way"><p class="when">2023</p><h3>Project Manager, school build in Bhutan</h3><p class="who">UWC Atlantic</p><p>Raised $12,000 and led a team building a kitchen and dining space for a remote school of 500+ students.</p></article>
+<article class="way"><p class="when">2021 to 2023</p><h3>Co-Founder and Team Lead</h3><p class="who">FIRST Tech Challenge team, UWC Atlantic</p><p>Led a team of 40 students and engineered a remote-controlled robot in Java.</p></article>
+<div class="packs"><div><h3>Education</h3><p>B.S. Computer Science, University of Rochester, expected May 2027. GPA 3.58.</p><p>IB Diploma, UWC Atlantic, 2023.</p></div><div><h3>Honors</h3><p>His Majesty The King's Certificate for Academic Excellence. UWC-Pestalozzi, Davis, FIRST Robotics and EDGE scholarships. Dean's List. Hackathon winner, three times.</p></div></div>
+  </div>
+  <footer class="foot"><button class="trek back" data-go="teaching" type="button">↓ Camp 1: Teaching</button><button class="trek next" data-go="projects" type="button">Continue to Camp 3: Projects ↑</button></footer>
+</section>
+<section class="sheet c-projects" id="projects" aria-labelledby="t-projects">
+  <header class="head">
+    <div class="flags" aria-hidden="true"><span style="background:#2d6fc4;animation-delay:0.00s"></span><span style="background:#fbf6ea;animation-delay:-0.23s"></span><span style="background:#c9302c;animation-delay:-0.46s"></span><span style="background:#2f8a57;animation-delay:-0.69s"></span><span style="background:#f5c518;animation-delay:-0.92s"></span><span style="background:#2d6fc4;animation-delay:-1.15s"></span><span style="background:#fbf6ea;animation-delay:-1.38s"></span><span style="background:#c9302c;animation-delay:-1.61s"></span><span style="background:#2f8a57;animation-delay:-1.84s"></span><span style="background:#f5c518;animation-delay:-2.07s"></span><span style="background:#2d6fc4;animation-delay:-2.30s"></span><span style="background:#fbf6ea;animation-delay:-2.53s"></span><span style="background:#c9302c;animation-delay:-2.76s"></span><span style="background:#2f8a57;animation-delay:-2.99s"></span><span style="background:#f5c518;animation-delay:-3.22s"></span><span style="background:#2d6fc4;animation-delay:-3.45s"></span><span style="background:#fbf6ea;animation-delay:-3.68s"></span><span style="background:#c9302c;animation-delay:-3.91s"></span><span style="background:#2f8a57;animation-delay:-4.14s"></span><span style="background:#f5c518;animation-delay:-4.37s"></span><span style="background:#2d6fc4;animation-delay:-4.60s"></span><span style="background:#fbf6ea;animation-delay:-4.83s"></span><span style="background:#c9302c;animation-delay:-5.06s"></span><span style="background:#2f8a57;animation-delay:-5.29s"></span><span style="background:#f5c518;animation-delay:-5.52s"></span><span style="background:#2d6fc4;animation-delay:-5.75s"></span><span style="background:#fbf6ea;animation-delay:-5.98s"></span><span style="background:#c9302c;animation-delay:-6.21s"></span><span style="background:#2f8a57;animation-delay:-6.44s"></span><span style="background:#f5c518;animation-delay:-6.67s"></span></div>
+    <div class="headin">
+      <div class="headtext">
+        <p class="kicker">Camp 3</p>
+        <h2 id="t-projects">Projects</h2>
+        <p class="blurb">Things I've built. Each one is a route from raw data to something a person can use.</p>
+      </div>
+      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58 L88 44 L54 32"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="2" class="stop"></circle><circle cx="88" cy="44" r="2" class="stop"></circle><circle cx="54" cy="32" r="3.4" class="here"></circle><circle cx="84" cy="18" r="2" class="stop"></circle><circle cx="70" cy="7" r="2" class="stop"></circle></svg>
     </div>
-    <div>
-      <h2>Tools</h2>
-      <p>Python, SQL, Java, TypeScript, PyTorch, YOLO, scikit-learn, Snowflake, AWS, Terraform, Docker, Tableau, React Native.</p>
+    <button class="x" type="button" aria-label="Close Projects">×</button>
+  </header>
+  <div class="body">
+<article class="proj"><p class="when">Oct 2026</p><h3>NYC 311 Signal</h3><p class="chips"><span>Snowflake</span><span>AWS</span><span>Terraform</span><span>Streamlit</span><span>Python</span></p><p>A daily pipeline and dashboard over 6.9M NYC service requests. Nothing publishes unless all 22 data checks pass.</p><figure class="map"><img src="nyc-311-diagram.jpg" alt="Flow from the NYC Open Data API through AWS and Snowflake to a Streamlit app and your browser." width="1536" height="1024" loading="lazy"><figcaption>Route map: from the city's API to your browser</figcaption></figure><p class="top"><b>Result</b> 0.71 PR-AUC on 313K later requests, ahead of three baselines. Most of the signal is the complaint type itself.</p><div class="go"><a href="https://github.com/hpa-code/nyc-311-signal">GitHub <span aria-hidden="true">↗</span></a><a href="https://public.tableau.com/app/profile/hari.acharya3471/viz/NYC311Signal/NYC311SignalRequestsandClosure">Tableau Public <span aria-hidden="true">↗</span></a></div></article>
+<article class="proj"><p class="when">2026</p><h3>Campus imagery pipeline and geoimagery</h3><p class="chips"><span>PyTorch</span><span>YOLO</span><span>Mask2Former</span><span>Earth Engine</span></p><p>The system behind the campus paper, and the Python library I published to download aerial imagery for any polygon.</p><ol class="steps"><li><b>Collect</b><span>Panoramas and NAIP aerial images</span></li><li><b>Audit</b><span>2.49M files, 1.84M linked to 252 campuses</span></li><li><b>Vision models</b><span>Mask2Former, DeepLabV3+, YOLO</span></li><li><b>Compare</b><span>41 features and 27 models against ratings</span></li><li><b>Index</b><span>The Visible Campus Environment Index</span></li></ol><div class="go"><a href="https://github.com/hpa-code/geoimagery">geoimagery on GitHub <span aria-hidden="true">↗</span></a></div></article>
+<article class="proj"><p class="when">2026</p><h3>legopolitics</h3><p class="chips"><span>Python</span><span>Vision-language models</span><span>OCR</span><span>Speech</span></p><p>An open-source package, co-authored with Prof. Caliskan, for analyzing political narratives in brick-built video.</p><ol class="steps"><li><b>Video</b><span>Sample by rate or scene change</span></li><li><b>Find figures</b><span>Detect, segment and track</span></li><li><b>Read and listen</b><span>Vision models, OCR, speech</span></li><li><b>Code the narrative</b><span>Roles and themes, human validated</span></li><li><b>Export</b><span>Excel, JSONL, Parquet, SQLite, HTML</span></li></ol><div class="go"><a href="https://github.com/cantayus/legopolitics">GitHub <span aria-hidden="true">↗</span></a><a href="https://pypi.org/project/legopolitics/">PyPI <span aria-hidden="true">↗</span></a></div></article>
+<article class="proj"><p class="when">Nov 2025</p><h3>Eventuality</h3><p class="chips"><span>React Native</span><span>TypeScript</span><span>Supabase</span><span>Gemini</span></p><p>Snap a photo of an event flyer and get a calendar-ready event. About 80% less manual entry.</p><ol class="steps"><li><b>Flyer</b><span>A photo or PDF</span></li><li><b>Gemini</b><span>Reads the event details</span></li><li><b>Supabase</b><span>Validates and stores</span></li><li><b>Swipe feed</b><span>React Native app</span></li><li><b>Your calendar</b><span>Saved with one swipe</span></li></ol><div class="go"><a href="https://github.com/Eventuallity/eventuality-app">GitHub <span aria-hidden="true">↗</span></a></div></article>
+  </div>
+  <footer class="foot"><button class="trek back" data-go="experience" type="button">↓ Camp 2: Experience</button><button class="trek next" data-go="research" type="button">Continue to Camp 4: Research ↑</button></footer>
+</section>
+<section class="sheet c-research" id="research" aria-labelledby="t-research">
+  <header class="head">
+    <div class="flags" aria-hidden="true"><span style="background:#2d6fc4;animation-delay:0.00s"></span><span style="background:#fbf6ea;animation-delay:-0.23s"></span><span style="background:#c9302c;animation-delay:-0.46s"></span><span style="background:#2f8a57;animation-delay:-0.69s"></span><span style="background:#f5c518;animation-delay:-0.92s"></span><span style="background:#2d6fc4;animation-delay:-1.15s"></span><span style="background:#fbf6ea;animation-delay:-1.38s"></span><span style="background:#c9302c;animation-delay:-1.61s"></span><span style="background:#2f8a57;animation-delay:-1.84s"></span><span style="background:#f5c518;animation-delay:-2.07s"></span><span style="background:#2d6fc4;animation-delay:-2.30s"></span><span style="background:#fbf6ea;animation-delay:-2.53s"></span><span style="background:#c9302c;animation-delay:-2.76s"></span><span style="background:#2f8a57;animation-delay:-2.99s"></span><span style="background:#f5c518;animation-delay:-3.22s"></span><span style="background:#2d6fc4;animation-delay:-3.45s"></span><span style="background:#fbf6ea;animation-delay:-3.68s"></span><span style="background:#c9302c;animation-delay:-3.91s"></span><span style="background:#2f8a57;animation-delay:-4.14s"></span><span style="background:#f5c518;animation-delay:-4.37s"></span><span style="background:#2d6fc4;animation-delay:-4.60s"></span><span style="background:#fbf6ea;animation-delay:-4.83s"></span><span style="background:#c9302c;animation-delay:-5.06s"></span><span style="background:#2f8a57;animation-delay:-5.29s"></span><span style="background:#f5c518;animation-delay:-5.52s"></span><span style="background:#2d6fc4;animation-delay:-5.75s"></span><span style="background:#fbf6ea;animation-delay:-5.98s"></span><span style="background:#c9302c;animation-delay:-6.21s"></span><span style="background:#2f8a57;animation-delay:-6.44s"></span><span style="background:#f5c518;animation-delay:-6.67s"></span></div>
+    <div class="headin">
+      <div class="headtext">
+        <p class="kicker">Camp 4</p>
+        <h2 id="t-research">Research</h2>
+        <p class="blurb">High altitude: what computer vision can and can't tell us about people and places.</p>
+      </div>
+      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58 L88 44 L54 32 L84 18"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="2" class="stop"></circle><circle cx="88" cy="44" r="2" class="stop"></circle><circle cx="54" cy="32" r="2" class="stop"></circle><circle cx="84" cy="18" r="3.4" class="here"></circle><circle cx="70" cy="7" r="2" class="stop"></circle></svg>
+    </div>
+    <button class="x" type="button" aria-label="Close Research">×</button>
+  </header>
+  <div class="body">
+<article class="way"><p class="when">2026</p><h3>What Street-Level Imagery Can and Cannot Tell Us about Campus Sustainability</h3><p class="who">Caliskan, Acharya, Mararanje, Mejooli, Zhang</p><p>Across 1.84M images of 252 U.S. campuses, dozens of models could not reproduce AASHE STARS and QS sustainability ratings. We built an index of what a camera can credibly see instead.</p><div class="go"><a href="https://drive.google.com/file/d/1ZmP2ePUAxVey9rCG146B2soVjZzy3_Ha/view?usp=sharing">Read the paper <span aria-hidden="true">↗</span></a></div></article>
+<article class="way"><p class="when">2026</p><h3>Legopolitics: Toying with the Enemy</h3><p class="who">Caliskan, Acharya. Working paper.</p><p>LEGO-style propaganda from the 2026 Iran–U.S.–Israel war: 363 videos, 7,288 coded scenes and 96,530 frames, compared with Iranian English-language state media.</p><div class="go"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7667619">Read the paper <span aria-hidden="true">↗</span></a></div></article>
+<article class="way"><p class="when">Summer 2026</p><h3>You In or Out? Character Rhetoric and Audience Response in Attack on Titan</h3><p class="who">With Peng-Ting Kuo and Gaeun Jung. SICSS.</p><p>We paired dialogue from all four seasons with 170,000+ Reddit comments and used LLMs to score rhetoric. Identity-based rhetoric drove polarization.</p></article>
+<article class="way"><p class="when">2024 to 2026</p><h3>SOPHIE: a standardized online patient</h3><p class="who">Rochester Human-Computer Interaction Lab</p><p>An LLM-based patient for practicing end-of-life conversations. I recruited 50+ study participants and analyzed the implementation.</p></article>
+  </div>
+  <footer class="foot"><button class="trek back" data-go="projects" type="button">↓ Camp 3: Projects</button><button class="trek next" data-go="contact" type="button">Continue to Summit: Contact ↑</button></footer>
+</section>
+<section class="sheet c-contact" id="contact" aria-labelledby="t-contact">
+  <header class="head">
+    <div class="flags" aria-hidden="true"><span style="background:#2d6fc4;animation-delay:0.00s"></span><span style="background:#fbf6ea;animation-delay:-0.23s"></span><span style="background:#c9302c;animation-delay:-0.46s"></span><span style="background:#2f8a57;animation-delay:-0.69s"></span><span style="background:#f5c518;animation-delay:-0.92s"></span><span style="background:#2d6fc4;animation-delay:-1.15s"></span><span style="background:#fbf6ea;animation-delay:-1.38s"></span><span style="background:#c9302c;animation-delay:-1.61s"></span><span style="background:#2f8a57;animation-delay:-1.84s"></span><span style="background:#f5c518;animation-delay:-2.07s"></span><span style="background:#2d6fc4;animation-delay:-2.30s"></span><span style="background:#fbf6ea;animation-delay:-2.53s"></span><span style="background:#c9302c;animation-delay:-2.76s"></span><span style="background:#2f8a57;animation-delay:-2.99s"></span><span style="background:#f5c518;animation-delay:-3.22s"></span><span style="background:#2d6fc4;animation-delay:-3.45s"></span><span style="background:#fbf6ea;animation-delay:-3.68s"></span><span style="background:#c9302c;animation-delay:-3.91s"></span><span style="background:#2f8a57;animation-delay:-4.14s"></span><span style="background:#f5c518;animation-delay:-4.37s"></span><span style="background:#2d6fc4;animation-delay:-4.60s"></span><span style="background:#fbf6ea;animation-delay:-4.83s"></span><span style="background:#c9302c;animation-delay:-5.06s"></span><span style="background:#2f8a57;animation-delay:-5.29s"></span><span style="background:#f5c518;animation-delay:-5.52s"></span><span style="background:#2d6fc4;animation-delay:-5.75s"></span><span style="background:#fbf6ea;animation-delay:-5.98s"></span><span style="background:#c9302c;animation-delay:-6.21s"></span><span style="background:#2f8a57;animation-delay:-6.44s"></span><span style="background:#f5c518;animation-delay:-6.67s"></span></div>
+    <div class="headin">
+      <div class="headtext">
+        <p class="kicker">Summit</p>
+        <h2 id="t-contact">You made it</h2>
+        <p class="blurb">Thanks for climbing. I graduate in May 2027 and am exploring software, data and AI/ML roles.</p>
+      </div>
+      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="2" class="stop"></circle><circle cx="88" cy="44" r="2" class="stop"></circle><circle cx="54" cy="32" r="2" class="stop"></circle><circle cx="84" cy="18" r="2" class="stop"></circle><circle cx="70" cy="7" r="3.4" class="here"></circle></svg>
+    </div>
+    <button class="x" type="button" aria-label="Close You made it">×</button>
+  </header>
+  <div class="body">
+    <div class="summit">
+      <a class="mail" href="mailto:hacharya@u.rochester.edu">hacharya@u.rochester.edu</a>
+      <p><button class="copy" id="copy" type="button">Copy email</button></p>
+      <div class="go"><a href="https://github.com/hpa-code">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/hari-p-acharya">LinkedIn <span aria-hidden="true">↗</span></a></div>
+      <p class="note">This mountain is imaginary. Bhutan bans climbing on its high peaks out of respect for local spiritual beliefs.</p>
     </div>
   </div>
-
-  <div class="contact" id="contact">
-    <p class="when">End of the line</p>
-    <p class="big"><a href="mailto:hacharya@u.rochester.edu">hacharya@u.rochester.edu</a></p>
-    <div><button class="copy" id="copy-email" type="button">Copy email address</button></div>
-  </div>
+  <footer class="foot"><button class="trek next" data-go="base" type="button">Walk back to base camp ↓</button></footer>
+</section>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
-  var copy = document.getElementById('copy-email');
+  /* ---------- Panels and plain mode ---------- */
+  var sheets = [].slice.call(document.querySelectorAll('.sheet'));
+  var routeBtns = [].slice.call(document.querySelectorAll('.route [data-go]'));
+  var plainBtn = document.getElementById('plainbtn'), hero = document.getElementById('hero'), me = document.getElementById('me');
+  var openId = null, dismissed = null;
+  function isPlain() { return document.body.classList.contains('plain'); }
+  function show(id) { openId = id; sheets.forEach(function (s) { s.classList.toggle('open', s.id === id); }); var el = document.querySelector('#' + id + ' .body'); if (el) el.scrollTop = 0; document.body.classList.add('has-panel'); }
+  function hide() { openId = null; sheets.forEach(function (s) { s.classList.remove('open'); }); document.body.classList.remove('has-panel'); }
+  sheets.forEach(function (s) { s.querySelector('.x').addEventListener('click', function () { dismissed = s.id; hide(); }); });
+  function setPlain(on) {
+    document.body.classList.toggle('plain', on);
+    plainBtn.textContent = on ? 'Climb the mountain' : 'Plain version';
+    hero.classList.remove('gone');
+    if (on) { hide(); scrollTo(0, 0); }
+  }
+  plainBtn.addEventListener('click', function () { setPlain(!isPlain()); });
+  var copy = document.getElementById('copy');
   copy.addEventListener('click', function () {
-    var done = function () { copy.textContent = 'Copied'; };
-    var fail = function () { copy.textContent = 'Select the address above to copy it'; };
-    if (navigator.clipboard) { navigator.clipboard.writeText('hacharya@u.rochester.edu').then(done, fail); } else { fail(); }
+    var ok = function () { copy.textContent = 'Copied'; };
+    var no = function () { copy.textContent = 'Select the address above to copy it'; };
+    if (navigator.clipboard) navigator.clipboard.writeText('hacharya@u.rochester.edu').then(ok, no); else no();
   });
-  var links = [].slice.call(document.querySelectorAll('.bar nav a'));
-  if (!('IntersectionObserver' in window)) return;
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (!e.isIntersecting) return;
-      links.forEach(function (a) {
-        if (a.getAttribute('href') === '#' + e.target.id) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
-      });
+
+  var canvas = document.getElementById('world'), renderer;
+  try {
+    if (!window.THREE) throw new Error('no three');
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  } catch (e) { plainBtn.hidden = true; setPlain(true); document.getElementById('veil').remove(); return; }
+
+  function build() {
+    var COL = { white: 0xfbf6ea, maroon: 0x7a1f26, gold: 0xf5a800, ember: 0xd9401b, ink: 0x23232a, tree: 0x2f6b4f, tree2: 0x3f8a5f, trail: 0x7a2d2c, skin: 0xc98d5e };
+    var pr = Math.min(devicePixelRatio, 1.75); renderer.setPixelRatio(pr);
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    var scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0xf0d9a8, 140, 420);
+    var camera = new THREE.PerspectiveCamera(38, 1, 1, 900);
+    scene.add(new THREE.HemisphereLight(0xfff6e4, 0xa58f77, 0.72));
+    var sun = new THREE.DirectionalLight(0xfff0d0, 0.55); sun.castShadow = true; sun.shadow.mapSize.set(1536, 1536);
+    var sc = sun.shadow.camera; sc.left = -70; sc.right = 70; sc.top = 70; sc.bottom = -70; sc.near = 1; sc.far = 340;
+    sun.shadow.bias = -0.0015; scene.add(sun); scene.add(sun.target);
+
+    function seeded(s) { return function () { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+    var rnd = seeded(7570);
+    function mat(c) { return new THREE.MeshLambertMaterial({ color: c, flatShading: true }); }
+    function box(w, h, d, c, x, y, z, parent) {
+      var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat(c)); m.position.set(x || 0, y || 0, z || 0); m.castShadow = true; m.receiveShadow = true; (parent || scene).add(m); return m;
+    }
+
+    /* ---------- The mountain: a generated peak, not a map of a real one ---------- */
+    var PEAK = 62;
+    function ground(x, z) {
+      var r = Math.hypot(x, z), a = Math.atan2(z, x);
+      var ridges = 1 + 0.16 * Math.sin(3 * a + r * 0.045) + 0.08 * Math.sin(7 * a - r * 0.07);
+      var main = PEAK * Math.exp(-Math.pow(r * ridges / 42, 1.5));
+      var far = Math.min(1, r / 90);
+      var hills = (5 * Math.sin(x * 0.045 + 1.2) * Math.sin(z * 0.052) + 3 * Math.sin(x * 0.11) * Math.cos(z * 0.09)) * far + 3;
+      return main + hills * (1 - main / PEAK);
+    }
+    var geo = new THREE.PlaneGeometry(420, 420, 190, 190).toNonIndexed();
+    geo.rotateX(-Math.PI / 2);
+    var pos = geo.attributes.position, colors = new Float32Array(pos.count * 3);
+    for (var i = 0; i < pos.count; i++) pos.setY(i, ground(pos.getX(i), pos.getZ(i)));
+    var cA = new THREE.Color(), SNOW = new THREE.Color(0xfbfbf8), ROCK = new THREE.Color(0x85786f), ROCK2 = new THREE.Color(0x6f655f), MEADOW = new THREE.Color(0x7fa35c), FOREST = new THREE.Color(0x3f7a52);
+    for (var f = 0; f < pos.count; f += 3) {
+      var y = (pos.getY(f) + pos.getY(f + 1) + pos.getY(f + 2)) / 3, jit = rnd();
+      if (y > 40 - jit * 5) cA.copy(SNOW);
+      else if (y > 22 - jit * 4) cA.copy(jit > 0.5 ? ROCK : ROCK2);
+      else if (y > 9 - jit * 3) cA.copy(FOREST).lerp(MEADOW, jit * 0.5);
+      else cA.copy(MEADOW).lerp(FOREST, jit * 0.35);
+      for (var q = 0; q < 3; q++) { colors[(f + q) * 3] = cA.r; colors[(f + q) * 3 + 1] = cA.g; colors[(f + q) * 3 + 2] = cA.b; }
+    }
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3)); geo.computeVertexNormals();
+    var land = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ vertexColors: true })); land.receiveShadow = true; scene.add(land);
+
+    // Far range on the horizon
+    for (var p = 0; p < 34; p++) {
+      var pa = p / 34 * Math.PI * 2 + rnd() * 0.1, pd = 225 + rnd() * 70, ph = 60 + rnd() * 70, pw = 34 + rnd() * 34;
+      var px = Math.cos(pa) * pd, pz = Math.sin(pa) * pd, seg = 5 + Math.floor(rnd() * 3);
+      var mm = new THREE.Mesh(new THREE.ConeGeometry(pw, ph, seg), mat(0x8c8b92)); mm.position.set(px, ph / 2, pz); mm.rotation.y = rnd() * 6; scene.add(mm);
+      var mc = new THREE.Mesh(new THREE.ConeGeometry(pw * 0.42, ph * 0.42, seg), mat(0xfbfbf8)); mc.position.set(px, ph * 0.8, pz); mc.rotation.y = mm.rotation.y; scene.add(mc);
+    }
+
+    /* ---------- The trail spirals to the top ---------- */
+    var TURNS = 2.15, START = -0.75, R0 = 64;
+    function trail(s) {
+      var r = R0 * Math.pow(1 - s, 0.8) + 0.01, a = START + s * TURNS * Math.PI * 2;
+      var x = Math.cos(a) * r, z = Math.sin(a) * r;
+      return new THREE.Vector3(x, ground(x, z), z);
+    }
+    var pts = []; for (var k = 0; k <= 420; k++) { var pt = trail(k / 420 * 0.999); pt.y += 0.3; pts.push(pt); }
+    var tube = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 900, 0.15, 5), new THREE.MeshLambertMaterial({ color: 0x8a3a33 })); tube.receiveShadow = true; scene.add(tube);
+
+    var stoneG = new THREE.IcosahedronGeometry(0.34, 0), cairns = new THREE.InstancedMesh(stoneG, mat(0x8b8178), 130), cM = new THREE.Matrix4(), cairnN = 0;
+    for (var ca = 0.012; ca < 0.99; ca += 0.0155) {
+      var cp = trail(ca), cn = new THREE.Vector3(cp.x, 0, cp.z).normalize(), csd = ca * 97 % 2 > 1 ? 1 : -1;
+      cM.makeScale(1 + (ca * 311 % 1), 0.8, 1); cM.setPosition(cp.x + cn.x * csd * 1, ground(cp.x + cn.x * csd, cp.z + cn.z * csd) + 0.2, cp.z + cn.z * csd * 1);
+      if (cairnN < 130) cairns.setMatrixAt(cairnN++, cM);
+    }
+    cairns.count = cairnN; cairns.castShadow = true; scene.add(cairns);
+
+    /* ---------- Camps ---------- */
+    var CAMPS = [
+      { id: 'base', s: 0, label: 'BASE CAMP' },
+      { id: 'teaching', s: 0.22, label: 'CAMP 1 · TEACHING' },
+      { id: 'experience', s: 0.42, label: 'CAMP 2 · EXPERIENCE' },
+      { id: 'projects', s: 0.62, label: 'CAMP 3 · PROJECTS' },
+      { id: 'research', s: 0.81, label: 'CAMP 4 · RESEARCH' },
+      { id: 'contact', s: 0.999, label: 'SUMMIT · CONTACT' }
+    ];
+    function sign(text, x, y, z, h) {
+      h = h || 1;
+      var c = document.createElement('canvas'), g = c.getContext('2d'), size = 72;
+      var font = '800 ' + size + 'px Archivo, "Helvetica Neue", Arial, sans-serif'; g.font = font;
+      var w = Math.ceil(g.measureText(text).width) + size; c.width = w; c.height = Math.ceil(size * 1.5);
+      g.font = font; g.fillStyle = '#7a1f26'; g.fillRect(0, 0, w, c.height); g.fillStyle = '#fbf6ea'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(text, w / 2, c.height / 2 + 2);
+      var t = new THREE.CanvasTexture(c); t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      var sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true })); sp.userData.aspect = w / c.height; sp.scale.set(h * w / c.height, h, 1); sp.position.set(x, y, z); sp.renderOrder = 5; scene.add(sp); return sp;
+    }
+    function tent(x, z, c, rot) {
+      var y = ground(x, z), m = new THREE.Mesh(new THREE.ConeGeometry(1.7, 2, 4), mat(c)); m.position.set(x, y + 1, z); m.rotation.y = rot; m.scale.z = 1.5; m.castShadow = true; scene.add(m);
+    }
+    var FLAGS = [0x2d6fc4, 0xfbf6ea, 0xc9302c, 0x2f8a57, 0xf5c518], flutter = [];
+    function flagLine(ax, az, bx, bz, topY) {
+      var ay = ground(ax, az), by = ground(bx, bz), h = 4;
+      box(0.18, topY || h, 0.18, COL.ink, ax, ay + (topY || h) / 2, az); box(0.18, h, 0.18, COL.ink, bx, by + h / 2, bz);
+      var n = 9, y0 = ay + (topY || h), y1 = by + h;
+      for (var i = 1; i < n; i++) {
+        var t = i / n, fl = new THREE.Mesh(new THREE.PlaneGeometry(0.7, 0.9), new THREE.MeshLambertMaterial({ color: FLAGS[i % 5], side: THREE.DoubleSide }));
+        fl.position.set(ax + (bx - ax) * t, y0 + (y1 - y0) * t - 0.5 - Math.sin(t * Math.PI) * 0.4, az + (bz - az) * t);
+        fl.rotation.y = Math.atan2(-(bz - az), bx - ax); scene.add(fl); flutter.push({ m: fl, p: i * 0.8, r: fl.rotation.y });
+      }
+    }
+    function chorten(x, z) {
+      var y = ground(x, z); box(2, 0.7, 2, COL.white, x, y + 0.35, z); box(1.4, 0.5, 1.4, COL.white, x, y + 0.95, z);
+      var d = new THREE.Mesh(new THREE.SphereGeometry(0.75, 8, 6), mat(COL.white)); d.position.set(x, y + 1.7, z); d.castShadow = true; scene.add(d);
+      var sp = new THREE.Mesh(new THREE.ConeGeometry(0.3, 1.2, 5), mat(COL.gold)); sp.position.set(x, y + 2.9, z); scene.add(sp);
+    }
+    CAMPS.forEach(function (c, i) {
+      var p = trail(c.s), out = new THREE.Vector3(p.x, 0, p.z); if (out.length() < 0.1) out.set(1, 0, 0); out.normalize();
+      var side = new THREE.Vector3(-out.z, 0, out.x); c.pos = p; c.out = out;
+      if (i > 0 && i < 5) {
+        var tx = p.x - out.x * 1.6 + side.x * 5, tz = p.z - out.z * 1.6 + side.z * 5; tent(tx, tz, i % 2 ? COL.ember : COL.gold, 0.6 + i);
+        tent(tx + side.x * 3.6, tz + side.z * 3.6, i % 2 ? COL.gold : COL.ember, 1.4 + i);
+        flagLine(p.x - out.x * 3 - side.x * 7, p.z - out.z * 3 - side.z * 7, p.x - out.x * 3 + side.x * 1, p.z - out.z * 3 + side.z * 1);
+        if (i % 2 === 0) chorten(p.x - out.x * 1.2 - side.x * 9, p.z - out.z * 1.2 - side.z * 9);
+      }
+      c.sign = sign(c.label, p.x, p.y + 6.2, p.z, 1);
     });
-  }, { rootMargin: '-30% 0px -65% 0px' });
-  ['research', 'teaching', 'experience', 'projects'].forEach(function (id) { io.observe(document.getElementById(id)); });
+    // Base camp: a small dzong in the valley
+    (function () {
+      var c = CAMPS[0], o = c.out, sd = new THREE.Vector3(-o.z, 0, o.x);
+      var bx = c.pos.x + o.x * 15 + sd.x * 8, bz = c.pos.z + o.z * 15 + sd.z * 8, by = ground(bx, bz) - 0.5;
+      var g = new THREE.Group(); g.position.set(bx, by, bz); g.rotation.y = Math.atan2(-bx, -bz);
+      box(15, 7, 10, COL.white, 0, 3.5, 0, g); box(15.1, 1.1, 10.1, COL.maroon, 0, 6.1, 0, g); box(17, 0.6, 12, COL.gold, 0, 7.2, 0, g);
+      box(6.5, 4, 6, COL.white, 0, 9.3, 0, g); box(6.6, 0.8, 6.1, COL.maroon, 0, 10.9, 0, g); box(8, 0.5, 7.4, COL.gold, 0, 11.6, 0, g);
+      box(3, 3.6, 0.3, COL.maroon, 0, 2.3, 5.1, g); box(1.2, 1.4, 0.2, COL.ink, -5, 4, 5.05, g); box(1.2, 1.4, 0.2, COL.ink, 5, 4, 5.05, g);
+      scene.add(g);
+      flagLine(c.pos.x + sd.x * 3 - o.x * 2, c.pos.z + sd.z * 3 - o.z * 2, c.pos.x - sd.x * 7 - o.x * 2, c.pos.z - sd.z * 7 - o.z * 2);
+      tent(c.pos.x - sd.x * 5 + o.x * 5, c.pos.z - sd.z * 5 + o.z * 5, COL.ember, 1);
+    })();
+    // Summit: prayer flags radiating from a mast
+    (function () {
+      var t = CAMPS[5].pos, top = 6;
+      for (var i = 0; i < 4; i++) { var a = i / 4 * Math.PI * 2 + 0.5; flagLine(t.x, t.z, t.x + Math.cos(a) * 7.5, t.z + Math.sin(a) * 7.5, top); }
+    })();
+
+    // Forests on the lower slopes
+    var coneG = new THREE.ConeGeometry(1, 3, 6); coneG.translate(0, 1.5, 0);
+    var forest = new THREE.InstancedMesh(coneG, mat(COL.tree), 420), M = new THREE.Matrix4(), placed = 0, tries = 0;
+    function nearTrail(x, z) { for (var s = 0; s <= 0.62; s += 0.01) { var t = trail(s); if (Math.hypot(t.x - x, t.z - z) < 3.4) return true; } return false; }
+    while (placed < 420 && tries++ < 3500) {
+      var ang = rnd() * Math.PI * 2, rr = 26 + rnd() * 150, tx2 = Math.cos(ang) * rr, tz2 = Math.sin(ang) * rr, ty = ground(tx2, tz2);
+      if (ty > 21 || nearTrail(tx2, tz2)) continue;
+      var ss = 0.9 + rnd() * 1.4; M.makeScale(ss, ss * 1.35, ss); M.setPosition(tx2, ty - 0.1, tz2); forest.setMatrixAt(placed++, M);
+    }
+    forest.count = placed; forest.castShadow = true; scene.add(forest);
+
+    // Clouds drift around the mountain
+    var clouds = [], puffG = new THREE.IcosahedronGeometry(1, 1), puffM = new THREE.MeshLambertMaterial({ color: 0xffffff, transparent: true, opacity: 0.82, flatShading: true });
+    for (var cl = 0; cl < 14; cl++) {
+      var cg = new THREE.Group(), cmat = puffM.clone();
+      for (var pf = 0; pf < 5; pf++) { var pm = new THREE.Mesh(puffG, cmat); pm.position.set((pf - 2) * 2.2, rnd() * 0.8, rnd() * 2.2); var sz = 1.4 + rnd() * 1.8; pm.scale.set(sz, sz * 0.7, sz); cg.add(pm); }
+      clouds.push({ mat: cmat, g: cg, a: rnd() * 6.28, r: 42 + rnd() * 62, y: 24 + rnd() * 30, v: 0.01 + rnd() * 0.02 }); scene.add(cg);
+    }
+
+    // Snowfall near the top
+    var SN = 500, snowPos = new Float32Array(SN * 3);
+    for (var sn = 0; sn < SN * 3; sn++) snowPos[sn] = (rnd() - 0.5) * 70;
+    var snowG = new THREE.BufferGeometry(); snowG.setAttribute('position', new THREE.BufferAttribute(snowPos, 3));
+    var snowM = new THREE.PointsMaterial({ color: 0xffffff, size: 0.17, transparent: true, opacity: 0 }), snow = new THREE.Points(snowG, snowM); snow.frustumCulled = false; scene.add(snow);
+
+    /* ---------- The climber ---------- */
+    var man = new THREE.Group(), bodyG = new THREE.Group(); man.add(bodyG); man.scale.setScalar(0.92); scene.add(man);
+    box(0.95, 1.15, 0.6, COL.ember, 0, 1.75, 0, bodyG);
+    box(0.8, 1.05, 0.5, COL.gold, 0, 1.85, 0.5, bodyG); box(0.7, 0.3, 0.45, COL.maroon, 0, 2.5, 0.5, bodyG);
+    var head = box(0.62, 0.62, 0.62, COL.skin, 0, 2.68, -0.04, bodyG);
+    box(0.7, 0.25, 0.7, COL.maroon, 0, 2.98, -0.04, bodyG); box(0.72, 0.1, 0.1, COL.ink, 0, 2.72, -0.36, bodyG);
+    function limb(w, h, c, x, y) { var pv = new THREE.Group(); pv.position.set(x, y, 0); box(w, h, w, c, 0, -h / 2, 0, pv); bodyG.add(pv); return pv; }
+    var legL = limb(0.38, 1.15, COL.ink, -0.26, 1.2), legR = limb(0.38, 1.15, COL.ink, 0.26, 1.2), armL = limb(0.28, 1.05, COL.ember, -0.62, 2.28), armR = limb(0.28, 1.05, COL.ember, 0.62, 2.28);
+    box(0.08, 1.7, 0.08, 0xc9c9c9, 0, -1.3, -0.1, armR);
+
+    /* ---------- Climbing controls: everything moves a goal, and the climber eases toward it ---------- */
+    var keys = {}, st = { s: 0, goal: 0, tween: null, walk: 0, hold: 0, stopAt: null, yaw: 0, still: 0, wave: 0 }, hint = document.getElementById('hint');
+    var MAP = { ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down' };
+    function moved() { hint.classList.add('gone'); st.tween = null; }
+    function canMove() { return performance.now() >= st.hold; }
+    addEventListener('keydown', function (e) {
+      if (isPlain()) return;
+      if (e.code === 'Escape') { dismissed = openId; hide(); return; }
+      var k = MAP[e.code];
+      if (k && !(document.activeElement && document.activeElement.closest && document.activeElement.closest('.sheet'))) { e.preventDefault(); if (e.repeat) return; keys[k] = true; moved(); }
+    });
+    addEventListener('keyup', function (e) { var k = MAP[e.code]; if (k) keys[k] = false; });
+    addEventListener('blur', function () { keys = {}; });
+    addEventListener('wheel', function (e) {
+      if (isPlain() || (e.target.closest && e.target.closest('.sheet'))) return;
+      moved(); if (canMove()) st.goal += Math.max(-1.6, Math.min(1.6, e.deltaY / 100)) * 0.011;
+    }, { passive: true });
+    var touchY = null;
+    canvas.addEventListener('touchstart', function (e) { touchY = e.touches[0].clientY; }, { passive: true });
+    canvas.addEventListener('touchmove', function (e) { var y = e.touches[0].clientY; moved(); if (canMove()) st.goal += (touchY - y) * 0.00035; touchY = y; }, { passive: true });
+    [].forEach.call(document.querySelectorAll('.pads button'), function (b) {
+      var k = b.dataset.k;
+      b.addEventListener('pointerdown', function (e) { e.preventDefault(); keys[k] = true; moved(); });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { b.addEventListener(ev, function () { keys[k] = false; }); });
+    });
+    function campOf(id) { return CAMPS.filter(function (x) { return x.id === id; })[0]; }
+    function climbTo(id) {
+      var c = campOf(id); dismissed = null; hint.classList.add('gone');
+      if (Math.abs(c.s - st.s) < 0.003) { if (id !== 'base') show(id); return; }
+      hide();
+      st.tween = { from: st.s, to: c.s, t0: performance.now(), dur: 1400 + Math.abs(c.s - st.s) * 5200 };
+      st.goal = c.s; st.stopAt = null; keys = {};
+    }
+    [].forEach.call(document.querySelectorAll('[data-go]'), function (b) { b.addEventListener('click', function () { climbTo(b.dataset.go); }); });
+
+    /* ---------- Each frame ---------- */
+    var clock = new THREE.Clock(), t = 0, camP = new THREE.Vector3(), camL = new THREE.Vector3(), camY = 0, first = true;
+    var LOW = new THREE.Color(0xf3dcae), HIGH = new THREE.Color(0xa7cbe6), sky = new THREE.Color();
+    var flat = new THREE.Vector3(), side = new THREE.Vector3(), wantP = new THREE.Vector3(), wantL = new THREE.Vector3(), openAmt = 0, viewW = 1, viewH = 1, closeIn = 0;
+    function damp(a, b, rate, dt) { return a + (b - a) * (1 - Math.exp(-rate * dt)); }
+    function ease(x) { return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+    function angDamp(a, b, rate, dt) { var d = Math.atan2(Math.sin(b - a), Math.cos(b - a)); return a + d * (1 - Math.exp(-rate * dt)); }
+    function step(dt) {
+      t += dt;
+      var was = st.s, now = performance.now(), dir = (keys.up ? 1 : 0) - (keys.down ? 1 : 0);
+
+      if (st.tween) {
+        var x = Math.min(1, (now - st.tween.t0) / st.tween.dur);
+        st.s = st.tween.from + (st.tween.to - st.tween.from) * ease(x); st.goal = st.s;
+        if (x >= 1) st.tween = null;
+      } else {
+        if (dir && canMove()) st.goal += dir * 0.036 * dt;
+        st.goal = Math.max(0, Math.min(0.999, st.goal));
+        // Every camp is a stop on the way: the goal parks there until you climb again
+        var stop = null;
+        CAMPS.forEach(function (c) {
+          if (c.id === 'base') return;
+          if (st.s < c.s - 0.0015 && st.goal >= c.s && (stop === null || c.s < stop)) stop = c.s;
+        });
+        if (stop === null) CAMPS.slice().reverse().forEach(function (c) {
+          if (c.id === 'base') return;
+          if (st.s > c.s + 0.0015 && st.goal <= c.s && stop === null) stop = c.s;
+        });
+        if (stop !== null) { st.goal = stop; st.stopAt = stop; dismissed = null; }
+        st.s = damp(st.s, st.goal, 3.6, dt);
+        if (st.stopAt !== null && Math.abs(st.s - st.stopAt) < 0.0035) { keys = {}; st.hold = now + 650; st.stopAt = null; }
+      }
+      st.s = Math.max(0, Math.min(0.999, st.s));
+      var ds = st.s - was, speed = Math.abs(ds) / Math.max(dt, 0.001);
+
+      var p = trail(st.s), ahead = trail(Math.min(0.999, st.s + (ds < 0 ? -0.006 : 0.006))), tx3 = ahead.x - p.x, tz3 = ahead.z - p.z;
+      man.position.set(p.x, p.y + 0.42, p.z);
+      // Walk while moving; turn to greet you when you stop
+      st.still = speed < 0.002 ? st.still + dt : 0;
+      flat.set(Math.cos(START + Math.min(st.s, 0.9) * TURNS * Math.PI * 2), 0, Math.sin(START + Math.min(st.s, 0.9) * TURNS * Math.PI * 2));
+      var faceYaw = st.still > 0.6 ? Math.atan2(flat.x, flat.z) : Math.atan2(-tx3, -tz3);
+      st.yaw = angDamp(st.yaw, faceYaw, st.still > 0.6 ? 3 : 8, dt); man.rotation.y = st.yaw;
+      var walkAmt = Math.min(1, speed * 26);
+      st.walk += Math.min(Math.abs(ds) * 1900, dt * 13);
+      var sw = Math.sin(st.walk) * 0.68 * walkAmt;
+      legL.rotation.x = sw; legR.rotation.x = -sw;
+      bodyG.position.y = Math.abs(Math.cos(st.walk)) * 0.09 * walkAmt + Math.sin(t * 1.8) * 0.012;
+      bodyG.rotation.x = damp(bodyG.rotation.x, -0.16 * walkAmt, 5, dt);
+      var atTop = st.s > 0.99 && st.still > 0.3;
+      st.wave = damp(st.wave, atTop ? 1 : 0, 3, dt);
+      armR.rotation.x = sw * 0.8 * (1 - st.wave) - st.wave * (2.75 + Math.sin(t * 6) * 0.22);
+      armL.rotation.x = -sw * 0.8 * (1 - st.wave) - st.wave * (2.75 - Math.sin(t * 6) * 0.22);
+
+      // Camera: a slow orbit that never snaps; wide at both ends, closer at camps
+      var nearCamp = 0; CAMPS.forEach(function (c) { nearCamp = Math.max(nearCamp, 1 - Math.min(1, Math.abs(c.s - st.s) / 0.03)); });
+      closeIn = damp(closeIn, nearCamp, 2, dt);
+      side.set(-flat.z, 0, flat.x);
+      var wide = Math.max(1 - st.s / 0.09, (st.s - 0.93) / 0.065, 0); wide = Math.min(1, wide); wide = wide * wide * (3 - 2 * wide);
+      var dist = 24 - closeIn * 5 + wide * 86, up = 9.5 - closeIn * 2 + wide * 14;
+      wantP.copy(p).addScaledVector(flat, dist).addScaledVector(side, -6 - wide * 8);
+      var floorY = Math.max(p.y + up, ground(wantP.x, wantP.z) + 5);
+      wantL.set(p.x, p.y + 1.6 + wide * (st.s > 0.5 ? -10 : 26), p.z);
+      if (wide > 0 && st.s < 0.5) wantL.lerp(new THREE.Vector3(0, 26, 0), wide * 0.75);
+      if (first) { camP.copy(wantP).multiplyScalar(1.5); camY = floorY + 50; camL.copy(wantL); first = false; }
+      var k = 1 - Math.exp(-2.8 * dt);
+      camP.lerp(wantP, k); camY = damp(camY, floorY, 2.4, dt); camL.lerp(wantL, k);
+      camera.position.set(camP.x, camY, camP.z); camera.lookAt(camL.x, camL.y - (viewW <= 760 ? openAmt * 8 : 0), camL.z);
+      // Keep the climber in the open part of the screen when a panel is showing
+      openAmt = damp(openAmt, openId ? 1 : 0, 5, dt);
+      var phone = viewW <= 760;
+      if (phone) camera.clearViewOffset(); else camera.setViewOffset(viewW, viewH, openAmt * Math.min(560, viewW) * 0.5, 0, viewW, viewH);
+      sun.position.set(p.x + 60, p.y + 110, p.z + 40); sun.target.position.copy(p);
+
+      sky.copy(LOW).lerp(HIGH, Math.min(1, st.s * 1.5)); renderer.setClearColor(sky); scene.fog.color.copy(sky);
+
+      // Panels open once the climber has arrived and settled
+      var here = null;
+      CAMPS.forEach(function (c) { if (Math.abs(c.s - st.s) < 0.006) here = c.id; });
+      if (here && here !== 'base' && !st.tween && speed < 0.012) { if (here !== openId && here !== dismissed) show(here); }
+      if (!here) { dismissed = null; if (openId) hide(); }
+      if (here === 'base' && openId) hide();
+      hero.classList.toggle('gone', st.s > 0.012); me.classList.toggle('on', st.s > 0.012);
+      routeBtns.forEach(function (b) { var c = campOf(b.dataset.go); b.classList.toggle('at', here === c.id); b.classList.toggle('past', st.s > c.s + 0.001); });
+
+      flutter.forEach(function (f) { f.m.rotation.y = f.r + Math.sin(t * 3.4 + f.p) * 0.55; f.m.rotation.x = Math.sin(t * 2.3 + f.p) * 0.2; });
+      clouds.forEach(function (c) { c.a += c.v * dt; c.g.position.set(Math.cos(c.a) * c.r, c.y, Math.sin(c.a) * c.r);
+        // Clouds thin out near the camera and the climber so they never block the view
+        var dc = Math.min(c.g.position.distanceTo(camera.position), c.g.position.distanceTo(man.position) + 8), fade = Math.max(0, Math.min(1, (dc - 16) / 20));
+        c.mat.opacity = 0.82 * fade; c.g.visible = fade > 0.01;
+      });
+      var sh = 0.72 + wide * 1.7;
+      CAMPS.forEach(function (c) {
+        var o = (Math.abs(c.s - st.s) < 0.2 || wide > 0.6) ? 1 : 0;
+        c.sign.material.opacity = damp(c.sign.material.opacity, o, 4, dt); c.sign.visible = c.sign.material.opacity > 0.02; c.sign.scale.set(sh * c.sign.userData.aspect, sh, 1);
+      });
+      snowM.opacity = Math.max(0, Math.min(0.9, (st.s - 0.55) * 3));
+      var arr = snowG.attributes.position.array;
+      for (var i = 0; i < SN; i++) { var ix = i * 3 + 1; arr[ix] -= dt * (2 + (i % 5) * 0.4); if (arr[ix] < -35) arr[ix] += 70; }
+      snowG.attributes.position.needsUpdate = true; snow.position.set(camP.x, camY - 8, camP.z);
+    }
+    function size() {
+      var w = innerWidth, h = innerHeight; viewW = w; viewH = h; renderer.setSize(w, h, false);
+      camera.aspect = w / h; camera.fov = w < h ? 56 : 38; camera.updateProjectionMatrix();
+    }
+    addEventListener('resize', size); size();
+    // If a device struggles, trade sharpness for smoothness
+    var frames = 0, slowMs = 0, tiers = 0, veiled = true;
+    function loop() {
+      var dt = clock.getDelta();
+      if (!isPlain()) {
+        step(Math.min(dt, 0.05)); renderer.render(scene, camera);
+        if (veiled) { veiled = false; document.getElementById('veil').classList.add('done'); }
+        frames++; slowMs += dt * 1000;
+        if (frames === 45) {
+          if (slowMs / 45 > 26 && tiers < 4) {
+            tiers++;
+            if (pr > 1) { pr = Math.max(1, pr - 0.25); renderer.setPixelRatio(pr); size(); }
+            else if (renderer.shadowMap.autoUpdate) { renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true; }
+          }
+          frames = 0; slowMs = 0;
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+    try { canvas.focus({ preventScroll: true }); } catch (e) {}
+  }
+  var fontReady = document.fonts ? document.fonts.load('800 72px Archivo') : Promise.resolve();
+  Promise.race([fontReady, new Promise(function (r) { setTimeout(r, 1500); })]).then(build, build);
 })();
 </script>
 </body>
