@@ -1,6 +1,6 @@
 // Loose objects with real physics. The engine is big, so it loads after the mountain is already on screen.
 import * as THREE from 'three';
-import { mat } from './scene.js';
+import { mat } from './kit.js';
 import * as T from './terrain.js';
 
 export async function createPhysics(W, onHit) {
@@ -8,16 +8,16 @@ export async function createPhysics(W, onHit) {
   const world = new RAPIER.World({ x: 0, y: -22, z: 0 }), scene = W.scene;
 
   // The ground: the same triangles you see, cropped to where things can actually roll
-  const N = T.N, lo = 22, hi = N - 22, n = hi - lo, verts = new Float32Array((n + 1) * (n + 1) * 3), idx = new Uint32Array(n * n * 6);
+  const N = T.N, lo = 72, hi = N - 72, n = hi - lo, verts = new Float32Array((n + 1) * (n + 1) * 3), idx = new Uint32Array(n * n * 6);
   for (let ix = 0; ix <= n; ix++) for (let iz = 0; iz <= n; iz++) { const k = (ix * (n + 1) + iz) * 3; verts[k] = -T.SIZE / 2 + (ix + lo) * T.CELL; verts[k + 1] = T.H[(ix + lo) * (N + 1) + iz + lo]; verts[k + 2] = -T.SIZE / 2 + (iz + lo) * T.CELL; }
   let o = 0; for (let ix = 0; ix < n; ix++) for (let iz = 0; iz < n; iz++) { const a = ix * (n + 1) + iz, b = a + 1, c = a + n + 1, d = c + 1; idx.set([a, b, c, c, b, d], o); o += 6; }
   world.createCollider(RAPIER.ColliderDesc.trimesh(verts, idx).setFriction(0.9).setRestitution(0.15));
-  for (const b of T.BRIDGES) world.createCollider(RAPIER.ColliderDesc.cuboid(b.w / 2, 0.2, b.half + 0.6).setTranslation(b.x, b.y - 0.2, b.z).setRotation({ x: 0, y: Math.sin(b.yaw / 2), z: 0, w: Math.cos(b.yaw / 2) }));
+  for (const b of T.BRIDGES) world.createCollider(RAPIER.ColliderDesc.cuboid(b.w / 2, 0.2, b.half + 1.2).setTranslation(b.x, b.y - 0.2, b.z).setRotation({ x: 0, y: Math.sin(b.yaw / 2), z: 0, w: Math.cos(b.yaw / 2) }));
   for (const s of W.obstacles) if (s.r > 0.6) world.createCollider(RAPIER.ColliderDesc.cylinder(2, s.r * 0.9).setTranslation(s.x, T.sample(s.x, s.z) + 2, s.z));
 
   // You, as far as the loose objects are concerned
   const me = world.createRigidBody(RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(0, -50, 0));
-  world.createCollider(RAPIER.ColliderDesc.capsule(0.55, 0.5).setFriction(0.2), me);
+  const meCol = world.createCollider(RAPIER.ColliderDesc.capsule(0.55, 0.5).setFriction(0.2), me); let meR = 0.5;
 
   const items = W.props.map(s => {
     let geo, col;
@@ -40,7 +40,8 @@ export async function createPhysics(W, onHit) {
   let acc = 0, kicked = 0;
   return {
     get kicked() { return kicked; },
-    step(dt, p, zip) {
+    step(dt, p, zip, rad = 0.5) {
+      if (rad !== meR) { meR = rad; meCol.setRadius(rad); }
       me.setNextKinematicTranslation({ x: p.x, y: zip ? -50 : p.y + 1.05, z: p.z });
       acc = Math.min(acc + dt, 0.05); while (acc >= 1 / 120) { world.timestep = Math.min(acc, 1 / 60); world.step(); acc -= world.timestep; }
       for (const it of items) {
@@ -49,7 +50,7 @@ export async function createPhysics(W, onHit) {
         it.asleep = sleeping; if (sleeping) continue;
         const t = it.body.translation(), r = it.body.rotation(); it.mesh.position.set(t.x, t.y, t.z); it.mesh.quaternion.set(r.x, r.y, r.z, r.w);
         // Anything that leaves the mountain comes home after a moment
-        if (t.y < -15 || Math.hypot(t.x, t.z) > 150) { it.lost += dt; if (it.lost > 2.5) { it.body.setTranslation(it.home, true); it.body.setRotation(it.homeQ, true); it.body.setLinvel({ x: 0, y: 0, z: 0 }, true); it.body.setAngvel({ x: 0, y: 0, z: 0 }, true); it.lost = 0; } }
+        if (t.y < -15 || Math.hypot(t.x, t.z) > 176) { it.lost += dt; if (it.lost > 2.5) { it.body.setTranslation(it.home, true); it.body.setRotation(it.homeQ, true); it.body.setLinvel({ x: 0, y: 0, z: 0 }, true); it.body.setAngvel({ x: 0, y: 0, z: 0 }, true); it.lost = 0; } }
       }
     }
   };

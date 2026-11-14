@@ -6,406 +6,276 @@
 <meta property="og:title" content="Hari Acharya">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hpa-code.github.io/">
-<meta property="og:description" content="Climb a Himalayan mountain past camps for Hari Acharya's teaching, experience, projects and research.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232b0d13'/%3E%3Cpath d='M3 27 L16 6 L29 27Z' fill='%23ffc629'/%3E%3Cpath d='M11.5 13.5 L16 6 L20.5 13.5 L16 12Z' fill='white'/%3E%3C/svg%3E">
+<meta property="og:description" content="Climb, bike, paraglide or snowmobile a Himalayan mountain past camps for Hari Acharya's teaching, experience, projects and research.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2314161c'/%3E%3Cpath d='M3 27 L16 6 L29 27Z' fill='%23ffc629'/%3E%3Cpath d='M11.5 13.5 L16 6 L20.5 13.5 L16 12Z' fill='white'/%3E%3C/svg%3E">
 <title>Hari Acharya</title>
-<meta name="description" content="Hari Acharya: computer science senior at the University of Rochester. Climb a Himalayan mountain, on the trail or straight up the rock, past camps for his teaching, experience, projects and research.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&display=swap">
+<meta name="description" content="Hari Acharya: computer science senior at the University of Rochester. Explore a Himalayan mountain on foot, by bike, under a paraglider or on a snowmobile, past camps for his teaching, experience, projects and research.">
+<link rel="preload" href="fonts/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument-serif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
 <script>
-/* The page is a plain, readable résumé until we know the 3D climb can run. */
-(function () { try { var c = document.createElement('canvas'); if ((c.getContext('webgl2') || c.getContext('webgl')) && !/[?&]plain\b/.test(location.search)) document.documentElement.className = 'climb loading'; } catch (e) {} })();
+/* The page is a plain, readable résumé until we know the 3D world can run. */
+(function () { try { var c = document.createElement('canvas'); if ((c.getContext('webgl2')) && !/[?&]plain\b/.test(location.search)) document.documentElement.className = 'climb loading'; } catch (e) {} })();
 </script>
-<script type="importmap">{ "imports": { "three": "./vendor/three.min.js", "rapier": "./vendor/rapier.mjs" } }</script>
-<style>
-:root {
-  --maroon: #6e1f24; --ink: #1c1e24; --soft: #565a63; --line: #e2e2e0; --gold: #ffc629; --link: #a32d08; --tint: #fff5d6; --paper: #fdfbf6;
-  --sans: Archivo, "Helvetica Neue", Arial, sans-serif;
-  --pad: max(20px, env(safe-area-inset-left, 0px));
-  color-scheme: light;
-}
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body { margin: 0; background: #fff; color: var(--ink); font: 400 17px/1.55 var(--sans); }
-html.climb body { overflow: hidden; background: #e9d9b8; overscroll-behavior: none; }
-a { color: var(--link); text-underline-offset: 3px; }
-a:hover { color: var(--ink); }
-button { font: inherit; cursor: pointer; color: inherit; }
-:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
-h1, h2, h3, p, ul, ol, figure { margin: 0; padding: 0; }
-ul, ol { list-style: none; }
-img { display: block; max-width: 100%; height: auto; }
-kbd { font: 700 13px/1 var(--sans); display: inline-block; min-width: 24px; padding: 5px 6px; text-align: center; border: 2px solid currentColor; border-radius: 5px; }
-[hidden] { display: none !important; }
-
-#world { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; outline: none; cursor: grab; }
-#world:active { cursor: grabbing; }
-html.plain #world, html.plain .game { display: none; }
-
-.veil { position: fixed; inset: 0; z-index: 20; background: #2b0d13; color: #fff; display: none; flex-direction: column; gap: 14px; align-items: center; justify-content: center; font-weight: 800; font-stretch: 112%; font-size: clamp(30px, 6vw, 60px); letter-spacing: -.02em; transition: opacity .7s ease; }
-.veil small { font-size: 15px; font-weight: 500; font-stretch: 100%; letter-spacing: 0; opacity: .7; }
-html.climb .veil { display: flex; }
-html.climb:not(.loading) .veil { opacity: 0; pointer-events: none; }
-html.climb.fade .veil { opacity: 1; transition-duration: .22s; }
-html.climb.fade .veil small { display: none; }
-
-/* ---------- Start card ---------- */
-.hero { max-width: 760px; margin: 32px auto 0; padding-inline: 20px; }
-.hero .card { display: grid; gap: 10px; }
-h1 { font-weight: 800; font-stretch: 112%; font-size: clamp(34px, 5vw, 52px); line-height: 1; letter-spacing: -.02em; }
-.links { display: flex; flex-wrap: wrap; gap: 0 16px; font-weight: 600; }
-.links a { min-height: 40px; display: inline-flex; align-items: center; }
-.small { font-size: 15px; color: var(--soft); }
-.go-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-.btn { min-height: 46px; padding: 0 18px; border: 2px solid var(--ink); border-radius: 8px; background: #fff; font-weight: 700; font-size: 16px; }
-.btn.main { background: var(--gold); box-shadow: 0 4px 0 var(--ink); transition: transform .12s, box-shadow .12s; }
-.btn.main:hover { transform: translateY(-1px); box-shadow: 0 5px 0 var(--ink); }
-.btn.main:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--ink); }
-.btn:hover { background: var(--tint); } .btn.main:hover { background: var(--gold); }
-.keys { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; align-items: center; font-size: 14.5px; color: var(--soft); padding-top: 10px; border-top: 1px solid var(--line); }
-.keys dt { white-space: nowrap; color: var(--ink); } .keys dd { margin: 0; }
-html.plain .hero .keys, html.plain #start { display: none; }
-html.climb .hero { position: fixed; z-index: 6; left: var(--pad); top: max(20px, env(safe-area-inset-top, 0px)); width: min(440px, calc(100vw - 2 * var(--pad))); margin: 0; padding: 0; transition: opacity .5s, transform .5s, visibility .5s; }
-html.climb .hero .card { background: var(--paper); border: 2px solid var(--ink); border-radius: 10px; padding: 20px 22px; box-shadow: 0 10px 0 rgba(28, 30, 36, .16); }
-html.climb.started .hero { opacity: 0; visibility: hidden; transform: translateY(-12px); }
-.touch-only { display: none; }
-
-/* ---------- In-game interface ---------- */
-.me { position: fixed; z-index: 4; left: var(--pad); top: max(16px, env(safe-area-inset-top, 0px)); background: #fff; border: 2px solid var(--ink); border-radius: 6px; padding: 5px 12px; font-weight: 800; font-size: 17px; opacity: 0; transition: opacity .4s; pointer-events: none; }
-html.started .me { opacity: 1; }
-
-.route { position: fixed; z-index: 5; left: var(--pad); bottom: max(20px, env(safe-area-inset-bottom, 0px)); display: grid; gap: 8px; transition: opacity .4s; }
-.route ol { display: grid; background: #fff; border: 2px solid var(--ink); border-radius: 8px; padding: 6px; }
-.route button[data-go] { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 38px; padding: 0 12px 0 8px; border: 0; background: none; font-size: 15px; font-weight: 600; border-radius: 4px; text-align: left; transition: background-color .2s, color .2s; }
-.route button[data-go]:hover { background: var(--tint); }
-.route button i { flex: none; width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--ink); background: #fff; }
-.route button.past i { background: var(--ink); }
-.route button.at { background: var(--ink); color: #fff; }
-.route button.at i { background: var(--gold); border-color: var(--gold); }
-.plainbtn { min-height: 40px; padding: 0 12px; border: 2px solid var(--ink); background: var(--gold); font-weight: 700; font-size: 15px; border-radius: 8px; }
-html.plain .route { position: fixed; left: auto; right: 16px; bottom: 16px; z-index: 6; }
-html.plain .route ol { display: none; }
-html.plain.nogl .route { display: none; }
-
-.hud { position: fixed; z-index: 5; right: max(16px, env(safe-area-inset-right, 0px)); top: max(16px, env(safe-area-inset-top, 0px)); display: flex; gap: 8px; align-items: stretch; opacity: 0; transition: opacity .4s; }
-html.started .hud { opacity: 1; }
-.chip { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 0 12px; background: #fff; border: 2px solid var(--ink); border-radius: 8px; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; }
-button.chip:hover { background: var(--tint); }
-.chip svg { width: 18px; height: 18px; flex: none; }
-
-.prompt { position: fixed; z-index: 5; left: 50%; bottom: max(28px, env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 12px); display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 18px 0 12px; background: var(--ink); color: #fff; border: 0; border-radius: 10px; font-size: 17px; font-weight: 700; white-space: nowrap; opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s, visibility .2s; box-shadow: 0 6px 20px rgba(0, 0, 0, .28); }
-.prompt.on { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
-.prompt kbd { color: var(--gold); }
-.hint { position: fixed; z-index: 4; left: 50%; bottom: max(28px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; gap: 14px; align-items: center; background: rgba(28, 30, 36, .86); color: #fff; padding: 9px 16px; border-radius: 8px; font-size: 15px; font-weight: 600; white-space: nowrap; opacity: 0; transition: opacity .5s; pointer-events: none; }
-.hint.on { opacity: 1; }
-.hint span { display: inline-flex; gap: 6px; align-items: center; }
-@media (max-width: 1180px) { .hint { display: none; } }
-
-.stam { position: fixed; z-index: 4; left: 0; top: 0; width: 46px; height: 46px; margin: -23px 0 0 -23px; pointer-events: none; opacity: 0; transition: opacity .25s; }
-.stam.on { opacity: 1; }
-.stam circle { fill: none; stroke-width: 6; }
-.stam .bg { stroke: rgba(28, 30, 36, .55); }
-.stam .fg { stroke: #7be07b; stroke-linecap: round; transform: rotate(-90deg); transform-origin: 50% 50%; transition: stroke .2s; }
-.stam.low .fg { stroke: #ff5a3c; }
-
-.toasts { position: fixed; z-index: 7; left: 50%; top: max(70px, calc(env(safe-area-inset-top, 0px) + 60px)); transform: translateX(-50%); display: grid; gap: 8px; justify-items: center; pointer-events: none; width: min(92vw, 460px); }
-.toast { background: #fff; border: 2px solid var(--ink); border-radius: 10px; padding: 9px 16px; font-weight: 700; font-size: 16px; text-align: center; box-shadow: 0 5px 0 rgba(28, 30, 36, .16); animation: toast-in .35s cubic-bezier(.2, 1.3, .4, 1) both; }
-.toast small { display: block; font-weight: 500; font-size: 14px; color: var(--soft); }
-.toast.out { opacity: 0; transform: translateY(-8px); transition: opacity .4s, transform .4s; }
-@keyframes toast-in { from { opacity: 0; transform: translateY(10px) scale(.94); } }
-
-.pads { display: none; position: fixed; z-index: 4; right: max(18px, env(safe-area-inset-right, 0px)); bottom: max(22px, env(safe-area-inset-bottom, 0px)); }
-.pads button { width: 76px; height: 76px; border-radius: 50%; border: 2px solid var(--ink); background: rgba(255, 255, 255, .92); font-size: 15px; font-weight: 800; touch-action: none; user-select: none; -webkit-user-select: none; }
-.pads button:active { background: var(--gold); }
-.stick { position: fixed; z-index: 4; width: 112px; height: 112px; margin: -56px 0 0 -56px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .8); background: rgba(28, 30, 36, .22); pointer-events: none; opacity: 0; transition: opacity .15s; }
-.stick.on { opacity: 1; }
-.stick i { position: absolute; left: 50%; top: 50%; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); }
-
-/* ---------- Climber's log ---------- */
-.log { position: fixed; z-index: 8; right: max(16px, env(safe-area-inset-right, 0px)); top: max(66px, calc(env(safe-area-inset-top, 0px) + 56px)); width: min(340px, calc(100vw - 32px)); background: var(--paper); border: 2px solid var(--ink); border-radius: 10px; padding: 16px 18px; display: grid; gap: 10px; box-shadow: 0 10px 0 rgba(28, 30, 36, .16); }
-.log h2 { font-size: 20px; font-weight: 800; font-stretch: 112%; }
-.log li { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 15.5px; }
-.log li b { font-variant-numeric: tabular-nums; }
-.log li.done b { color: #2f6048; }
-.log .small { font-size: 14px; }
-.log .row { display: flex; gap: 8px; justify-content: space-between; align-items: center; }
-.linkbtn { border: 0; background: none; padding: 6px 0; color: var(--link); text-decoration: underline; text-underline-offset: 3px; font-size: 14px; }
-
-/* ---------- Camp panels: colour follows the climb, from forest to rock to ice to a golden summit ---------- */
-.sheet { --hue: #7a1f26; --deep: #7a1f26; --pale: #f9ecea; --on: #fff; border: 1px solid var(--line); background: var(--paper); }
-.c-teaching { --hue: #2f6048; --deep: #2f6048; --pale: #e8f2ea; }
-.c-experience { --hue: #63503f; --deep: #63503f; --pale: #f3ece4; }
-.c-projects { --hue: #7a1f26; --deep: #7a1f26; --pale: #f9ecea; }
-.c-research { --hue: #285a80; --deep: #285a80; --pale: #e6f0f7; }
-.c-contact { --hue: #f5b81a; --deep: #805300; --pale: #fff5d6; --on: #1c1e24; }
-html.climb .sheet { position: fixed; z-index: 9; top: 0; right: 0; bottom: 0; width: min(560px, 100%); display: flex; flex-direction: column; border: 0; box-shadow: -18px 0 50px rgba(30, 20, 15, .28); transform: translateX(104%); visibility: hidden; transition: transform .5s cubic-bezier(.22, .9, .25, 1), visibility 0s linear .5s; }
-html.climb .sheet.open { transform: none; visibility: visible; transition: transform .5s cubic-bezier(.22, .9, .25, 1), visibility 0s; }
-main { max-width: 760px; margin-inline: auto; padding: 24px 20px 96px; display: grid; gap: 32px; }
-html.climb main { display: contents; }
-
-.head { position: relative; flex: none; background: var(--hue); color: var(--on); padding: 36px 24px 20px; overflow: hidden; }
-/* A string of prayer flags, drawn once */
-.head::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 19px; border-top: 2px solid rgba(255, 255, 255, .55);
-  background: repeating-linear-gradient(90deg, #2d6fc4 0 20px, #fbf6ea 20px 40px, #c9302c 40px 60px, #2f8a57 60px 80px, #f5c518 80px 100px);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='19'%3E%3Cpath d='M3.5 0h13v14l-6.5 4-6.5-4z'/%3E%3C/svg%3E") 0 0 / 20px 19px repeat-x;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='19'%3E%3Cpath d='M3.5 0h13v14l-6.5 4-6.5-4z'/%3E%3C/svg%3E") 0 0 / 20px 19px repeat-x; }
-.headin { display: grid; grid-template-columns: minmax(0, 1fr) 118px; gap: 16px; align-items: end; }
-.headtext { display: grid; gap: 4px; min-width: 0; }
-.kicker { font-size: 14px; font-weight: 700; opacity: .92; }
-.sheet h2 { font-weight: 800; font-stretch: 116%; font-size: clamp(32px, 5vw, 42px); line-height: 1; letter-spacing: -.02em; }
-.blurb { font-size: 15.5px; line-height: 1.4; margin-top: 6px; }
-.mini { width: 118px; height: auto; display: block; }
-.mini .m1 { fill: rgba(255, 255, 255, .22); } .mini .m2 { fill: rgba(255, 255, 255, .85); }
-.c-contact .mini .m1 { fill: rgba(28, 30, 36, .22); } .c-contact .mini .m2 { fill: #fff; }
-.mini .tr { fill: none; stroke: currentColor; stroke-width: 1; stroke-dasharray: 2 2; opacity: .75; }
-.mini .trd { fill: none; stroke: currentColor; stroke-width: 2; }
-.mini .stop { fill: currentColor; }
-.mini .here { fill: #ffc629; stroke: #1c1e24; stroke-width: 1; }
-.c-contact .mini .here { fill: #fff; }
-.x { position: absolute; top: 26px; right: 14px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(0, 0, 0, .28); color: #fff; font-size: 22px; line-height: 1; font-weight: 600; }
-.x:hover { background: rgba(0, 0, 0, .5); }
-html.plain .x, html.plain .foot { display: none; }
-
-.body { position: relative; padding: 8px 24px 28px; background-color: var(--paper); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='520' fill='none' stroke='%238a7a60' stroke-opacity='.13'%3E%3Cpath d='M-20 90C70 30 170 60 230 120s170 60 310-10'/%3E%3Cpath d='M-20 130C70 70 160 100 220 160s180 70 320-10'/%3E%3Cpath d='M-20 175c90-50 170-25 230 35s190 80 330-10'/%3E%3Cpath d='M-20 225c90-40 165-20 225 40s200 90 335-10'/%3E%3Cpath d='M-20 280c95-30 160-15 220 45s205 95 340-15'/%3E%3Cpath d='M-20 340c95-25 155-10 215 50s215 95 345-20'/%3E%3Cpath d='M-20 405c100-20 150-5 210 50s220 90 350-30'/%3E%3Cpath d='M300 40c60-30 130-20 150 20s-30 80-90 70-110-60-60-90z'/%3E%3Cpath d='M325 55c40-20 90-15 105 12s-22 52-62 46-75-38-43-58z'/%3E%3C/svg%3E"); }
-html.climb .body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
-
-/* Entries are stops on a trail */
-.way { position: relative; display: grid; gap: 4px; padding: 16px 0 16px 34px; }
-.way::before { content: ""; position: absolute; left: 8px; top: 0; bottom: 0; border-left: 2px dashed var(--hue); opacity: .55; }
-.way::after { content: ""; position: absolute; left: 0; top: 18px; width: 18px; height: 16px; background: var(--hue); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
-.way:first-child::before { top: 18px; }
-.way:last-of-type::before { bottom: auto; height: 20px; }
-.when { justify-self: start; width: fit-content; font-size: 13px; font-weight: 700; color: var(--deep); background: var(--pale); padding: 1px 8px; border-radius: 3px; }
-.way h3 { font-size: 19px; line-height: 1.25; font-weight: 700; text-wrap: pretty; }
-.who { font-size: 14px; font-weight: 500; color: var(--soft); }
-.go { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
-.go a { display: inline-flex; align-items: center; gap: 5px; min-height: 40px; padding: 0 12px; border: 2px solid var(--hue); border-radius: 4px; background: #fff; color: var(--deep); font-size: 15px; font-weight: 700; text-decoration: none; transition: background-color .2s, color .2s; }
-.go a:hover { background: var(--hue); color: var(--on); }
-.packs { display: grid; gap: 14px; margin-top: 12px; padding: 16px; background: var(--pale); border-radius: 4px; }
-.packs h3 { font-size: 17px; font-weight: 800; color: var(--deep); margin-bottom: 2px; }
-
-.proj { display: grid; gap: 10px; padding-block: 20px; border-bottom: 2px dashed rgba(99, 80, 63, .25); scroll-margin-top: 8px; }
-.proj:last-child { border-bottom: 0; }
-.proj h3 { font-size: 24px; line-height: 1.15; font-weight: 800; letter-spacing: -.01em; }
-.proj.flash { animation: flash 1.4s ease-out; }
-@keyframes flash { from { background: var(--tint); box-shadow: 0 0 0 10px var(--tint); } to { background: transparent; box-shadow: 0 0 0 10px transparent; } }
-.chips { display: flex; flex-wrap: wrap; gap: 5px; }
-.chips span { font-size: 13px; font-weight: 600; padding: 1px 8px; border-radius: 3px; background: #fff; border: 1px solid var(--line); color: var(--soft); }
-.map { background: #fff; border: 1px solid var(--line); padding: 8px; box-shadow: 0 3px 12px rgba(40, 30, 20, .1); }
-.map img { width: 100%; }
-.map figcaption { font-size: 13px; color: var(--soft); padding-top: 6px; }
-.top { background: var(--pale); padding: 10px 12px; font-size: 16px; line-height: 1.45; }
-.top b { display: block; font-size: 13px; font-weight: 800; color: var(--deep); }
-.steps { display: grid; counter-reset: st; }
-.steps li { position: relative; counter-increment: st; display: grid; padding: 0 0 12px 34px; font-size: 15.5px; line-height: 1.35; }
-.steps li::before { content: counter(st); position: absolute; z-index: 1; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--hue); color: var(--on); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; }
-.steps li::after { content: ""; position: absolute; left: 10px; top: 20px; bottom: 0; border-left: 2px dashed var(--hue); opacity: .55; }
-.steps li:last-child { padding-bottom: 2px; }
-.steps li:last-child::after { display: none; }
-.steps b { font-weight: 700; }
-.steps span { color: var(--soft); }
-.summit { display: grid; gap: 10px; padding-block: 22px; }
-.mail { font-size: clamp(21px, 5vw, 28px); font-weight: 800; color: var(--ink); overflow-wrap: anywhere; text-decoration-color: var(--hue); text-decoration-thickness: 3px; }
-.copy { min-height: 40px; padding: 0 12px; border: 2px solid var(--hue); background: #fff; border-radius: 4px; font-weight: 700; color: var(--deep); }
-.note { font-size: 14px; color: var(--soft); margin-top: 14px; }
-
-.foot { flex: none; display: flex; gap: 8px; padding: 10px 24px max(12px, env(safe-area-inset-bottom, 0px)); background: #fff; border-top: 1px solid var(--line); }
-.trek { min-height: 44px; padding: 0 12px; border-radius: 4px; font-size: 14.5px; font-weight: 700; line-height: 1.15; transition: filter .2s; }
-.trek:hover { filter: brightness(1.12); }
-.next { flex: 1; border: 0; background: var(--hue); color: var(--on); }
-.back { border: 2px solid var(--line); background: #fff; color: var(--ink); }
-
-/* ---------- Phones and touch ---------- */
-@media (hover: none), (max-width: 760px) {
-  .touch-only { display: revert; } .desk { display: none; }
-  html.climb.started .pads { display: block; } .hint { display: none; }
-  html.climb .hero { left: 12px; right: 12px; width: auto; top: max(12px, env(safe-area-inset-top, 0px)); }
-  html.climb .hero .card { padding: 14px 16px; gap: 7px; }
-  .hero p { font-size: 15px; line-height: 1.4; }
-  .me { display: none; }
-  html.climb .route { left: 0; right: 0; top: 0; bottom: auto; padding: max(8px, env(safe-area-inset-top, 0px)) 8px 0; opacity: 0; visibility: hidden; }
-  html.climb.started .route { opacity: 1; visibility: visible; }
-  html.climb .route ol { display: flex; flex-direction: row-reverse; justify-content: flex-end; overflow-x: auto; padding: 3px; scrollbar-width: none; }
-  html.climb .route button[data-go] { width: auto; white-space: nowrap; padding: 0 9px; font-size: 14px; }
-  html.climb .route button i { display: none; }
-  html.climb .route .plainbtn { position: fixed; left: 12px; bottom: max(16px, env(safe-area-inset-bottom, 0px)); min-height: 44px; }
-  html.climb.panel .route .plainbtn, html.climb.panel .pads, html.climb.panel .hud { opacity: 0; visibility: hidden; }
-  .hud { top: max(58px, calc(env(safe-area-inset-top, 0px) + 54px)); right: 8px; gap: 6px; }
-  .chip { min-height: 36px; padding: 0 9px; font-size: 14px; } .chip .word { display: none; }
-  .prompt { bottom: max(112px, calc(env(safe-area-inset-bottom, 0px) + 104px)); } .prompt kbd { display: none; } .prompt { padding-left: 18px; }
-  .toasts { top: max(104px, calc(env(safe-area-inset-top, 0px) + 100px)); }
-  .log { top: max(100px, calc(env(safe-area-inset-top, 0px) + 96px)); right: 8px; }
-  html.climb .sheet { top: auto; left: 0; bottom: 0; height: 72%; width: 100%; box-shadow: 0 -14px 40px rgba(30, 20, 15, .3); transform: translateY(104%); border-radius: 12px 12px 0 0; overflow: hidden; }
-  .head { padding: 30px 16px 12px; }
-  .headin { grid-template-columns: minmax(0, 1fr) 72px; gap: 10px; padding-right: 34px; }
-  .mini { width: 72px; }
-  .sheet h2 { font-size: 28px; }
-  .blurb { font-size: 14px; }
-  .x { top: 24px; right: 8px; width: 36px; height: 36px; }
-  .body, .foot { padding-inline: 16px; }
-}
-@media (prefers-reduced-motion: reduce) { html.climb .sheet { transition: visibility 0s; } .toast { animation: none; } .proj.flash { animation: none; } }
-</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.min.js", "three/addons/": "./vendor/addons/", "rapier": "./vendor/rapier.mjs" } }</script>
 </head>
 <body>
 
-<div class="veil" id="veil" aria-hidden="true">Hari Acharya<small>Putting up the mountain…</small></div>
-<canvas id="world" class="game" tabindex="0" role="img" aria-label="A 3D mountain you can climb. A trail and climbing routes lead past camps for teaching, experience, projects and research to a summit. The same content is in the plain version."></canvas>
+<div class="veil" id="veil" aria-hidden="true"><span class="veil-name">Hari Acharya</span><small id="veilmsg">Raising the mountain…</small><i class="veil-bar"><b id="veilbar"></b></i></div>
+<canvas id="world" class="game" tabindex="0" role="img" aria-label="A 3D mountain you can explore on foot, by bike, by paraglider and by snowmobile. A trail leads past camps for teaching, experience, projects and research to a summit. The same content is in the plain version."></canvas>
 
 <header class="hero" id="hero">
-  <div class="card">
+  <div class="hero-in">
+    <p class="kicker">Computer science · University of Rochester · from Bhutan</p>
     <h1>Hari Acharya</h1>
-    <p>I'm a computer science senior at the University of Rochester, originally from Bhutan. I work on computer vision research, build data systems end to end, and teach CS as a TA.</p>
+    <p class="lede">I work on computer vision research, build data systems end to end, and teach CS as a TA. <span class="game">This site is a mountain, and my work is on the way up.</span></p>
     <p class="small">Graduating May 2027. Exploring software, data and AI/ML roles.</p>
+    <div class="go-row game"><button class="btn main" id="start" type="button">Start the climb <span aria-hidden="true">→</span></button><button class="btn ghost" id="readplain" type="button">Just read the résumé</button></div>
     <div class="links"><a href="mailto:hacharya@u.rochester.edu">Email</a><a href="https://github.com/hpa-code">GitHub</a><a href="https://www.linkedin.com/in/hari-p-acharya">LinkedIn</a></div>
-    <div class="go-row game"><button class="btn main" id="start" type="button">Start climbing</button><button class="btn" id="readplain" type="button">Just read the résumé</button></div>
-    <dl class="keys game">
-      <dt class="desk"><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></dt><dd class="desk">Walk. Push into rock to climb it.</dd>
-      <dt class="desk"><kbd>Space</kbd></dt><dd class="desk">Jump, or lunge upward on a wall</dd>
-      <dt class="desk"><kbd>Enter</kbd></dt><dd class="desk">Read a camp's notice board</dd>
-      <dt class="touch-only">Drag</dt><dd class="touch-only">Walk. Push into rock to climb it.</dd>
-      <dt class="touch-only">Jump</dt><dd class="touch-only">Jumps, or lunges upward on a wall</dd>
-    </dl>
+    <ul class="keys game" aria-label="Controls">
+      <li class="desk"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> move</li>
+      <li class="desk"><kbd>Shift</kbd> run</li>
+      <li class="desk"><kbd>Space</kbd> jump, then again to paraglide</li>
+      <li class="desk"><kbd>E</kbd> read, ride</li>
+      <li class="desk"><kbd>2</kbd> bike <kbd>3</kbd> snowmobile <kbd>4</kbd> paraglider</li>
+      <li class="desk">Drag to look</li>
+      <li class="touch-only">Left thumb moves, right thumb looks</li>
+      <li class="touch-only">Jump twice to paraglide. Tap the bar at the top for a bike or a snowmobile.</li>
+    </ul>
   </div>
 </header>
-<div class="me game" id="me">Hari Acharya</div>
+
+<!-- ---------- In-game interface ---------- -->
+<div class="brand game glass" id="me"><b>Hari Acharya</b><span id="where">Base camp</span></div>
 
 <nav class="route" aria-label="The route up">
-  <ol class="game">
-    <li><button data-go="contact" type="button"><i></i>Summit: Contact</button></li>
-    <li><button data-go="research" type="button"><i></i>Camp 4: Research</button></li>
-    <li><button data-go="projects" type="button"><i></i>Camp 3: Projects</button></li>
-    <li><button data-go="experience" type="button"><i></i>Camp 2: Experience</button></li>
-    <li><button data-go="teaching" type="button"><i></i>Camp 1: Teaching</button></li>
-    <li><button data-go="base" type="button"><i></i>Base camp</button></li>
+  <ol class="game glass">
+    <li><button data-go="contact" type="button"><i></i><span>Summit <em>Contact</em></span></button></li>
+    <li><button data-go="research" type="button"><i></i><span>Camp 4 <em>Research</em></span></button></li>
+    <li><button data-go="projects" type="button"><i></i><span>Camp 3 <em>Projects</em></span></button></li>
+    <li><button data-go="experience" type="button"><i></i><span>Camp 2 <em>Experience</em></span></button></li>
+    <li><button data-go="teaching" type="button"><i></i><span>Camp 1 <em>Teaching</em></span></button></li>
+    <li><button data-go="base" type="button"><i></i><span>Base camp</span></button></li>
   </ol>
   <button class="plainbtn" id="plainbtn" type="button">Plain version</button>
 </nav>
 
 <div class="hud game" id="hud">
-  <span class="chip" title="Altitude"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M1 17 8 5l4 6 2-3 5 9z" fill="currentColor"/></svg><span id="alt">2,400 m</span></span>
-  <button class="chip" id="logbtn" type="button" aria-expanded="false" aria-controls="log"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 6h8l1 9a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z" fill="currentColor"/><path d="M7 6c0-3 6-3 6 0" fill="none" stroke="currentColor" stroke-width="2"/></svg><span id="chalk">0/8</span><span class="word">Log</span></button>
-  <button class="chip" id="sound" type="button" aria-pressed="true"><span id="soundtxt">Sound on</span></button>
+  <span class="chip glass" title="Altitude"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M1 17 8 5l4 6 2-3 5 9z" fill="currentColor"/></svg><span id="alt">2,400 m</span></span>
+  <button class="chip glass" id="timebtn" type="button" title="Change the time of day (T)"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="4" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.6 3.6 5 5M15 15l1.4 1.4M3.6 16.4 5 15M15 5l1.4-1.4"/></g></svg><span class="word" id="timetxt">Morning</span></button>
+  <button class="chip glass" id="photobtn" type="button" title="Take a photo (P)"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6h4l1.5-2h5L14 6h4v10H2z" fill="currentColor"/><circle cx="10" cy="11" r="3" fill="none" stroke="#14161c" stroke-width="1.6"/></svg><span class="word">Photo</span></button>
+  <button class="chip glass" id="logbtn" type="button" aria-expanded="false" aria-controls="log"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 6h8l1 9a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3z" fill="currentColor"/><path d="M7 6c0-3 6-3 6 0" fill="none" stroke="currentColor" stroke-width="2"/></svg><span id="chalk">0/8</span><span class="word">Log</span></button>
+  <button class="chip glass" id="sound" type="button" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 8h3l4-4v12l-4-4H3z" fill="currentColor"/><path id="soundwave" d="M13 7c1.5 1.5 1.5 4.500 0 6M15.500 5c3 3 3 7 0 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span class="word" id="soundtxt">Sound on</span></button>
 </div>
-<section class="log game" id="log" hidden aria-label="Climber's log">
+<div class="kit game glass" id="kit" role="group" aria-label="How you get about">
+  <button type="button" data-kit="walk" class="on" title="On foot (1)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4.200" r="2.200"/><path d="M11.200 8.200 8 20.500M12.200 8.200l1.300 5.300 3.500 6.700M11.500 9.500 7.500 12.500M12.500 9.500l4 2.500M9.800 14.200l3.700-.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Hike</span><kbd>1</kbd></button>
+  <button type="button" data-kit="bike" title="Mountain bike (2)"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.900" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.500" cy="16" r="3.800"/><circle cx="18.500" cy="16" r="3.800"/><path d="M5.500 16 9.500 8.500h6l3 7.500M9.500 8.500 12.500 16H5.500M15.500 8.500 12.500 16M8 6.500h3M15 6h2.500"/></g></svg><span>Bike</span><kbd>2</kbd></button>
+  <button type="button" data-kit="sled" title="Snowmobile (3)"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.900" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.500h8.500l2.500-4.500h3l3.500 4.500v2H3.500z"/><path d="M11.500 10 9.500 7M2.500 19.500h9M15 19.500h7l-1-1.500M7 16.500v3M18 16.500v3"/></g></svg><span>Sled</span><kbd>3</kbd></button>
+  <button type="button" data-kit="wing" title="Paraglider (4)"><svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.900" stroke-linecap="round" stroke-linejoin="round"><path d="M2.500 9.500C5 4.500 19 4.500 21.500 9.500c-3-1.700-16-1.700-19 0z"/><path d="M4.500 9 11.300 18M19.500 9 12.700 18M12 8.300V17"/><circle cx="12" cy="19.500" r="1.600" fill="currentColor" stroke="none"/></g></svg><span>Wing</span><kbd>4</kbd></button>
+</div>
+<section class="log game glass" id="log" hidden aria-label="Climber's log">
   <div class="row"><h2>Climber's log</h2><button class="linkbtn" id="logclose" type="button">Close</button></div>
   <ul id="loglist"></ul>
   <p class="small" id="lognote">Chalk bags make your arms last longer on the rock.</p>
   <div class="row"><button class="linkbtn" id="rescue" type="button">Stuck? Back to the trail <span class="desk">(R)</span></button><button class="linkbtn" id="logreset" type="button">Start the log over</button></div>
 </section>
 
-<button class="prompt game" id="prompt" type="button"><kbd>Enter</kbd><span id="prompttxt"></span></button>
-<p class="hint game" id="hint"><span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> walk and climb</span><span><kbd>Space</kbd> jump</span><span>Drag to look around</span></p>
+<div class="titlecard game" id="titlecard" aria-hidden="true"><p class="tc-k" id="tck"></p><p class="tc-t" id="tct"></p><p class="tc-s" id="tcs"></p></div>
+<button class="prompt game glass" id="prompt" type="button"><kbd>E</kbd><span id="prompttxt"></span></button>
+<div class="modehint game glass" id="modehint" aria-live="polite"></div>
+<div class="gauge game glass" id="gauge" aria-hidden="true"><b id="gaugenum">0</b><span id="gaugeunit">km/h</span><i id="gaugebar"><u></u></i></div>
+<div class="timer game glass" id="timer" aria-live="off"><span>Downhill run</span><b id="timernum">0:00.0</b></div>
 <svg class="stam game" id="stam" viewBox="0 0 46 46" aria-hidden="true"><circle class="bg" cx="23" cy="23" r="17"/><circle class="fg" id="stamfg" cx="23" cy="23" r="17" stroke-dasharray="106.8" stroke-dashoffset="0"/></svg>
 <div class="toasts game" id="toasts" role="status" aria-live="polite"></div>
 <div class="stick game" id="stick"><i></i></div>
-<div class="pads game"><button id="jumpbtn" type="button">Jump</button></div>
+<div class="pads game"><button id="actbtn" type="button" hidden>Use</button><button id="jumpbtn" type="button">Jump</button></div>
+<div class="scrim game" id="scrim"></div>
+<div class="flash game" id="flash"></div>
+<figure class="snap game" id="snap" hidden><img id="snapimg" alt="Your photo from the mountain"><figcaption><span id="snapcap"></span><a id="snapsave" download="hari-acharya-mountain.jpg">Save</a><button id="snapclose" type="button">Close</button></figcaption></figure>
 
 <main>
+<!-- ============ Camp 1: Teaching, written on a chalkboard ============ -->
 <section class="sheet c-teaching" id="teaching" aria-labelledby="t-teaching">
-  <header class="head">
-    <div class="headin">
-      <div class="headtext">
-        <p class="kicker">Camp 1</p>
-        <h2 id="t-teaching">Teaching</h2>
-        <p class="blurb">Where I learned to explain things. I started as a tutor and now TA theory of computation.</p>
-      </div>
-      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="3.4" class="here"></circle><circle cx="88" cy="44" r="2" class="stop"></circle><circle cx="54" cy="32" r="2" class="stop"></circle><circle cx="84" cy="18" r="2" class="stop"></circle><circle cx="70" cy="7" r="2" class="stop"></circle></svg>
-    </div>
+  <div class="board">
     <button class="x" type="button" aria-label="Close Teaching">×</button>
-  </header>
-  <div class="body">
-<article class="way"><p class="when">Fall 2026</p><h3>CSC 280: Computer Models and Limitations</h3><p class="who">Teaching Assistant, University of Rochester</p><p>I lead weekly recitations, hold office hours, and grade homework with feedback on proofs and problem-solving.</p></article>
-<article class="way"><p class="when">Fall 2025</p><h3>CSC 172: Data Structures and Algorithms</h3><p class="who">Teaching Assistant, University of Rochester</p><p>Led weekly workshops and helped students debug code and work through problem sets.</p></article>
-<article class="way"><p class="when">2024 to 2025</p><h3>Computer Science Tutor</h3><p class="who">CS Undergraduate Council</p><p>Tutored 50+ students in data structures and algorithms.</p></article>
-  </div>
-  <footer class="foot"><button class="trek back" data-go="base" type="button">↓ Base camp</button><button class="trek next" data-go="experience" type="button">Continue to Camp 2: Experience ↑</button></footer>
-</section>
-<section class="sheet c-experience" id="experience" aria-labelledby="t-experience">
-  <header class="head">
-    <div class="headin">
-      <div class="headtext">
-        <p class="kicker">Camp 2</p>
-        <h2 id="t-experience">Experience</h2>
-        <p class="blurb">Solar sales data, classroom batteries, license plates and one school kitchen.</p>
-      </div>
-      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58 L88 44"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="2" class="stop"></circle><circle cx="88" cy="44" r="3.4" class="here"></circle><circle cx="54" cy="32" r="2" class="stop"></circle><circle cx="84" cy="18" r="2" class="stop"></circle><circle cx="70" cy="7" r="2" class="stop"></circle></svg>
+    <header class="bhead">
+      <p class="kicker">Camp 1 · 2,820 m</p>
+      <h2 id="t-teaching" class="w">Teaching</h2>
+      <svg class="uline" viewBox="0 0 300 14" aria-hidden="true"><path class="draw" pathLength="1" d="M4 8c40-6 78 4 120-1s96-5 172 2"/></svg>
+      <p class="blurb w">Where I learned to explain things. I started as a tutor and now TA theory of computation.</p>
+    </header>
+    <div class="lessons">
+      <article class="lesson">
+        <p class="when w">Fall 2026</p>
+        <h3 class="w">CSC 280: Computer Models and Limitations</h3>
+        <svg class="fig" viewBox="0 0 320 150" role="img" aria-label="A chalk drawing of a three-state automaton">
+          <g class="chalk"><circle class="draw" pathLength="1" cx="56" cy="88" r="26"/><circle class="draw" pathLength="1" cx="160" cy="46" r="26"/><circle class="draw" pathLength="1" cx="264" cy="88" r="26"/><circle class="draw" pathLength="1" cx="264" cy="88" r="20"/>
+          <path class="draw" pathLength="1" d="M80 77 136 56m0 0-11-1m11 1-6 9"/><path class="draw" pathLength="1" d="M184 56 240 77m0 0-6-9m6 9-11 1"/><path class="draw" pathLength="1" d="M8 88h22m0 0-8-5m8 5-8 5"/><path class="draw" pathLength="1" d="M147 22c-8-22 34-22 26 0m0 0 1-10m-1 10 9-4"/></g>
+          <g class="chalktext"><text x="56" y="95">q0</text><text x="160" y="53">q1</text><text x="264" y="95">q2</text><text x="104" y="54">0</text><text x="216" y="54">1</text><text x="160" y="140" class="q">does it halt?</text></g>
+        </svg>
+        <p class="who w">Teaching Assistant, University of Rochester</p>
+        <p class="w">I lead weekly recitations, hold office hours, and grade homework with feedback on proofs and problem-solving.</p>
+      </article>
+      <article class="lesson">
+        <p class="when w">Fall 2025</p>
+        <h3 class="w">CSC 172: Data Structures and Algorithms</h3>
+        <svg class="fig" viewBox="0 0 320 150" role="img" aria-label="A chalk drawing of a binary search tree">
+          <g class="chalk"><circle class="draw" pathLength="1" cx="160" cy="26" r="18"/><circle class="draw" pathLength="1" cx="90" cy="76" r="18"/><circle class="draw" pathLength="1" cx="230" cy="76" r="18"/><circle class="draw" pathLength="1" cx="50" cy="126" r="18"/><circle class="draw" pathLength="1" cx="130" cy="126" r="18"/><circle class="draw" pathLength="1" cx="270" cy="126" r="18"/>
+          <path class="draw" pathLength="1" d="M146 37 104 64M174 37l42 27M79 90 61 111M101 90l18 21M241 90l18 21"/></g>
+          <g class="chalktext"><text x="160" y="33">42</text><text x="90" y="83">17</text><text x="230" y="83">68</text><text x="50" y="133">8</text><text x="130" y="133">23</text><text x="270" y="133">91</text></g>
+        </svg>
+        <p class="who w">Teaching Assistant, University of Rochester</p>
+        <p class="w">Led weekly workshops and helped students debug code and work through problem sets.</p>
+      </article>
+      <article class="lesson">
+        <p class="when w">2024 to 2025</p>
+        <h3 class="w">Computer Science Tutor</h3>
+        <svg class="fig" viewBox="0 0 320 150" role="img" aria-label="Fifty tally marks in chalk">
+          <g class="chalk tally"><path class="draw" pathLength="1" d="M20 20v34M30 20v34M40 20v34M50 20v34M12 50 58 24 M84 20v34M94 20v34M104 20v34M114 20v34M76 50l46-26 M148 20v34M158 20v34M168 20v34M178 20v34M140 50l46-26 M212 20v34M222 20v34M232 20v34M242 20v34M204 50l46-26 M276 20v34M286 20v34M296 20v34M306 20v34M268 50l46-26"/>
+          <path class="draw" pathLength="1" d="M20 74v34M30 74v34M40 74v34M50 74v34M12 104 58 78 M84 74v34M94 74v34M104 74v34M114 74v34M76 104l46-26 M148 74v34M158 74v34M168 74v34M178 74v34M140 104l46-26 M212 74v34M222 74v34M232 74v34M242 74v34M204 104l46-26 M276 74v34M286 74v34M296 74v34M306 74v34M268 104l46-26"/></g>
+          <g class="chalktext"><text x="160" y="140" class="q">50+ students, and counting</text></g>
+        </svg>
+        <p class="who w">CS Undergraduate Council</p>
+        <p class="w">Tutored 50+ students in data structures and algorithms.</p>
+      </article>
     </div>
-    <button class="x" type="button" aria-label="Close Experience">×</button>
-  </header>
-  <div class="body">
-<article class="way"><p class="when">Feb 2026 to now</p><h3>Research Assistant</h3><p class="who">Goergen Institute for Data Science &amp; AI</p><p>Audited 2.49M panorama files and built vision workflows with Mask2Former, DeepLabV3+ and YOLO. Engineered 41 geospatial features and evaluated 27 ML models.</p></article>
-<article class="way"><p class="when">Summer 2026</p><h3>Data Science &amp; AI Intern</h3><p class="who">Buffalo Solar</p><p>Recovered about 40% more matches across 1,000+ CRM deals, saved each rep about 4 hours a week, and cut contract prep time by about 85%.</p></article>
-<article class="way"><p class="when">2025 to 2026</p><h3>Data Analyst</h3><p class="who">Event and Classroom Management, University of Rochester</p><p>Forecast battery depletion to reduce classroom hardware disruptions by 35%, and raised workstation uptime by 25%.</p></article>
-<article class="way"><p class="when">Summer 2025</p><h3>Software Engineering Intern</h3><p class="who">InnoTech, Thimphu, Bhutan</p><p>Reached 92% vehicle plate localization accuracy, with an ETL pipeline over 10,000+ images and 40% lower data preparation latency.</p></article>
-<article class="way"><p class="when">2023</p><h3>Project Manager, school build in Bhutan</h3><p class="who">UWC Atlantic</p><p>Raised $12,000 and led a team building a kitchen and dining space for a remote school of 500+ students.</p></article>
-<article class="way"><p class="when">2021 to 2023</p><h3>Co-Founder and Team Lead</h3><p class="who">FIRST Tech Challenge team, UWC Atlantic</p><p>Led a team of 40 students and engineered a remote-controlled robot in Java.</p></article>
-<div class="packs"><div><h3>Education</h3><p>B.S. Computer Science, University of Rochester, expected May 2027. GPA 3.58.</p><p>IB Diploma, UWC Atlantic, 2023.</p></div><div><h3>Honors</h3><p>His Majesty The King's Certificate for Academic Excellence. UWC-Pestalozzi, Davis, FIRST Robotics and EDGE scholarships. Dean's List. Hackathon winner, three times.</p></div></div>
+    <footer class="tray"><span class="chalks" aria-hidden="true"><i></i><i></i><i></i></span><button class="trek back" data-go="base" type="button">↓ Base camp</button><button class="trek next eraser" data-go="experience" type="button">Continue to Camp 2: Experience ↑</button></footer>
   </div>
-  <footer class="foot"><button class="trek back" data-go="teaching" type="button">↓ Camp 1: Teaching</button><button class="trek next" data-go="projects" type="button">Continue to Camp 3: Projects ↑</button></footer>
 </section>
+
+<!-- ============ Camp 2: Experience, stamped into an expedition log ============ -->
+<section class="sheet c-experience" id="experience" aria-labelledby="t-experience">
+  <div class="book">
+    <button class="x" type="button" aria-label="Close Experience">×</button>
+    <header class="khead">
+      <p class="kicker">Camp 2 · 3,260 m</p>
+      <h2 id="t-experience">Expedition log</h2>
+      <p class="blurb">Solar sales data, classroom batteries, license plates and one school kitchen.</p>
+      <p class="margin" aria-hidden="true">six postings so far →</p>
+    </header>
+    <ol class="entries">
+      <li class="entry"><div class="stamp s1"><b>Goergen Institute</b><span>Rochester NY</span><em>Feb 2026 to now</em></div>
+        <div class="etext"><h3>Research Assistant</h3><p class="who">Goergen Institute for Data Science &amp; AI</p><p>Audited 2.49M panorama files and built vision workflows with Mask2Former, DeepLabV3+ and YOLO. Engineered 41 geospatial features and evaluated 27 ML models.</p></div>
+        <p class="big"><b class="num" data-count="2.49" data-dec="2" data-suffix="M">2.49M</b><span>panorama files audited</span></p></li>
+      <li class="entry"><div class="stamp s2 round"><b>Buffalo Solar</b><span>Buffalo NY</span><em>Summer 2026</em></div>
+        <div class="etext"><h3>Data Science &amp; AI Intern</h3><p class="who">Buffalo Solar</p><p>Recovered about 40% more matches across 1,000+ CRM deals, saved each rep about 4 hours a week, and cut contract prep time by about 85%.</p></div>
+        <p class="big"><b class="num" data-count="85" data-suffix="%">85%</b><span>less contract prep time</span></p></li>
+      <li class="entry"><div class="stamp s3"><b>Event &amp; Classroom Mgmt</b><span>Univ. of Rochester</span><em>2025 to 2026</em></div>
+        <div class="etext"><h3>Data Analyst</h3><p class="who">Event and Classroom Management, University of Rochester</p><p>Forecast battery depletion to reduce classroom hardware disruptions by 35%, and raised workstation uptime by 25%.</p></div>
+        <p class="big"><b class="num" data-count="35" data-suffix="%">35%</b><span>fewer classroom disruptions</span></p></li>
+      <li class="entry"><div class="stamp s4 round"><b>InnoTech</b><span>Thimphu, Bhutan</span><em>Summer 2025</em></div>
+        <div class="etext"><h3>Software Engineering Intern</h3><p class="who">InnoTech, Thimphu, Bhutan</p><p>Reached 92% vehicle plate localization accuracy, with an ETL pipeline over 10,000+ images and 40% lower data preparation latency.</p></div>
+        <p class="big"><b class="num" data-count="92" data-suffix="%">92%</b><span>plate localization accuracy</span></p></li>
+      <li class="entry"><div class="stamp s5"><b>School build</b><span>Bhutan · UWC Atlantic</span><em>2023</em></div>
+        <div class="etext"><h3>Project Manager, school build in Bhutan</h3><p class="who">UWC Atlantic</p><p>Raised $12,000 and led a team building a kitchen and dining space for a remote school of 500+ students.</p></div>
+        <p class="big"><b class="num" data-count="12000" data-prefix="$" data-sep="1">$12,000</b><span>raised for a school kitchen</span></p></li>
+      <li class="entry"><div class="stamp s6 round"><b>FIRST Tech Challenge</b><span>Wales, UK</span><em>2021 to 2023</em></div>
+        <div class="etext"><h3>Co-Founder and Team Lead</h3><p class="who">FIRST Tech Challenge team, UWC Atlantic</p><p>Led a team of 40 students and engineered a remote-controlled robot in Java.</p></div>
+        <p class="big"><b class="num" data-count="40">40</b><span>students on the team</span></p></li>
+    </ol>
+    <div class="packs">
+      <div class="ticket"><h3>Education</h3><p><b>B.S. Computer Science</b>, University of Rochester, expected May 2027. GPA 3.58.</p><p><b>IB Diploma</b>, UWC Atlantic, 2023.</p></div>
+      <div class="ribbons"><h3>Honors</h3><p>His Majesty The King's Certificate for Academic Excellence. UWC-Pestalozzi, Davis, FIRST Robotics and EDGE scholarships. Dean's List. Hackathon winner, three times.</p></div>
+    </div>
+    <footer class="foot"><button class="trek back" data-go="teaching" type="button">↓ Camp 1: Teaching</button><button class="trek next" data-go="projects" type="button">Continue to Camp 3: Projects ↑</button></footer>
+  </div>
+</section>
+
+<!-- ============ Camp 3: Projects, in a terminal ============ -->
 <section class="sheet c-projects" id="projects" aria-labelledby="t-projects">
-  <header class="head">
-    <div class="headin">
-      <div class="headtext">
-        <p class="kicker">Camp 3</p>
+  <div class="term">
+    <div class="tbar"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span class="ttitle">hari@camp3: ~/projects</span><button class="x" type="button" aria-label="Close Projects">×</button></div>
+    <div class="tbody">
+      <nav class="tside" aria-label="Projects">
+        <p class="kicker">Camp 3 · 3,740 m</p>
         <h2 id="t-projects">Projects</h2>
         <p class="blurb">Things I've built. Each one is a route from raw data to something a person can use.</p>
+        <ul><li><button type="button" data-proj="0"><span>01</span> nyc-311-signal/</button></li><li><button type="button" data-proj="1"><span>02</span> geoimagery/</button></li><li><button type="button" data-proj="2"><span>03</span> legopolitics/</button></li><li><button type="button" data-proj="3"><span>04</span> eventuality/</button></li></ul>
+      </nav>
+      <div class="tmain">
+        <article class="proj"><p class="cmd"><span class="ps">$</span> <span class="type">./show nyc-311-signal</span></p>
+          <p class="when">Oct 2026</p><h3>NYC 311 Signal</h3><p class="chips"><span>Snowflake</span><span>AWS</span><span>Terraform</span><span>Streamlit</span><span>Python</span></p>
+          <p>A daily pipeline and dashboard over 6.9M NYC service requests. Nothing publishes unless all 22 data checks pass.</p>
+          <p class="checks" aria-hidden="true"><span>running data checks</span> <b>██████████████████████</b> <i>22/22 pass</i></p>
+          <figure class="map"><img src="nyc-311-diagram.jpg" alt="Flow from the NYC Open Data API through AWS and Snowflake to a Streamlit app and your browser." width="1536" height="1024" loading="lazy"><figcaption>architecture.jpg · from the city's API to your browser</figcaption></figure>
+          <p class="top"><b>Result</b> 0.71 PR-AUC on 313K later requests, ahead of three baselines. Most of the signal is the complaint type itself.</p>
+          <div class="go"><a href="https://github.com/hpa-code/nyc-311-signal">GitHub <span aria-hidden="true">↗</span></a><a href="https://public.tableau.com/app/profile/hari.acharya3471/viz/NYC311Signal/NYC311SignalRequestsandClosure">Tableau Public <span aria-hidden="true">↗</span></a></div></article>
+        <article class="proj"><p class="cmd"><span class="ps">$</span> <span class="type">./show geoimagery --pipeline</span></p>
+          <p class="when">2026</p><h3>Campus imagery pipeline and geoimagery</h3><p class="chips"><span>PyTorch</span><span>YOLO</span><span>Mask2Former</span><span>Earth Engine</span></p>
+          <p>The system behind the campus paper, and the Python library I published to download aerial imagery for any polygon.</p>
+          <ol class="steps"><li><b>Collect</b><span>Panoramas and NAIP aerial images</span></li><li><b>Audit</b><span>2.49M files, 1.84M linked to 252 campuses</span></li><li><b>Vision models</b><span>Mask2Former, DeepLabV3+, YOLO</span></li><li><b>Compare</b><span>41 features and 27 models against ratings</span></li><li><b>Index</b><span>The Visible Campus Environment Index</span></li></ol>
+          <div class="go"><a href="https://github.com/hpa-code/geoimagery">geoimagery on GitHub <span aria-hidden="true">↗</span></a></div></article>
+        <article class="proj"><p class="cmd"><span class="ps">$</span> <span class="type">pip install legopolitics</span></p>
+          <p class="when">2026</p><h3>legopolitics</h3><p class="chips"><span>Python</span><span>Vision-language models</span><span>OCR</span><span>Speech</span></p>
+          <p>An open-source package, co-authored with Prof. Caliskan, for analyzing political narratives in brick-built video.</p>
+          <ol class="steps"><li><b>Video</b><span>Sample by rate or scene change</span></li><li><b>Find figures</b><span>Detect, segment and track</span></li><li><b>Read and listen</b><span>Vision models, OCR, speech</span></li><li><b>Code the narrative</b><span>Roles and themes, human validated</span></li><li><b>Export</b><span>Excel, JSONL, Parquet, SQLite, HTML</span></li></ol>
+          <div class="go"><a href="https://github.com/cantayus/legopolitics">GitHub <span aria-hidden="true">↗</span></a><a href="https://pypi.org/project/legopolitics/">PyPI <span aria-hidden="true">↗</span></a></div></article>
+        <article class="proj"><p class="cmd"><span class="ps">$</span> <span class="type">./show eventuality</span></p>
+          <p class="when">Nov 2025</p><h3>Eventuality</h3><p class="chips"><span>React Native</span><span>TypeScript</span><span>Supabase</span><span>Gemini</span></p>
+          <p>Snap a photo of an event flyer and get a calendar-ready event. About 80% less manual entry.</p>
+          <ol class="steps"><li><b>Flyer</b><span>A photo or PDF</span></li><li><b>Gemini</b><span>Reads the event details</span></li><li><b>Supabase</b><span>Validates and stores</span></li><li><b>Swipe feed</b><span>React Native app</span></li><li><b>Your calendar</b><span>Saved with one swipe</span></li></ol>
+          <div class="go"><a href="https://github.com/Eventuallity/eventuality-app">GitHub <span aria-hidden="true">↗</span></a></div></article>
+        <p class="cmd last"><span class="ps">$</span> <span class="cursor" aria-hidden="true"></span></p>
       </div>
-      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58 L88 44 L54 32"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="2" class="stop"></circle><circle cx="88" cy="44" r="2" class="stop"></circle><circle cx="54" cy="32" r="3.4" class="here"></circle><circle cx="84" cy="18" r="2" class="stop"></circle><circle cx="70" cy="7" r="2" class="stop"></circle></svg>
     </div>
-    <button class="x" type="button" aria-label="Close Projects">×</button>
-  </header>
-  <div class="body">
-<article class="proj"><p class="when">Oct 2026</p><h3>NYC 311 Signal</h3><p class="chips"><span>Snowflake</span><span>AWS</span><span>Terraform</span><span>Streamlit</span><span>Python</span></p><p>A daily pipeline and dashboard over 6.9M NYC service requests. Nothing publishes unless all 22 data checks pass.</p><figure class="map"><img src="nyc-311-diagram.jpg" alt="Flow from the NYC Open Data API through AWS and Snowflake to a Streamlit app and your browser." width="1536" height="1024" loading="lazy"><figcaption>Route map: from the city's API to your browser</figcaption></figure><p class="top"><b>Result</b> 0.71 PR-AUC on 313K later requests, ahead of three baselines. Most of the signal is the complaint type itself.</p><div class="go"><a href="https://github.com/hpa-code/nyc-311-signal">GitHub <span aria-hidden="true">↗</span></a><a href="https://public.tableau.com/app/profile/hari.acharya3471/viz/NYC311Signal/NYC311SignalRequestsandClosure">Tableau Public <span aria-hidden="true">↗</span></a></div></article>
-<article class="proj"><p class="when">2026</p><h3>Campus imagery pipeline and geoimagery</h3><p class="chips"><span>PyTorch</span><span>YOLO</span><span>Mask2Former</span><span>Earth Engine</span></p><p>The system behind the campus paper, and the Python library I published to download aerial imagery for any polygon.</p><ol class="steps"><li><b>Collect</b><span>Panoramas and NAIP aerial images</span></li><li><b>Audit</b><span>2.49M files, 1.84M linked to 252 campuses</span></li><li><b>Vision models</b><span>Mask2Former, DeepLabV3+, YOLO</span></li><li><b>Compare</b><span>41 features and 27 models against ratings</span></li><li><b>Index</b><span>The Visible Campus Environment Index</span></li></ol><div class="go"><a href="https://github.com/hpa-code/geoimagery">geoimagery on GitHub <span aria-hidden="true">↗</span></a></div></article>
-<article class="proj"><p class="when">2026</p><h3>legopolitics</h3><p class="chips"><span>Python</span><span>Vision-language models</span><span>OCR</span><span>Speech</span></p><p>An open-source package, co-authored with Prof. Caliskan, for analyzing political narratives in brick-built video.</p><ol class="steps"><li><b>Video</b><span>Sample by rate or scene change</span></li><li><b>Find figures</b><span>Detect, segment and track</span></li><li><b>Read and listen</b><span>Vision models, OCR, speech</span></li><li><b>Code the narrative</b><span>Roles and themes, human validated</span></li><li><b>Export</b><span>Excel, JSONL, Parquet, SQLite, HTML</span></li></ol><div class="go"><a href="https://github.com/cantayus/legopolitics">GitHub <span aria-hidden="true">↗</span></a><a href="https://pypi.org/project/legopolitics/">PyPI <span aria-hidden="true">↗</span></a></div></article>
-<article class="proj"><p class="when">Nov 2025</p><h3>Eventuality</h3><p class="chips"><span>React Native</span><span>TypeScript</span><span>Supabase</span><span>Gemini</span></p><p>Snap a photo of an event flyer and get a calendar-ready event. About 80% less manual entry.</p><ol class="steps"><li><b>Flyer</b><span>A photo or PDF</span></li><li><b>Gemini</b><span>Reads the event details</span></li><li><b>Supabase</b><span>Validates and stores</span></li><li><b>Swipe feed</b><span>React Native app</span></li><li><b>Your calendar</b><span>Saved with one swipe</span></li></ol><div class="go"><a href="https://github.com/Eventuallity/eventuality-app">GitHub <span aria-hidden="true">↗</span></a></div></article>
+    <footer class="foot"><button class="trek back" data-go="experience" type="button">↓ Camp 2: Experience</button><button class="trek next" data-go="research" type="button">Continue to Camp 4: Research ↑</button></footer>
   </div>
-  <footer class="foot"><button class="trek back" data-go="experience" type="button">↓ Camp 2: Experience</button><button class="trek next" data-go="research" type="button">Continue to Camp 4: Research ↑</button></footer>
 </section>
+
+<!-- ============ Camp 4: Research, through a viewfinder ============ -->
 <section class="sheet c-research" id="research" aria-labelledby="t-research">
-  <header class="head">
-    <div class="headin">
-      <div class="headtext">
-        <p class="kicker">Camp 4</p>
-        <h2 id="t-research">Research</h2>
-        <p class="blurb">High altitude: what computer vision can and can't tell us about people and places.</p>
-      </div>
-      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58 L88 44 L54 32 L84 18"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="2" class="stop"></circle><circle cx="88" cy="44" r="2" class="stop"></circle><circle cx="54" cy="32" r="2" class="stop"></circle><circle cx="84" cy="18" r="3.4" class="here"></circle><circle cx="70" cy="7" r="2" class="stop"></circle></svg>
-    </div>
+  <div class="finder">
     <button class="x" type="button" aria-label="Close Research">×</button>
-  </header>
-  <div class="body">
-<article class="way"><p class="when">2026</p><h3>What Street-Level Imagery Can and Cannot Tell Us about Campus Sustainability</h3><p class="who">Caliskan, Acharya, Mararanje, Mejooli, Zhang</p><p>Across 1.84M images of 252 U.S. campuses, dozens of models could not reproduce AASHE STARS and QS sustainability ratings. We built an index of what a camera can credibly see instead.</p><div class="go"><a href="https://drive.google.com/file/d/1ZmP2ePUAxVey9rCG146B2soVjZzy3_Ha/view?usp=sharing">Read the paper <span aria-hidden="true">↗</span></a></div></article>
-<article class="way"><p class="when">2026</p><h3>Legopolitics: Toying with the Enemy</h3><p class="who">Caliskan, Acharya. Working paper.</p><p>LEGO-style propaganda from the 2026 Iran–U.S.–Israel war: 363 videos, 7,288 coded scenes and 96,530 frames, compared with Iranian English-language state media.</p><div class="go"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7667619">Read the paper <span aria-hidden="true">↗</span></a></div></article>
-<article class="way"><p class="when">Summer 2026</p><h3>You In or Out? Character Rhetoric and Audience Response in Attack on Titan</h3><p class="who">With Peng-Ting Kuo and Gaeun Jung. SICSS.</p><p>We paired dialogue from all four seasons with 170,000+ Reddit comments and used LLMs to score rhetoric. Identity-based rhetoric drove polarization.</p></article>
-<article class="way"><p class="when">2024 to 2026</p><h3>SOPHIE: a standardized online patient</h3><p class="who">Rochester Human-Computer Interaction Lab</p><p>An LLM-based patient for practicing end-of-life conversations. I recruited 50+ study participants and analyzed the implementation.</p></article>
+    <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span><span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
+    <p class="rec" aria-hidden="true"><i></i>REC <span id="rectime">00:00:00</span> · 4 objects detected</p>
+    <header class="fhead">
+      <p class="kicker">Camp 4 · 4,180 m</p>
+      <h2 id="t-research">Research</h2>
+      <p class="blurb">High altitude: what computer vision can and can't tell us about people and places.</p>
+    </header>
+    <div class="papers">
+      <article class="paper"><span class="tag" aria-hidden="true">paper 0.99</span>
+        <p class="when">2026</p><h3>What Street-Level Imagery Can and Cannot Tell Us about Campus Sustainability</h3><p class="who">Caliskan, Acharya, Mararanje, Mejooli, Zhang</p>
+        <p class="abs">Across <span class="det" data-label="images">1.84M images</span> of <span class="det" data-label="campuses">252 U.S. campuses</span>, dozens of models could not reproduce AASHE STARS and QS sustainability ratings. We built an index of what a camera can credibly see instead.</p>
+        <div class="go"><a href="https://drive.google.com/file/d/1ZmP2ePUAxVey9rCG146B2soVjZzy3_Ha/view?usp=sharing">Read the paper <span aria-hidden="true">↗</span></a></div></article>
+      <article class="paper"><span class="tag" aria-hidden="true">working paper 0.97</span>
+        <p class="when">2026</p><h3>Legopolitics: Toying with the Enemy</h3><p class="who">Caliskan, Acharya. Working paper.</p>
+        <p class="abs">LEGO-style propaganda from the 2026 Iran–U.S.–Israel war: <span class="det" data-label="videos">363 videos</span>, <span class="det" data-label="scenes">7,288 coded scenes</span> and <span class="det" data-label="frames">96,530 frames</span>, compared with Iranian English-language state media.</p>
+        <div class="go"><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7667619">Read the paper <span aria-hidden="true">↗</span></a></div></article>
+      <article class="paper"><span class="tag" aria-hidden="true">study 0.95</span>
+        <p class="when">Summer 2026</p><h3>You In or Out? Character Rhetoric and Audience Response in Attack on Titan</h3><p class="who">With Peng-Ting Kuo and Gaeun Jung. SICSS.</p>
+        <p class="abs">We paired dialogue from all four seasons with <span class="det" data-label="comments">170,000+ Reddit comments</span> and used LLMs to score rhetoric. Identity-based rhetoric drove polarization.</p></article>
+      <article class="paper"><span class="tag" aria-hidden="true">system 0.93</span>
+        <p class="when">2024 to 2026</p><h3>SOPHIE: a standardized online patient</h3><p class="who">Rochester Human-Computer Interaction Lab</p>
+        <p class="abs">An LLM-based patient for practicing end-of-life conversations. I recruited <span class="det" data-label="participants">50+ study participants</span> and analyzed the implementation.</p></article>
+    </div>
+    <footer class="foot"><span class="exif" aria-hidden="true">f/2.8 · 1/500 · ISO 100 · 35 mm</span><button class="trek back" data-go="projects" type="button">↓ Camp 3: Projects</button><button class="trek next" data-go="contact" type="button">Continue to Summit: Contact ↑</button></footer>
   </div>
-  <footer class="foot"><button class="trek back" data-go="projects" type="button">↓ Camp 3: Projects</button><button class="trek next" data-go="contact" type="button">Continue to Summit: Contact ↑</button></footer>
 </section>
+
+<!-- ============ Summit: Contact, on a postcard ============ -->
 <section class="sheet c-contact" id="contact" aria-labelledby="t-contact">
-  <header class="head">
-    <div class="headin">
-      <div class="headtext">
-        <p class="kicker">Summit</p>
-        <h2 id="t-contact">You made it</h2>
-        <p class="blurb">Thanks for climbing. I graduate in May 2027 and am exploring software, data and AI/ML roles.</p>
-      </div>
-      <svg class="mini" viewBox="0 0 120 84" aria-hidden="true"><path class="m1" d="M0 84 L28 48 L40 58 L70 3 L96 44 L106 36 L120 58 L120 84Z"></path><path class="m2" d="M55 30 L70 3 L84 26 L76 22 L70 30 L63 23Z"></path><path class="tr" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><path class="trd" d="M16 74 L66 58 L88 44 L54 32 L84 18 L70 7"></path><circle cx="16" cy="74" r="2" class="stop"></circle><circle cx="66" cy="58" r="2" class="stop"></circle><circle cx="88" cy="44" r="2" class="stop"></circle><circle cx="54" cy="32" r="2" class="stop"></circle><circle cx="84" cy="18" r="2" class="stop"></circle><circle cx="70" cy="7" r="3.4" class="here"></circle></svg>
-    </div>
+  <div class="card">
     <button class="x" type="button" aria-label="Close You made it">×</button>
-  </header>
-  <div class="body">
-    <div class="summit">
-      <a class="mail" href="mailto:hacharya@u.rochester.edu">hacharya@u.rochester.edu</a>
-      <p><button class="copy" id="copy" type="button">Copy email</button></p>
-      <div class="go"><a href="https://github.com/hpa-code">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/hari-p-acharya">LinkedIn <span aria-hidden="true">↗</span></a></div>
-      <p class="note">This mountain is imaginary. Bhutan bans climbing on its high peaks out of respect for local spiritual beliefs.</p>
+    <div class="cfront">
+      <svg class="peak" viewBox="0 0 400 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f7bd6"/><stop offset=".7" stop-color="#bfe0f5"/><stop offset="1" stop-color="#ffe2b0"/></linearGradient></defs><rect width="400" height="300" fill="url(#sk)"/><circle cx="318" cy="70" r="26" fill="#fff3c4"/><path d="M0 300 60 170l34 38 62-128 44 70 30-38 70 110 40-52 60 130z" fill="#6c7890"/><path d="M118 158 156 80l28 45-16-8-12 20-14-14zM244 174l26-26 34 54-20-10-14 14z" fill="#fff"/><path d="M0 300l90-84 70 40 90-70 150 114z" fill="#3f7a45"/><path d="M0 300l130-50 120 30 150-40v60z" fill="#2f5a34"/></svg>
+      <p class="greet">Greetings from the</p><p class="summit-word">Summit</p><p class="height">5,050 m · an imaginary mountain</p>
+    </div>
+    <div class="cback">
+      <div class="stampbox" aria-hidden="true"><svg viewBox="0 0 60 72"><rect x="3" y="3" width="54" height="66" fill="#7a1f26"/><path d="M8 56 26 24l10 16 6-9 12 25z" fill="#ffc629"/><path d="M21 33l5-9 5 9-5-2z" fill="#fff"/><text x="30" y="65" font-size="7" text-anchor="middle" fill="#fff" font-family="Archivo, Arial" font-weight="700">BHUTAN</text></svg><span class="postmark"><b id="pmdate">SUMMIT</b></span></div>
+      <p class="kicker">Summit</p>
+      <h2 id="t-contact">You made it</h2>
+      <p class="blurb">Thanks for climbing. I graduate in May 2027 and am exploring software, data and AI/ML roles.</p>
+      <p class="hand">Write to me. I answer every one.</p>
+      <div class="summit">
+        <a class="mail" href="mailto:hacharya@u.rochester.edu">hacharya@u.rochester.edu</a>
+        <div class="go"><button class="copy" id="copy" type="button">Copy email</button><a href="https://github.com/hpa-code">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/hari-p-acharya">LinkedIn <span aria-hidden="true">↗</span></a></div>
+        <p class="ways game">Three quick ways down: the zip line, the snowmobile, or jump and open the paraglider.</p>
+        <p class="note">This mountain is imaginary. Bhutan bans climbing on its high peaks out of respect for local spiritual beliefs.</p>
+      </div>
+      <footer class="foot"><button class="trek next" data-go="base" type="button">Back to base camp ↓</button></footer>
     </div>
   </div>
-  <footer class="foot"><button class="trek next" data-go="base" type="button">Walk back to base camp ↓</button></footer>
 </section>
 </main>
 
